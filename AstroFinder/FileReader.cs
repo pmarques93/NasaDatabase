@@ -5,10 +5,10 @@ namespace AstroFinder
 {
     public class FileReader
     {
-        public string Path { get; }
+        public readonly string path;
         public FileReader(string path)
         {
-            Path = path;
+            this.path = path;
         }
 
         public List<Exoplanet> CSVtoList()
@@ -26,7 +26,7 @@ namespace AstroFinder
             };
 
             // Writes all the lines from the file to a string[]
-            string[] fileData = System.IO.File.ReadAllLines(Path);
+            string[] fileData = System.IO.File.ReadAllLines(path);
 
             // Retrieves the data from the file and
             // Ignores lines starting with # - comments

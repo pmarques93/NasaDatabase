@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AstroFinder
 {
@@ -10,6 +11,7 @@ namespace AstroFinder
         private const string star = "star";
         private const string quit = "quit";
         private const string back = "back";
+        private const string search = "search";
         private const int x = -7;
 
         public UserInterface()
@@ -18,40 +20,59 @@ namespace AstroFinder
 
         public string GetInput() => Console.ReadLine().ToLower();
 
+        public void Print(object obj) =>
+            Console.WriteLine(obj);
+
         public void InitialInformation() =>
             Console.WriteLine("Insert file path");
 
-        public void FileOpened() =>
-            Console.WriteLine("File opened successfully");
+        public void FileOpened()
+        {
+            Console.WriteLine("\nFile opened successfully");
+        }
 
         public void ChooseAnOption()
         {
-            Console.WriteLine();
-            Console.WriteLine("Search:");
+            Console.WriteLine("\nSearch:");
             Console.WriteLine($"{planet,x} | {star,x} | {quit,x}");
         }
 
-        public void ChoosePlanet()
+        public void ChoosePlanet(string str)
         {
-            Console.WriteLine();
+            Console.WriteLine("\nTo begin the search, type 'search'");
             Console.WriteLine("Searching Planet for:");
-            Console.WriteLine($"{plName,x} | {hoName,x} | {back,x}");
+            Console.WriteLine($"{plName,x} | {hoName,x} | {search,x} | {back,x}");
         }
 
         public void TopPlanetInformation()
         {
-            Console.WriteLine();
-            Console.WriteLine($"{plName,x}{hoName,x}");
-            Console.WriteLine();
-            Console.WriteLine("-------------------------");
-            Console.WriteLine();
+            Console.WriteLine($"\n{plName,x}{hoName,x}");
+            Console.WriteLine("\n-------------------------\n");
         }
 
         public void NotValid() =>
             Console.WriteLine("Not a valid option");
+        
+        public void InvalidPath()
+        {
+            Console.WriteLine("\nInvalid path");
+            Console.WriteLine("Choose a new path or type 'quit' to leave\n");
+        }
+
+        public void PrintDictionary(IDictionary<string,string> searchCriteria)
+        {
+            Console.WriteLine();
+            foreach (KeyValuePair<string,string> key in searchCriteria)
+                Console.WriteLine(key.Key + " : " + key.Value);
+        }
+
+        public void InvalidCriteria()
+        {
+            Console.WriteLine("\nInvalid criteria");
+        }
 
         public void Goodbye() =>
-            Console.WriteLine("Goodbye");
+            Console.WriteLine("\nGoodbye");
 
         public void SearchPlanet() =>
             Console.WriteLine("planeta");

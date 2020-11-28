@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 namespace AstroFinder
 {
@@ -8,12 +9,13 @@ namespace AstroFinder
         private UserInterface UI;
         private FileReader fileReader;
 
-        public List<string> SearchCriteria {get; private set;}
+        private List<Exoplanet> exoplanets;
+        public Dictionary<string, string> SearchCriteria {get; private set;}
         public Manager()
         {
             UI = new UserInterface();
 
-            SearchCriteria = new List<String>();
+            SearchCriteria = new Dictionary<string, string>();
         }
 
         public void Run()
@@ -23,13 +25,16 @@ namespace AstroFinder
             // Gets file path and reads the file
             ReadFile();
 
-            // Asks for information
-            do
+            if (File.Exists(fileReader.path))
             {
-                UI.ChooseAnOption();
-                input = UI.GetInput();
-                ChooseAnOption(input);
-            } while(input.ToLower() != "quit");
+                // Asks for information
+                do
+                {
+                    UI.ChooseAnOption();
+                    input = UI.GetInput();
+                    ChooseAnOption(input);
+                } while(input.ToLower() != "quit");
+            }
         }
 
         // Chooses an option to search
@@ -38,6 +43,7 @@ namespace AstroFinder
             switch (input)
             {
                 case "planet":
+                    exoplanets = fileReader.CSVtoList();
                     SearchPlanet();
                     break;
                 case "star":
@@ -55,22 +61,45 @@ namespace AstroFinder
         // Planet data to search
         private void SearchPlanet()
         {
-            string input;
+            string input = null;
             do
             {
-                UI.ChoosePlanet();
+                // Asks for input
+                UI.ChoosePlanet(input);
                 input = UI.GetInput();
 
-                // If input is in inputs enum
-                if (Inputs.TryParse(input, out Inputs temp))
+                // If user types search, it will search for the criteria
+                if (input == "search")
                 {
-                    // Adds input to search critera
-                    SearchCriteria.Add(input);
-                }
-            
-                
+                    
+                    // print with criteria
 
-            } while(input.ToLower() != "back");
+                    UI.PrintDictionary(SearchCriteria);
+                }
+                // If input is in inputs enum
+                else if (Inputs.TryParse(input.Split()[0], out Inputs temp))
+                {
+                    try
+                    {
+                        // Adds input to search critera
+                        SearchCriteria[input.Split()[0]] = input.Split()[1];
+                    }catch (IndexOutOfRangeException)
+                    {
+                        UI.InvalidCriteria();
+                    }catch (ArgumentException)
+                    {
+                        UI.InvalidCriteria();
+                    }finally
+                    {
+                        UI.PrintDictionary(SearchCriteria);
+                    }
+                }
+                else if (input != "back")
+                {
+                    UI.InvalidCriteria();
+                }            
+
+            } while(input != "back"); 
         }
 
 
@@ -82,10 +111,24 @@ namespace AstroFinder
             {
                 UI.InitialInformation();
                 input = UI.GetInput();
-                fileReader = new FileReader(input);
-            } while(input == null);
 
-            UI.FileOpened();
+                UI.Print(this);
+                fileReader = new FileReader(input);
+                if (File.Exists(fileReader.path))
+                {
+                    UI.FileOpened();
+                }
+                else
+                {
+                    if (input != "quit")
+                        UI.InvalidPath();
+                }
+                    
+            } while(File.Exists(fileReader.path) == false &&
+                    input != "quit");
+
+            if (input == "quit")
+                UI.Goodbye();
         }
     }
 }
