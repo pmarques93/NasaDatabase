@@ -10,7 +10,7 @@ namespace AstroFinder
         private FileReader fileReader;
 
         private List<Exoplanet> exoplanets;
-        public Dictionary<string, string> SearchCriteria {get; private set;}
+        public Dictionary<string, string> SearchCriteria { get; private set; }
         public Manager()
         {
             UI = new UserInterface();
@@ -33,7 +33,7 @@ namespace AstroFinder
                     UI.ChooseAnOption();
                     input = UI.GetInput();
                     ChooseAnOption(input);
-                } while(input.ToLower() != "quit");
+                } while (input != "quit");
             }
         }
 
@@ -71,7 +71,7 @@ namespace AstroFinder
                 // If user types search, it will search for the criteria
                 if (input == "search")
                 {
-                    
+
                     // print with criteria
 
                     UI.PrintDictionary(SearchCriteria);
@@ -83,13 +83,16 @@ namespace AstroFinder
                     {
                         // Adds input to search critera
                         SearchCriteria[input.Split()[0]] = input.Split()[1];
-                    }catch (IndexOutOfRangeException)
+                    }
+                    catch (IndexOutOfRangeException)
                     {
                         UI.InvalidCriteria();
-                    }catch (ArgumentException)
+                    }
+                    catch (ArgumentException)
                     {
                         UI.InvalidCriteria();
-                    }finally
+                    }
+                    finally
                     {
                         UI.PrintDictionary(SearchCriteria);
                     }
@@ -97,9 +100,9 @@ namespace AstroFinder
                 else if (input != "back")
                 {
                     UI.InvalidCriteria();
-                }            
+                }
 
-            } while(input != "back"); 
+            } while (input != "back");
         }
 
 
@@ -123,8 +126,8 @@ namespace AstroFinder
                     if (input != "quit")
                         UI.InvalidPath();
                 }
-                    
-            } while(File.Exists(fileReader.path) == false &&
+
+            } while (File.Exists(fileReader.path) == false &&
                     input != "quit");
 
             if (input == "quit")

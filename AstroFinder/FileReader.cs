@@ -1,14 +1,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 namespace AstroFinder
 {
     public class FileReader
     {
         public readonly string path;
+
+        private bool validPath;
+        private string[] file_data;
+
         public FileReader(string path)
         {
             this.path = path;
+            TryOpenFile();
+            GetDataFromFile();
+        }
+        private void TryOpenFile()
+        {
+            validPath = !File.Exists(path);
+            if (validPath)
+            {
+                throw new FileNotFoundException();
+            }
+        }
+
+        private void GetDataFromFile()
+        {
+            file_data = File.ReadAllLines(path);
         }
 
         public List<Exoplanet> CSVtoList()
@@ -18,21 +38,16 @@ namespace AstroFinder
             // This mean the "pn_name" header is on column 0
             Dictionary<string, int> headers = new Dictionary<string, int>();
 
-            // Valid table headers
-            string[] tableHeaders = new string[]
-            {
-                "pl_name",
-                "hostname"
-            };
+            string[] tableHeaders = Enum.GetNames(typeof(Inputs));
 
             // Writes all the lines from the file to a string[]
-            string[] fileData = System.IO.File.ReadAllLines(path);
+            // string[] fileData = System.IO.File.ReadAllLines(path);
 
             // Retrieves the data from the file and
             // Ignores lines starting with # - comments
             // Splits the lines in columns
             IEnumerable<string[]> planets =
-                fileData.
+                file_data.
                 Where(p => p[0] != '#').
                 Select(p => p.Split(","));
 
@@ -47,7 +62,7 @@ namespace AstroFinder
             }
             return
                 planets.
-                Select(p => new Exoplanet(  p[headers["pl_name"]].Trim(' '),
+                Select(p => new Exoplanet(p[headers["pl_name"]].Trim(' '),
                                             p[headers["hostname"]].Trim(' '))).
                                             ToList();
         }
