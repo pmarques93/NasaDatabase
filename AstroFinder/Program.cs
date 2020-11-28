@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace AstroFinder
+﻿namespace AstroFinder
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Manager manager = new Manager();
+            manager.Run();
         }
     }
 }
