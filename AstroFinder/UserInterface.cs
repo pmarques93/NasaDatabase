@@ -6,7 +6,7 @@ namespace AstroFinder
     public class UserInterface
     {
         private const string plName = "pl_name";
-        private const string hoName = "ho_name";
+        private const string hoName = "hostname";
         private const string planet = "planet";
         private const string star = "star";
         private const string quit = "quit";

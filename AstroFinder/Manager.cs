@@ -25,14 +25,13 @@ namespace AstroFinder
             // Gets file path and reads the file
             ReadFile();
 
-            if (File.Exists(fileReader.path))
+            // If it read a file, asks for information
+            if (fileReader != null)
             {
-                // Asks for information
                 do
                 {
                     UI.ChooseAnOption();
-                    input = UI.GetInput();
-                    ChooseAnOption(input);
+                    ChooseAnOption(input = UI.GetInput());
                 } while (input != "quit");
             }
         }
@@ -115,20 +114,18 @@ namespace AstroFinder
                 UI.InitialInformation();
                 input = UI.GetInput();
 
-                UI.Print(this);
-                fileReader = new FileReader(input);
-                if (File.Exists(fileReader.path))
+                try
                 {
+                    fileReader = new FileReader(input);
                     UI.FileOpened();
+                    break;
                 }
-                else
+                catch (FileNotFoundException)
                 {
                     if (input != "quit")
                         UI.InvalidPath();
-                }
-
-            } while (File.Exists(fileReader.path) == false &&
-                    input != "quit");
+                }    
+            } while (input != "quit");
 
             if (input == "quit")
                 UI.Goodbye();

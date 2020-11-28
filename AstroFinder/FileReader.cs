@@ -8,7 +8,6 @@ namespace AstroFinder
     {
         public readonly string path;
 
-        private bool validPath;
         private string[] file_data;
 
         public FileReader(string path)
@@ -19,8 +18,7 @@ namespace AstroFinder
         }
         private void TryOpenFile()
         {
-            validPath = !File.Exists(path);
-            if (validPath)
+            if (!File.Exists(path))
             {
                 throw new FileNotFoundException();
             }
