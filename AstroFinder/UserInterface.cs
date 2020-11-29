@@ -60,11 +60,11 @@ namespace AstroFinder
             Console.WriteLine("Choose a new path or type 'quit' to leave\n");
         }
 
-        public void PrintDictionary(IDictionary<string,string> searchCriteria)
+        public void PrintDictionary(object[] searchCriteria)
         {
             Console.WriteLine("\n---------Current criteria---------");
-            foreach (KeyValuePair<string,string> key in searchCriteria)
-                Console.WriteLine($"{key.Key + ": " + key.Value}");
+            foreach (object val in searchCriteria)
+                Console.WriteLine(val);
             Console.WriteLine("-----------------------------------");
         }
 

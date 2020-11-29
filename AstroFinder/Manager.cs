@@ -10,11 +10,21 @@ namespace AstroFinder
         private FileReader fileReader;
 
         private List<Exoplanet> exoplanets;
-        public Dictionary<string, string> SearchCriteria { get; private set; }
+        
+
+        private string pl_name, hostname, discoverymethod;
+        int disc_year;
+        public object[] SearchCriteria {get;}
+
+
         public Manager()
         {
             UI = new UserInterface();
-            SearchCriteria = new Dictionary<string, string>();
+            
+            SearchCriteria = new object[]
+            {
+                pl_name, hostname, discoverymethod, disc_year
+            };
         }
 
         public void Run()
@@ -79,20 +89,24 @@ namespace AstroFinder
                 else if (Inputs.TryParse(input.Split(':')[0].Trim(), 
                         out Inputs temp))
                 {
+                    string trimmedInput = input.Split(':')[0].Trim();
                     try
                     {
-                        // If input value is a string
-                        if (Inputs.Strings.HasFlag(temp))
+                        switch (trimmedInput)
                         {
-                            // Adds first input as key and the rest as value
-                            SearchCriteria[input.Split(':')[0].Trim()] = 
-                            input.Split(": ")[1];
+                            case "pl_name":
+                                pl_name = Convert.ToString(input.Split(": ")[1]);
+                                break;
+                            case "hostname":
+                                hostname = Convert.ToString(input.Split(": ")[1]);
+                            break;
+                            case "discoverymethod":
+                                discoverymethod = Convert.ToString(input.Split(": ")[1]);
+                            break;
+                            case "disc_year":
+                                disc_year = Convert.ToInt32(input.Split(": ")[1]);
+                            break;
                         }
-                        else
-                        {
-                            Console.WriteLine("teste");
-                        }
-
                     }
                     catch (IndexOutOfRangeException)
                     {
