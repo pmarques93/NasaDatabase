@@ -20,7 +20,7 @@ namespace AstroFinder
         public void Run()
         {
             string input = null;
-
+            
             do
             {
                 UI.ChooseAnOptionNoFile();
@@ -90,67 +90,217 @@ namespace AstroFinder
                 else if (Inputs.TryParse(input.Split(": ")[0].Trim(), 
                         out Inputs temp))
                 {
-                    string trimmedInput = input.Split(": ")[0].Trim();
                     try
                     {
-                        switch (trimmedInput)
+                        switch (temp)
                         {
-                            case "pl_name":
+                            case Inputs.planetname:
                                 searchCriteria.PlanetName = Convert.
                                         ToString(input.Split(": ")[1]).Trim();
-
                                 break;
-                            case "hostname":
+
+                            case Inputs.hostname:
                                 searchCriteria.HostName = Convert.
                                         ToString(input.Split(": ")[1]).Trim();
-
                                 break;
-                            case "discoverymethod":
+
+                            case Inputs.discoverymethod:
                                 searchCriteria.Discoverymethod = Convert.
                                         ToString(input.Split(": ")[1]).Trim();
-
                                 break;
-                            case "disc_year":
+
+                            case Inputs.discoveryyearmin:
                                 try{
-                                    if (input.Substring(
-                                        input.IndexOf("min"), 3) == "min")
-                                    {
-                                        searchCriteria.DiscoveryYearMin = 
-                                        Convert.ToUInt16(input.Split(" ")[2]);
-                                    }
-                                }catch{
-                                    try{
-                                        if (input.Substring(
-                                            input.IndexOf("max"), 3) == "max")
-                                        {
-                                            searchCriteria.DiscoveryYearMax = 
-                                            Convert. ToUInt16(
-                                            input.Split(" ")[2]);
-                                        }
-                                    }catch{}
-                                }
+                                    searchCriteria.DiscoveryYearMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(": ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.discoveryyearmax:
+                                try{
+                                searchCriteria.DiscoveryYearMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(": ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.orbitalperiodmin:
+                                try{
+                                searchCriteria.OrbitalPeriodMin = 
+                                    Convert.ToUInt32
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.orbitalperiodmax:
+                                try{
+                                searchCriteria.OrbitalPeriodMax = 
+                                    Convert.ToUInt32
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.planetradiusmin:
+                                try{
+                                searchCriteria.PlanetRadiusMin = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.planetradiusmax:
+                                try{
+                                searchCriteria.PlanetRadiusMax = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            case Inputs.planetmassmin:
+                                try{
+                                searchCriteria.PlanetMassMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.planetmassmax:
+                                try{
+                                searchCriteria.PlanetMassMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            case Inputs.planettemperaturemin:
+                                try{
+                                searchCriteria.PlanetTemperatureMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.planettemperaturemax:
+                                try{
+                                searchCriteria.PlanetTemperatureMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            case Inputs.stellartemperaturemin:
+                                try{
+                                searchCriteria.StellarTemperatureMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellartemperaturemax:
+                                try{
+                                searchCriteria.StellarTemperatureMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            case Inputs.stellarradiusmin:
+                                try{
+                                searchCriteria.StellarRadiusMin = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellarradiusmax:
+                                try{
+                                searchCriteria.StellarRadiusMax = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            case Inputs.stellarmassmin:
+                                try{
+                                searchCriteria.StellarMassMin = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellarmassmax:
+                                try{
+                                searchCriteria.StellarMassMax = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.stellaragemin:
+                                try{
+                                searchCriteria.StellarAgeMin = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellaragemax:
+                                try{
+                                searchCriteria.StellarAgeMax = 
+                                    Convert.ToByte
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.stellarrotationvelocitymin:
+                                try{
+                                searchCriteria.StellarRotationVelocityMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellarrotationvelocitymax:
+                                try{
+                                searchCriteria.StellarRotationVelocityMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellarrotationperiodmin:
+                                try{
+                                searchCriteria.StellarRotationPeriodMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.stellarrotationperiodmax:
+                                try{
+                                searchCriteria.StellarRotationPeriodMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+
+                            case Inputs.distancemin:
+                                try{
+                                searchCriteria.DistanceMin = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
+                                break;
+                            
+                            case Inputs.distancemax:
+                                try{
+                                searchCriteria.DistanceMax = 
+                                    Convert.ToUInt16
+                                    (input.Split(" ")[1].Trim());
+                                }catch{ UI.InvalidCriteria(); }
                                 break;
                         }
                     }
-                    catch (IndexOutOfRangeException)
-                    {
-                        UI.InvalidCriteria();
-                    }
-                    catch (ArgumentException)
-                    {
-                        UI.InvalidCriteria();
-                    }
-                    catch (FormatException)
-                    {
-                        UI.InvalidCriteria();
-                    }
+
                     catch (StackOverflowException)
                     {
-                        Console.WriteLine("Insert a positive number");
-                    }
-                    finally
-                    {
-                        UI.CurrentlySearchingFor(searchCriteria);
+                        UI.InvalidCriteria();
                     }
                 }
                 else if (input != "back")

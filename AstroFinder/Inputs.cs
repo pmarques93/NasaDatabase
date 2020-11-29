@@ -1,15 +1,34 @@
-using System;
-
 namespace AstroFinder
 {
-    [Flags]
+
     public enum Inputs
     {
-        pl_name = 1 << 0,
-        hostname = 1 << 1,
-        discoverymethod = 1 << 2,
-        disc_year = 1 << 3,
-        String = pl_name | hostname | discoverymethod,
-        Int = disc_year,
+        planetname,
+        hostname,
+        discoverymethod,
+        discoveryyearmin,
+        discoveryyearmax,
+        orbitalperiodmin,
+        orbitalperiodmax,
+        planetradiusmin,
+        planetradiusmax,
+        planetmassmin,
+        planetmassmax,
+        planettemperaturemin,
+        planettemperaturemax,
+        stellartemperaturemin,
+        stellartemperaturemax,
+        stellarradiusmin,
+        stellarradiusmax,
+        stellarmassmin,
+        stellarmassmax,
+        stellaragemin,
+        stellaragemax,
+        stellarrotationvelocitymin,
+        stellarrotationvelocitymax,
+        stellarrotationperiodmin,
+        stellarrotationperiodmax,
+        distancemin,
+        distancemax,
     }
 }

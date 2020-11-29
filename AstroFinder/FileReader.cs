@@ -37,6 +37,7 @@ namespace AstroFinder
             Dictionary<string, int> headers = new Dictionary<string, int>();
 
             string[] tableHeaders = Enum.GetNames(typeof(Inputs));
+            string[] tempString = {"pl_name", "hostname"};
 
             // Writes all the lines from the file to a string[]
             // string[] fileData = System.IO.File.ReadAllLines(path);
@@ -50,12 +51,12 @@ namespace AstroFinder
                 Select(p => p.Split(","));
 
 
-            for (int i = 0; i < tableHeaders.Length; i++)
+            for (int i = 0; i < tempString.Length; i++)
             {
                 string planet = planets.ElementAt(0)[i];
-                if (planet.Contains(tableHeaders[i]))
+                if (planet.Contains(tempString[i]))
                 {
-                    headers.Add(tableHeaders[i], i);
+                    headers.Add(tempString[i], i);
                 }
             }
             return

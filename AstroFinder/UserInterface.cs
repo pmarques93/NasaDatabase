@@ -16,10 +16,6 @@ namespace AstroFinder
         private const string search = "search";
         private const int x = -7;
 
-        public UserInterface()
-        {
-        }
-
         public string GetInput() => Console.ReadLine().ToLower();
 
         public void Print(object obj) =>
@@ -30,8 +26,10 @@ namespace AstroFinder
 
         public void InvalidPath()
         {
-            Console.WriteLine("\nInvalid path");
-            Console.WriteLine("Choose a valid path or type 'back'");
+            Console.WriteLine("\n -----------------------------------");
+            Console.WriteLine("| Invalid path                      |");
+            Console.WriteLine("| Choose a valid path or type 'back'|");
+            Console.WriteLine(" -----------------------------------");
         }
 
         public void FileOpened()
@@ -57,9 +55,12 @@ namespace AstroFinder
             Console.WriteLine("\n-------------------------\n");
         }
 
-        public void NotValid() =>
-            Console.WriteLine("Not a valid option");
-        
+        public void NotValid()
+        {
+            Console.WriteLine("\n ------------------------");
+            Console.WriteLine("|   Not a valid option   |");
+            Console.WriteLine(" ------------------------");
+        }
         
 
         public void PossibleCriteria(SearchCriteria searchCriteria)
@@ -67,33 +68,25 @@ namespace AstroFinder
             Type type = typeof(SearchCriteria);
             PropertyInfo[] propertyInfo = type.GetProperties();    
 
-            Console.WriteLine("\n--------Possible criteria---------");
-            Console.WriteLine("pl_name: | hostname: | discoverymethod:");
-            Console.WriteLine("disc_year: min | disc_year: max |");
-            Console.WriteLine("\nTo begin the search, type 'search'");
-            Console.WriteLine("To go back to main menu, type 'back'");
-            Console.WriteLine("Search example: 'pl_name: 51 Peg b'");
-            Console.WriteLine("Search example: 'discovery_year: min 1990'");
-            Console.WriteLine("----------------------------------");
-        }
-
-        public void CurrentlySearchingFor(SearchCriteria searchCriteria)
-        {
-            Type type = typeof(SearchCriteria);
-            PropertyInfo[] propertyInfo = type.GetProperties();    
-
-            Console.WriteLine("\n-----Currently searching for------");
+            Console.WriteLine("\n--------Currently searching for---------");
             foreach (PropertyInfo property in propertyInfo)
             {
-                Console.WriteLine($"{property.Name,-18}:" +
+                Console.WriteLine($"{property.Name.ToLower(),-27}:" +
                 $"{property.GetValue(searchCriteria, null)}");
             }
-            Console.WriteLine("----------------------------------");
+
+            Console.WriteLine("\nTo begin the search, type 'search'");
+            Console.WriteLine("To go back to main menu, type 'back'");
+            Console.WriteLine("Example to add planet name field: 'planetname: 51 peg b'");
+            Console.WriteLine("Example to add discovery year field: 'discoveryyearmax: 1990'");
+            Console.WriteLine("----------------------------------------");
         }
 
         public void InvalidCriteria()
         {
-            Console.WriteLine("\nInvalid criteria");
+            Console.WriteLine("\n ------------------------");
+            Console.WriteLine("|    Invalid criteria    |");
+            Console.WriteLine(" ------------------------");
         }
 
         public void Goodbye() =>
