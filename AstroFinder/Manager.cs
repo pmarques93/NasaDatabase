@@ -7,73 +7,65 @@ namespace AstroFinder
     public class Manager
     {
         private UserInterface UI;
+
         private FileReader fileReader;
-
-        private List<Exoplanet> exoplanets;
         
-
-        private string pl_name, hostname, discoverymethod;
-        int disc_year;
-        public object[] SearchCriteria {get;}
-
+        private SearchCriteria searchCriteria;
 
         public Manager()
         {
             UI = new UserInterface();
-            
-            SearchCriteria = new object[]
-            {
-                pl_name, hostname, discoverymethod, disc_year
-            };
         }
 
         public void Run()
         {
             string input = null;
 
-            // Gets file path and reads the file
-            ReadFile();
-
-            // If it read a file, asks for information
-            if (fileReader != null)
+            while (input != "quit" && ReadFile(input) != "quit")
             {
-                do
+                fileReader = null;
+
+                // Gets file path and reads the file
+                ReadFile(input);
+
+                // If it read a file, asks for information
+                if (fileReader != null)
                 {
-                    UI.ChooseAnOption();
-                    ChooseAnOption(input = UI.GetInput());
-                } while (input != "quit");
-            }
-        }
+                    while (input != "quit" && input != "new file")
+                    {
+                        UI.ChooseAnOption();
 
-        // Chooses an option to search
-        public void ChooseAnOption(string input)
-        {
-            switch (input)
-            {
-                case "planet":
-                    exoplanets = fileReader.CSVtoList();
-                    SearchPlanet();
-                    break;
-                case "star":
+                        // Chooses an option
+                        switch (input = UI.GetInput())
+                        {
+                            case "planet":
+                                SearchPlanet(input);
+                                break;
+                            case "star":
 
-                    break;
-                case "quit":
-                    UI.Goodbye();
-                    break;
-                default:
-                    UI.NotValid();
-                    break;
-            }
+                                break;
+                            case "new file":
+                                break;
+                            case "quit":       
+                                break;
+                            default:
+                                UI.NotValid();
+                                break;
+                        }
+                    } 
+                }
+            } 
         }
 
         // Planet data to search
-        private void SearchPlanet()
+        private void SearchPlanet(string input)
         {
-            string input = null;
+            List<Exoplanet> exoplanets = fileReader.CSVtoList();
+            searchCriteria = new SearchCriteria();
             do
             {
                 // Asks for input
-                UI.ChoosePlanet();
+                UI.PossibleCriteria(searchCriteria);
                 input = UI.GetInput();
 
                 // If user types search, it will search for the criteria
@@ -82,30 +74,51 @@ namespace AstroFinder
 
                     // Gabriel magic //
                     ///////////////////
-
-                    UI.PrintDictionary(SearchCriteria);
                 }
                 // If input is in inputs enum
-                else if (Inputs.TryParse(input.Split(':')[0].Trim(), 
+                else if (Inputs.TryParse(input.Split(": ")[0].Trim(), 
                         out Inputs temp))
                 {
-                    string trimmedInput = input.Split(':')[0].Trim();
+                    string trimmedInput = input.Split(": ")[0].Trim();
                     try
                     {
                         switch (trimmedInput)
                         {
                             case "pl_name":
-                                pl_name = Convert.ToString(input.Split(": ")[1]);
+                                searchCriteria.PlanetName = Convert.
+                                        ToString(input.Split(": ")[1]).Trim();
+
                                 break;
                             case "hostname":
-                                hostname = Convert.ToString(input.Split(": ")[1]);
-                            break;
+                                searchCriteria.HostName = Convert.
+                                        ToString(input.Split(": ")[1]).Trim();
+
+                                break;
                             case "discoverymethod":
-                                discoverymethod = Convert.ToString(input.Split(": ")[1]);
-                            break;
+                                searchCriteria.Discoverymethod = Convert.
+                                        ToString(input.Split(": ")[1]).Trim();
+
+                                break;
                             case "disc_year":
-                                disc_year = Convert.ToInt32(input.Split(": ")[1]);
-                            break;
+                                try{
+                                    if (input.Substring(
+                                        input.IndexOf("min"), 3) == "min")
+                                    {
+                                        searchCriteria.DiscoveryYearMin = 
+                                        Convert.ToUInt16(input.Split(" ")[2]);
+                                    }
+                                }catch{
+                                    try{
+                                        if (input.Substring(
+                                            input.IndexOf("max"), 3) == "max")
+                                        {
+                                            searchCriteria.DiscoveryYearMax = 
+                                            Convert. ToUInt16(
+                                            input.Split(" ")[2]);
+                                        }
+                                    }catch{}
+                                }
+                                break;
                         }
                     }
                     catch (IndexOutOfRangeException)
@@ -116,9 +129,17 @@ namespace AstroFinder
                     {
                         UI.InvalidCriteria();
                     }
+                    catch (FormatException)
+                    {
+                        UI.InvalidCriteria();
+                    }
+                    catch (StackOverflowException)
+                    {
+                        Console.WriteLine("Insert a positive number");
+                    }
                     finally
                     {
-                        UI.PrintDictionary(SearchCriteria);
+                        UI.CurrentlySearchingFor(searchCriteria);
                     }
                 }
                 else if (input != "back")
@@ -131,9 +152,8 @@ namespace AstroFinder
 
 
         // Reads player input and adds a file's path
-        private void ReadFile()
+        private string ReadFile(string input)
         {
-            string input;
             do
             {
                 UI.InitialInformation();
@@ -154,6 +174,8 @@ namespace AstroFinder
 
             if (input == "quit")
                 UI.Goodbye();
+
+            return input;
         }
     }
 }

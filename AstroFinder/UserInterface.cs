@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 
 namespace AstroFinder
@@ -9,6 +10,7 @@ namespace AstroFinder
         private const string hoName = "hostname";
         private const string planet = "planet";
         private const string star = "star";
+        private const string newFile = "new file";
         private const string quit = "quit";
         private const string back = "back";
         private const string search = "search";
@@ -24,7 +26,13 @@ namespace AstroFinder
             Console.WriteLine(obj);
 
         public void InitialInformation() =>
-            Console.WriteLine("Insert file path");
+            Console.WriteLine("\nInsert file path");
+
+        public void InvalidPath()
+        {
+            Console.WriteLine("\nInvalid path");
+            Console.WriteLine("Choose a valid path or type 'quit' to leave\n");
+        }
 
         public void FileOpened()
         {
@@ -34,15 +42,7 @@ namespace AstroFinder
         public void ChooseAnOption()
         {
             Console.WriteLine("\nSearch for:");
-            Console.WriteLine($"{planet,x} | {star,x} | {quit,x}");
-        }
-
-        public void ChoosePlanet()
-        {
-            Console.WriteLine("\nTo begin the search, type 'search'");
-            Console.WriteLine("Search example: 'pl_name: 51 Peg b'");
-            Console.WriteLine("Possible criteria:");
-            Console.WriteLine($"{plName,x} | {hoName,x} | {search,x} | {back,x}");
+            Console.WriteLine($"{planet} | {star} | {newFile} | {quit}");
         }
 
         public void TopPlanetInformation()
@@ -54,18 +54,35 @@ namespace AstroFinder
         public void NotValid() =>
             Console.WriteLine("Not a valid option");
         
-        public void InvalidPath()
+        
+
+        public void PossibleCriteria(SearchCriteria searchCriteria)
         {
-            Console.WriteLine("\nInvalid path");
-            Console.WriteLine("Choose a new path or type 'quit' to leave\n");
+            Type type = typeof(SearchCriteria);
+            PropertyInfo[] propertyInfo = type.GetProperties();    
+
+            Console.WriteLine("\n--------Possible criteria---------");
+            Console.WriteLine("pl_name: | hostname: | discoverymethod:");
+            Console.WriteLine("disc_year: min | disc_year: max |");
+            Console.WriteLine("\nTo begin the search, type 'search'");
+            Console.WriteLine("To go back to main menu, type 'back'");
+            Console.WriteLine("Search example: 'pl_name: 51 Peg b'");
+            Console.WriteLine("Search example: 'discovery_year: min 1990'");
+            Console.WriteLine("----------------------------------");
         }
 
-        public void PrintDictionary(object[] searchCriteria)
+        public void CurrentlySearchingFor(SearchCriteria searchCriteria)
         {
-            Console.WriteLine("\n---------Current criteria---------");
-            foreach (object val in searchCriteria)
-                Console.WriteLine(val);
-            Console.WriteLine("-----------------------------------");
+            Type type = typeof(SearchCriteria);
+            PropertyInfo[] propertyInfo = type.GetProperties();    
+
+            Console.WriteLine("\n-----Currently searching for------");
+            foreach (PropertyInfo property in propertyInfo)
+            {
+                Console.WriteLine($"{property.Name,-18}:" +
+                $"{property.GetValue(searchCriteria, null)}");
+            }
+            Console.WriteLine("----------------------------------");
         }
 
         public void InvalidCriteria()
@@ -75,8 +92,5 @@ namespace AstroFinder
 
         public void Goodbye() =>
             Console.WriteLine("\nGoodbye");
-
-        public void SearchPlanet() =>
-            Console.WriteLine("planeta");
     }
 }

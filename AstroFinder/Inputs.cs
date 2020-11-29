@@ -9,7 +9,7 @@ namespace AstroFinder
         hostname = 1 << 1,
         discoverymethod = 1 << 2,
         disc_year = 1 << 3,
-        Strings = pl_name | hostname | discoverymethod,
+        String = pl_name | hostname | discoverymethod,
         Int = disc_year,
     }
 }
