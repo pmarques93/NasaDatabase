@@ -6,7 +6,7 @@ namespace AstroFinder
 {
     public class FileReader
     {
-        public readonly string path;
+        private readonly string path;
 
         private string[] file_data;
 

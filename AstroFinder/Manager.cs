@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace AstroFinder
 {
@@ -14,7 +14,6 @@ namespace AstroFinder
         public Manager()
         {
             UI = new UserInterface();
-
             SearchCriteria = new Dictionary<string, string>();
         }
 
@@ -64,24 +63,36 @@ namespace AstroFinder
             do
             {
                 // Asks for input
-                UI.ChoosePlanet(input);
+                UI.ChoosePlanet();
                 input = UI.GetInput();
 
                 // If user types search, it will search for the criteria
                 if (input == "search")
                 {
 
-                    // print with criteria
+                    // Gabriel magic //
+                    ///////////////////
 
                     UI.PrintDictionary(SearchCriteria);
                 }
                 // If input is in inputs enum
-                else if (Inputs.TryParse(input.Split()[0], out Inputs temp))
+                else if (Inputs.TryParse(input.Split(':')[0].Trim(), 
+                        out Inputs temp))
                 {
                     try
                     {
-                        // Adds input to search critera
-                        SearchCriteria[input.Split()[0]] = input.Split()[1];
+                        // If input value is a string
+                        if (Inputs.Strings.HasFlag(temp))
+                        {
+                            // Adds first input as key and the rest as value
+                            SearchCriteria[input.Split(':')[0].Trim()] = 
+                            input.Split(": ")[1];
+                        }
+                        else
+                        {
+                            Console.WriteLine("teste");
+                        }
+
                     }
                     catch (IndexOutOfRangeException)
                     {

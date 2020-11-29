@@ -33,14 +33,15 @@ namespace AstroFinder
 
         public void ChooseAnOption()
         {
-            Console.WriteLine("\nSearch:");
+            Console.WriteLine("\nSearch for:");
             Console.WriteLine($"{planet,x} | {star,x} | {quit,x}");
         }
 
-        public void ChoosePlanet(string str)
+        public void ChoosePlanet()
         {
             Console.WriteLine("\nTo begin the search, type 'search'");
-            Console.WriteLine("Searching Planet for:");
+            Console.WriteLine("Search example: 'pl_name: 51 Peg b'");
+            Console.WriteLine("Possible criteria:");
             Console.WriteLine($"{plName,x} | {hoName,x} | {search,x} | {back,x}");
         }
 
@@ -61,9 +62,10 @@ namespace AstroFinder
 
         public void PrintDictionary(IDictionary<string,string> searchCriteria)
         {
-            Console.WriteLine();
+            Console.WriteLine("\n---------Current criteria---------");
             foreach (KeyValuePair<string,string> key in searchCriteria)
-                Console.WriteLine(key.Key + " : " + key.Value);
+                Console.WriteLine($"{key.Key + ": " + key.Value}");
+            Console.WriteLine("-----------------------------------");
         }
 
         public void InvalidCriteria()
