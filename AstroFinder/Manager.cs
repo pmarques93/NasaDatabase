@@ -21,40 +21,51 @@ namespace AstroFinder
         {
             string input = null;
 
-            while (input != "quit" && ReadFile(input) != "quit")
+            do
             {
-                fileReader = null;
-
-                // Gets file path and reads the file
-                ReadFile(input);
-
-                // If it read a file, asks for information
-                if (fileReader != null)
+                UI.ChooseAnOptionNoFile();
+                switch (input = UI.GetInput())
                 {
-                    while (input != "quit" && input != "new file")
-                    {
-                        UI.ChooseAnOption();
+                    case "new file":
+                        // Gets file path and reads the file
+                        ReadFile(input);
+                        // If it read a file, asks for information
+                        if (fileReader != null)
+                            ChooseAnOption(input);
+                        break;
 
-                        // Chooses an option
-                        switch (input = UI.GetInput())
-                        {
-                            case "planet":
-                                SearchPlanet(input);
-                                break;
-                            case "star":
+                    case "quit":
+                        break;
+                    default:
+                        UI.NotValid();
+                        break;
+                } 
+                
+            }while (input != "quit");
+            UI.Goodbye();
+        }
 
-                                break;
-                            case "new file":
-                                break;
-                            case "quit":       
-                                break;
-                            default:
-                                UI.NotValid();
-                                break;
-                        }
-                    } 
+        private void ChooseAnOption(string input)
+        {
+            // Chooses an option
+            do
+            {
+                UI.ChooseAnOption();
+                switch (input = UI.GetInput())
+                {
+                    case "planet":
+                        SearchPlanet(input);
+                        break;
+                    case "star":
+
+                        break;
+                    case "back":       
+                        break;
+                    default:
+                        UI.NotValid();
+                        break;
                 }
-            } 
+            } while (input != "file" && input != "back");
         }
 
         // Planet data to search
@@ -152,7 +163,7 @@ namespace AstroFinder
 
 
         // Reads player input and adds a file's path
-        private string ReadFile(string input)
+        private void ReadFile(string input)
         {
             do
             {
@@ -167,15 +178,10 @@ namespace AstroFinder
                 }
                 catch (FileNotFoundException)
                 {
-                    if (input != "quit")
+                    if (input != "back")
                         UI.InvalidPath();
                 }    
-            } while (input != "quit");
-
-            if (input == "quit")
-                UI.Goodbye();
-
-            return input;
+            } while (input != "back");
         }
     }
 }

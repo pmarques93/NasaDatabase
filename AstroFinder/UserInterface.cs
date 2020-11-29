@@ -31,7 +31,7 @@ namespace AstroFinder
         public void InvalidPath()
         {
             Console.WriteLine("\nInvalid path");
-            Console.WriteLine("Choose a valid path or type 'quit' to leave\n");
+            Console.WriteLine("Choose a valid path or type 'back'");
         }
 
         public void FileOpened()
@@ -39,10 +39,16 @@ namespace AstroFinder
             Console.WriteLine("\nFile opened successfully");
         }
 
+        public void ChooseAnOptionNoFile()
+        {
+            Console.WriteLine("\nChoose an option:");
+            Console.WriteLine($"\n{newFile} | {quit}");
+        }
+
         public void ChooseAnOption()
         {
-            Console.WriteLine("\nSearch for:");
-            Console.WriteLine($"{planet} | {star} | {newFile} | {quit}");
+            Console.WriteLine("\nChoose an option:");
+            Console.WriteLine($"{planet} | {star} | {back}");
         }
 
         public void TopPlanetInformation()
