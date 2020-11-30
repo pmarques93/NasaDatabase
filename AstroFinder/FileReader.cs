@@ -36,7 +36,7 @@ namespace AstroFinder
             // This mean the "pn_name" header is on column 0
             Dictionary<string, int> headers = new Dictionary<string, int>();
 
-            string[] tableHeaders = Enum.GetNames(typeof(Inputs));
+            string[] tableHeaders = Enum.GetNames(typeof(ExoplanetInputs));
             string[] tempString = {"pl_name", "hostname"};
 
             // Writes all the lines from the file to a string[]

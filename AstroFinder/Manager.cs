@@ -18,8 +18,7 @@ namespace AstroFinder
 
         public void Run()
         {
-            string input = null;
-            
+            string input;
             do
             {
                 UI.ChooseAnOptionNoFile();
@@ -46,9 +45,9 @@ namespace AstroFinder
 
         private void ChooseAnOption(string input)
         {
-            // Chooses an option
             do
             {
+                // Player chooses an option
                 UI.ChooseAnOption();
                 switch (input = UI.GetInput())
                 {
@@ -72,11 +71,11 @@ namespace AstroFinder
         private void SearchPlanet(string input)
         {
             List<Exoplanet> exoplanets = fileReader.CSVtoList();
-            SearchCriteria searchCriteria = new SearchCriteria();
+            ISearchField exoplanetCriteria = new ExoplanetCriteria();
             do
             {
-                // Asks for input
-                UI.PossibleCriteria(searchCriteria);
+                // Shows information and asks for input
+                UI.PossibleCriteria(exoplanetCriteria as SearchField);
                 input = UI.GetInput();
 
                 // If user types search, it will search for the criteria
@@ -87,12 +86,18 @@ namespace AstroFinder
                     
                 }
                 // If input is in inputs enum
-                else if (Inputs.TryParse(input.Split(": ")[0].Trim(), 
-                        out Inputs outInputEnum))
+                else if (Enum.TryParse(input.Split(": ")[0].Trim(), 
+                        out ExoplanetInputs inputEnum))
                 {
-                    // Sets value after the name
-                    string userValue = input.Split(": ")[1].Trim();
-                    searchCriteria.AddCriteria(outInputEnum, userValue);  
+                    try
+                    {
+                        // Sets value after the name
+                        string userValue = input.Split(": ")[1].Trim();
+                        exoplanetCriteria.AddCriteria(inputEnum, userValue);
+                    } catch (IndexOutOfRangeException)
+                    {
+                        UI.InvalidCriteria();
+                    }
                 }
                 else if (input != "back")
                 {
@@ -108,6 +113,7 @@ namespace AstroFinder
         {
             do
             {
+                // Shows information and asks for input
                 UI.InitialInformation();
                 input = UI.GetInput();
 

@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Collections.Generic;
 
 namespace AstroFinder
 {
@@ -62,11 +61,13 @@ namespace AstroFinder
             Console.WriteLine(" ------------------------");
         }        
 
-        public void PossibleCriteria(SearchCriteria searchCriteria)
+        public void PossibleCriteria(SearchField searchCriteria)
         {
-            Type type = typeof(SearchCriteria);
+            // Gets proprties in received type
+            Type type = searchCriteria.GetType();
             PropertyInfo[] propertyInfo = type.GetProperties();    
 
+            // Prints the properties and their values
             Console.WriteLine("\n--------Currently searching for---------");
             foreach (PropertyInfo property in propertyInfo)
             {
