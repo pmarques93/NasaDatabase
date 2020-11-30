@@ -6,14 +6,14 @@ namespace AstroFinder
 {
     public class UserInterface
     {
-        private const string plName = "pl_name";
-        private const string hoName = "hostname";
-        private const string planet = "planet";
-        private const string star = "star";
-        private const string newFile = "new file";
-        private const string quit = "quit";
-        private const string back = "back";
-        private const string search = "search";
+        private const string PLNAME = "pl_name";
+        private const string HONAME = "hostname";
+        private const string PLANET = "planet";
+        private const string STAR = "star";
+        private const string NEWFILE = "new file";
+        private const string QUIT = "quit";
+        private const string BACK = "back";
+        private const string SEARCH = "search";
         private const int x = -7;
 
         public string GetInput() => Console.ReadLine().ToLower();
@@ -40,18 +40,18 @@ namespace AstroFinder
         public void ChooseAnOptionNoFile()
         {
             Console.WriteLine("\nChoose an option:");
-            Console.WriteLine($"\n{newFile} | {quit}");
+            Console.WriteLine($"\n{NEWFILE} | {QUIT}");
         }
 
         public void ChooseAnOption()
         {
             Console.WriteLine("\nChoose an option:");
-            Console.WriteLine($"{planet} | {star} | {back}");
+            Console.WriteLine($"{PLANET} | {STAR} | {BACK}");
         }
 
         public void TopPlanetInformation()
         {
-            Console.WriteLine($"\n{plName,x}{hoName,x}");
+            Console.WriteLine($"\n{PLNAME,x}{HONAME,x}");
             Console.WriteLine("\n-------------------------\n");
         }
 
@@ -60,8 +60,7 @@ namespace AstroFinder
             Console.WriteLine("\n ------------------------");
             Console.WriteLine("|   Not a valid option   |");
             Console.WriteLine(" ------------------------");
-        }
-        
+        }        
 
         public void PossibleCriteria(SearchCriteria searchCriteria)
         {
@@ -77,8 +76,10 @@ namespace AstroFinder
 
             Console.WriteLine("\nTo begin the search, type 'search'");
             Console.WriteLine("To go back to main menu, type 'back'");
-            Console.WriteLine("Example to add planet name field: 'planetname: 51 peg b'");
-            Console.WriteLine("Example to add discovery year field: 'discoveryyearmax: 1990'");
+            Console.WriteLine(
+                "Example to add planet name field: 'planetname: 51 peg b'");
+            Console.WriteLine(
+                "Example to add discovery year field: 'distancemin: 10000.25'");
             Console.WriteLine("----------------------------------------");
         }
 

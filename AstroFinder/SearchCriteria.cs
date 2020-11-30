@@ -1,41 +1,44 @@
+using System.Globalization;
+using System;
+
 namespace AstroFinder
 {
     public class SearchCriteria
     {
         private const byte MINVALUE = 0;
         private const ushort CURRENTYEAR = 2020;
-        private const int IMAXVALUE = 100000000;
-        private const ushort SMAXVALUE = 50000;
-        private const byte BMAXVALUE = 255;
+        private const float FMAXVALUE = 100000000.0f;
+
 
         public string PlanetName {get; set;}
         public string HostName {get; set;}
         public string Discoverymethod {get; set;}
         private ushort discoveryYearMin;
         private ushort discoveryYearMax;
-        private uint orbitalPeriodMin;
-        private uint orbitalPeriodMax;
-        private byte planetRadiusMin;
-        private byte planetRadiusMax;
-        private ushort planetMassMin;
-        private ushort planetMassMax;
-        private ushort planettemperaturemin;
-        private ushort planettemperaturemax;
-        private ushort stellartemperaturemin;
-        private ushort stellartemperaturemax;
-        private byte stellarRadiusMin;
-        private byte stellarRadiusMax;
-        private byte stellarMassMin;
-        private byte stellarMassMax;
-        private byte stellarAgeMin;
-        private byte stellarAgeMax;
-        private ushort stellarRotationVelocityMin;
-        private ushort stellarRotationVelocityMax;
-        private ushort stellarRotationPeriodMin;
-        private ushort stellarRotationPeriodMax;
-        private ushort distanceMin;
-        private ushort distanceMax;
+        private float orbitalPeriodMin;
+        private float orbitalPeriodMax;
+        private float planetRadiusMin;
+        private float planetRadiusMax;
+        private float planetMassMin;
+        private float planetMassMax;
+        private float planetTemperatureMin;
+        private float planetTemperatureMax;
+        private float stellarTemperatureMin;
+        private float stellarTemperatureMax;
+        private float stellarRadiusMin;
+        private float stellarRadiusMax;
+        private float stellarMassMin;
+        private float stellarMassMax;
+        private float stellarAgeMin;
+        private float stellarAgeMax;
+        private float stellarRotationVelocityMin;
+        private float stellarRotationVelocityMax;
+        private float stellarRotationPeriodMin;
+        private float stellarRotationPeriodMax;
+        private float distanceMin;
+        private float distanceMax;
 
+        #region Properties
         public ushort DiscoveryYearMin 
         {
             get => discoveryYearMin;
@@ -58,7 +61,7 @@ namespace AstroFinder
                     discoveryYearMax = discoveryYearMin;
             }
         }
-        public uint OrbitalPeriodMin
+        public float OrbitalPeriodMin
         {
             get => orbitalPeriodMin;
             set
@@ -69,18 +72,18 @@ namespace AstroFinder
                     orbitalPeriodMin = orbitalPeriodMax;
             }
         }
-        public uint OrbitalPeriodMax
+        public float OrbitalPeriodMax
         {
             get => orbitalPeriodMax;
             set
             {
                 orbitalPeriodMax = value;
-                if (value > IMAXVALUE) orbitalPeriodMax = IMAXVALUE;
+                if (value > FMAXVALUE) orbitalPeriodMax = FMAXVALUE;
                 if (orbitalPeriodMax < orbitalPeriodMin)
                     orbitalPeriodMax = orbitalPeriodMin;
             }
         }
-        public byte PlanetRadiusMin
+        public float PlanetRadiusMin
         {
             get => planetRadiusMin;
             set
@@ -91,18 +94,18 @@ namespace AstroFinder
                     planetRadiusMin = planetRadiusMax;
             }
         }
-        public byte PlanetRadiusMax
+        public float PlanetRadiusMax
         {
             get => planetRadiusMax;
             set
             {
                 planetRadiusMax = value;
-                if (value > BMAXVALUE) planetRadiusMax = BMAXVALUE;
+                if (value > FMAXVALUE) planetRadiusMax = FMAXVALUE;
                 if (planetRadiusMax < planetRadiusMin)
                     planetRadiusMax = planetRadiusMin;
             }
         }
-        public ushort PlanetMassMin
+        public float PlanetMassMin
         {
             get => planetMassMin;
             set
@@ -113,62 +116,62 @@ namespace AstroFinder
                     planetMassMin = planetMassMax;
             }
         }
-        public ushort PlanetMassMax
+        public float PlanetMassMax
         {
             get => planetMassMax;
             set
             {
                 planetMassMax = value;
-                if (value > SMAXVALUE) planetMassMax = SMAXVALUE;
+                if (value > FMAXVALUE) planetMassMax = FMAXVALUE;
                 if (planetMassMax < planetMassMin)
                     planetMassMax = planetMassMin;
             }
         }
-        public ushort PlanetTemperatureMin
+        public float PlanetTemperatureMin
         {
-            get => planettemperaturemin;
+            get => planetTemperatureMin;
             set
             {
-                planettemperaturemin = value;
-                if (value < MINVALUE) planettemperaturemin = MINVALUE;
-                if (planettemperaturemin > planettemperaturemax)
-                    planettemperaturemin = planettemperaturemax;
+                planetTemperatureMin = value;
+                if (value < MINVALUE) planetTemperatureMin = MINVALUE;
+                if (planetTemperatureMin > planetTemperatureMax)
+                    planetTemperatureMin = planetTemperatureMax;
             }
         }
-        public ushort PlanetTemperatureMax
+        public float PlanetTemperatureMax
         {
-            get => planettemperaturemax;
+            get => planetTemperatureMax;
             set
             {
-                planettemperaturemax = value;
-                if (value > SMAXVALUE) planettemperaturemax = SMAXVALUE;
-                if (planettemperaturemax < planettemperaturemin)
-                    planettemperaturemax = planettemperaturemin;
+                planetTemperatureMax = value;
+                if (value > FMAXVALUE) planetTemperatureMax = FMAXVALUE;
+                if (planetTemperatureMax < planetTemperatureMin)
+                    planetTemperatureMax = planetTemperatureMin;
             }
         }
-        public ushort StellarTemperatureMin
+        public float StellarTemperatureMin
         {
-            get => stellartemperaturemin;
+            get => stellarTemperatureMin;
             set
             {
-                stellartemperaturemin = value;
-                if (value < MINVALUE) stellartemperaturemin = MINVALUE;
-                if (stellartemperaturemin > stellartemperaturemax)
-                    stellartemperaturemin = stellartemperaturemax;
+                stellarTemperatureMin = value;
+                if (value < MINVALUE) stellarTemperatureMin = MINVALUE;
+                if (stellarTemperatureMin > stellarTemperatureMax)
+                    stellarTemperatureMin = stellarTemperatureMax;
             }
         }
-        public ushort StellarTemperatureMax
+        public float StellarTemperatureMax
         {
-            get => stellartemperaturemax;
+            get => stellarTemperatureMax;
             set
             {
-                stellartemperaturemax = value;
-                if (value > SMAXVALUE) stellartemperaturemax = SMAXVALUE;
-                if (stellartemperaturemax < stellartemperaturemin)
-                    stellartemperaturemax = stellartemperaturemin;
+                stellarTemperatureMax = value;
+                if (value > FMAXVALUE) stellarTemperatureMax = FMAXVALUE;
+                if (stellarTemperatureMax < stellarTemperatureMin)
+                    stellarTemperatureMax = stellarTemperatureMin;
             }
         }
-        public byte StellarRadiusMin
+        public float StellarRadiusMin
         {
             get => stellarRadiusMin;
             set
@@ -179,18 +182,18 @@ namespace AstroFinder
                     stellarRadiusMin = stellarRadiusMax;
             }
         }
-        public byte StellarRadiusMax
+        public float StellarRadiusMax
         {
             get => stellarRadiusMax;
             set
             {
                 stellarRadiusMax = value;
-                if (value > BMAXVALUE) stellarRadiusMax = BMAXVALUE;
+                if (value > FMAXVALUE) stellarRadiusMax = FMAXVALUE;
                 if (stellarRadiusMax < stellarRadiusMin)
                     stellarRadiusMax = stellarRadiusMin;
             }
         }
-        public byte StellarMassMin
+        public float StellarMassMin
         {
             get => stellarMassMin;
             set
@@ -201,18 +204,18 @@ namespace AstroFinder
                     stellarMassMin = stellarMassMax;
             }
         }
-        public byte StellarMassMax
+        public float StellarMassMax
         {
             get => stellarMassMax;
             set
             {
                 stellarMassMax = value;
-                if (value > BMAXVALUE) stellarMassMax = BMAXVALUE;
+                if (value > FMAXVALUE) stellarMassMax = FMAXVALUE;
                 if (stellarMassMax < stellarMassMin)
                     stellarMassMax = stellarMassMin;
             }
         }
-        public byte StellarAgeMin
+        public float StellarAgeMin
         {
             get => stellarAgeMin;
             set
@@ -223,18 +226,18 @@ namespace AstroFinder
                     stellarAgeMin = stellarAgeMax;
             }
         }
-        public byte StellarAgeMax
+        public float StellarAgeMax
         {
             get => stellarAgeMax;
             set
             {
                 stellarAgeMax = value;
-                if (value > BMAXVALUE) stellarAgeMax = BMAXVALUE;
+                if (value > FMAXVALUE) stellarAgeMax = FMAXVALUE;
                 if (stellarAgeMax < stellarAgeMin)
                     stellarAgeMax = stellarAgeMin;
             }
         }
-        public ushort StellarRotationVelocityMin
+        public float StellarRotationVelocityMin
         {
             get => stellarRotationVelocityMin;
             set
@@ -245,18 +248,18 @@ namespace AstroFinder
                     stellarRotationVelocityMin = stellarRotationVelocityMax;
             }
         }
-        public ushort StellarRotationVelocityMax
+        public float StellarRotationVelocityMax
         {
             get => stellarRotationVelocityMax;
             set
             {
                 stellarRotationVelocityMax = value;
-                if (value > SMAXVALUE) stellarRotationVelocityMax = SMAXVALUE;
+                if (value > FMAXVALUE) stellarRotationVelocityMax = FMAXVALUE;
                 if (stellarRotationVelocityMax < stellarRotationVelocityMin)
                     stellarRotationVelocityMax = stellarRotationVelocityMin;
             }
         }
-        public ushort StellarRotationPeriodMin
+        public float StellarRotationPeriodMin
         {
             get => stellarRotationPeriodMin;
             set
@@ -267,18 +270,18 @@ namespace AstroFinder
                     stellarRotationPeriodMin = stellarRotationPeriodMax;
             }
         }
-        public ushort StellarRotationPeriodMax
+        public float StellarRotationPeriodMax
         {
             get => stellarRotationPeriodMax;
             set
             {
                 stellarRotationPeriodMax = value;
-                if (value > SMAXVALUE) stellarRotationPeriodMax = SMAXVALUE;
+                if (value > FMAXVALUE) stellarRotationPeriodMax = FMAXVALUE;
                 if (stellarRotationPeriodMax < stellarRotationPeriodMin)
                     stellarRotationPeriodMax = stellarRotationPeriodMin;
             }
         }
-        public ushort DistanceMin
+        public float DistanceMin
         {
             get => distanceMin;
             set
@@ -289,17 +292,18 @@ namespace AstroFinder
                     distanceMin = distanceMax;
             }
         }
-        public ushort DistanceMax
+        public float DistanceMax
         {
             get => distanceMax;
             set
             {
                 distanceMax = value;
-                if (value > SMAXVALUE) distanceMax = SMAXVALUE;
+                if (value > FMAXVALUE) distanceMax = FMAXVALUE;
                 if (distanceMax < distanceMin)
                     distanceMax = distanceMin;
             }
         }
+        #endregion
 
         public SearchCriteria()
         {
@@ -308,28 +312,219 @@ namespace AstroFinder
             Discoverymethod = "everything";
             DiscoveryYearMax = CURRENTYEAR;
             DiscoveryYearMin = MINVALUE;
-            OrbitalPeriodMax = IMAXVALUE;
+            OrbitalPeriodMax = FMAXVALUE;
             OrbitalPeriodMin = MINVALUE;
-            PlanetRadiusMax = BMAXVALUE;
+            PlanetRadiusMax = FMAXVALUE;
             PlanetRadiusMin = MINVALUE;
-            PlanetMassMax = SMAXVALUE;
+            PlanetMassMax = FMAXVALUE;
             PlanetMassMin = MINVALUE;
-            PlanetTemperatureMax = SMAXVALUE;
+            PlanetTemperatureMax = FMAXVALUE;
             PlanetTemperatureMin = MINVALUE;
-            StellarTemperatureMax = SMAXVALUE;
+            StellarTemperatureMax = FMAXVALUE;
             StellarTemperatureMin = MINVALUE;
-            StellarRadiusMax = BMAXVALUE;
+            StellarRadiusMax = FMAXVALUE;
             StellarRadiusMin = MINVALUE;
-            StellarMassMax = BMAXVALUE;
+            StellarMassMax = FMAXVALUE;
             StellarMassMin = MINVALUE;
-            StellarAgeMax = BMAXVALUE;
+            StellarAgeMax = FMAXVALUE;
             StellarAgeMin = MINVALUE;
-            StellarRotationVelocityMax = SMAXVALUE;
+            StellarRotationVelocityMax = FMAXVALUE;
             StellarRotationVelocityMin = MINVALUE;
-            StellarRotationPeriodMax = SMAXVALUE;
+            StellarRotationPeriodMax = FMAXVALUE;
             StellarRotationPeriodMin = MINVALUE;
-            DistanceMax = SMAXVALUE;
+            DistanceMax = FMAXVALUE;
             DistanceMin = MINVALUE;
+        }
+
+        public void AddCriteria(Inputs inputName, string inputValue)
+        {
+            UserInterface UI = new UserInterface();
+            ushort svalue;
+            float fvalue;
+            
+            switch (inputName)
+            {
+                case Inputs.planetname:
+                    PlanetName = inputValue;
+                    break;
+
+                case Inputs.hostname:
+                    HostName = inputValue;
+                    break;
+
+                case Inputs.discoverymethod:
+                    Discoverymethod = inputValue;
+                    break;
+
+                case Inputs.discoveryyearmin:
+                    if (UInt16.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out svalue))
+                        DiscoveryYearMin = svalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.discoveryyearmax:
+                    
+                    if (UInt16.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out svalue))
+                        DiscoveryYearMax = svalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.orbitalperiodmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        OrbitalPeriodMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.orbitalperiodmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        OrbitalPeriodMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.planetradiusmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetRadiusMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.planetradiusmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetRadiusMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.planetmassmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetMassMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.planetmassmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetMassMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.planettemperaturemin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetTemperatureMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.planettemperaturemax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        PlanetTemperatureMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.stellartemperaturemin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarTemperatureMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellartemperaturemax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarTemperatureMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.stellarradiusmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRadiusMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellarradiusmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRadiusMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.stellarmassmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarMassMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellarmassmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarMassMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.stellaragemin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarAgeMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellaragemax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarAgeMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.stellarrotationvelocitymin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRotationVelocityMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellarrotationvelocitymax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRotationVelocityMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellarrotationperiodmin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRotationPeriodMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.stellarrotationperiodmax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        StellarRotationPeriodMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+
+                case Inputs.distancemin:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        DistanceMin = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+                
+                case Inputs.distancemax:
+                    if (float.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out fvalue))
+                        DistanceMax = fvalue;
+                    else UI.InvalidCriteria();
+                    break;
+            } 
         }
     }
 }
