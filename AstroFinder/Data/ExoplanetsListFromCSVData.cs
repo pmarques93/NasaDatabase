@@ -45,6 +45,8 @@ namespace AstroFinder
                     }
                 }
             }
+
+
             // Returns a List of Exoplanets, skipping the first line
             // of the data file that corresponds to the column headers
             return
@@ -53,7 +55,19 @@ namespace AstroFinder
                 Select(p => new Exoplanet(
                                 p?[headersDic[HeadersOfInteress[0]]].Trim(),
                                 p?[headersDic[HeadersOfInteress[1]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[2]]].Trim())).
+                                p?[headersDic[HeadersOfInteress[2]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[3]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[4]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[5]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[6]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[7]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[8]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[9]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[10]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[11]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[12]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[13]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[14]]].Trim())).
                                 ToList();
         }
     }

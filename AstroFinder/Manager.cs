@@ -10,7 +10,8 @@ namespace AstroFinder
     /// </summary>
     public class Manager
     {
-        private FileReader fileReader;
+        // FILE VARIABLE //////////////////////////////////
+        //private FileReader fileReader;
    
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace AstroFinder
                         // Gets file path and reads the file
                         ReadFile(input);
                         // If it read a file, asks for information
-                        if (fileReader != null)
+                        //if (fileReader != null)
                             ChooseAnOption(input);
                         break;
 
@@ -62,7 +63,8 @@ namespace AstroFinder
 
                         break;
                     case "back":     
-                        fileReader = null;  
+                        // FILE VARIABLE //////////////////
+                        //fileReader = null;  
                         break;
                     default:
                         Program.UI.NotValid("Not a valid option");
@@ -77,7 +79,6 @@ namespace AstroFinder
         /// <param name="input">Receives string from user input</param>
         private void SearchPlanet(string input)
         {
-            List<Exoplanet> exoplanets = fileReader.CSVtoList();
             ISearchField exoplanetCriteria = new ExoplanetCriteria();
             do
             {
@@ -128,7 +129,8 @@ namespace AstroFinder
 
                 try
                 {
-                    fileReader = new FileReader(input);
+                    // FILE READER VARIABLE ////////////////////////
+                    //fileReader = new FileReader(input);
                     Program.UI.FileOpened();
                     break;
                 }

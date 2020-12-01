@@ -25,7 +25,9 @@ namespace AstroFinder
             Manager manager = new Manager();
             manager.Run();*/
 
-            string[] headers = new string[] { "pl_name", "hostname", "discoverymethod" };
+            string[] headers = new string[] { "pl_name", "hostname", "discoverymethod",
+            "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt",
+            "st_teff", "st_rad", "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
             ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
             const string filePath = "planets.csv";
 
@@ -37,14 +39,14 @@ namespace AstroFinder
 
             string planetName = null;
             string hostName = null;
-            string discoverymethod = "Imaging";
+            string discoverymethod = null;
 
             IEnumerable<Exoplanet> planetas = v.
                                         Where( // Checks for planet name
-                                                p => p.PlanetName == planetName
+                                                p => p.Name == planetName
                                                 || planetName == null
                                                 // Checks for host name
-                                                && p.HostName == hostName
+                                                && p.ParentStar.Name == hostName
                                                 || hostName == null
                                                 // checks for discovery method
                                                 && p.DiscoveryMethod == discoverymethod
