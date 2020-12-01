@@ -26,12 +26,12 @@ namespace AstroFinder
             manager.Run();*/
 
             string[] headers = new string[] { "pl_name", "hostname", "discoverymethod" };
+            ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
             const string filePath = "planets.csv";
-
 
             CSVFileDataReader fileDataReader = new CSVFileDataReader(filePath);
 
-            ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
+
 
             List<Exoplanet> v = get.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
 
@@ -53,7 +53,7 @@ namespace AstroFinder
 
             foreach (Exoplanet planet in planetas)
             {
-                // Console.WriteLine(planet);
+                Console.WriteLine(planet);
             }
 
 

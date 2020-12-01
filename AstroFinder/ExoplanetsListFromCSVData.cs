@@ -6,60 +6,55 @@ namespace AstroFinder
 {
     public class ExoplanetsListFromCSVData : ListFromCSVData
     {
-        public ExoplanetsListFromCSVData(string[] headers) : base(headers)
-        {
-
-        }
+        public ExoplanetsListFromCSVData(string[] headers) : base(headers) { }
 
         public new ICollection GetCollection(string[] data)
         {
+            // Retrieves the raw data from the CSV file
             ICollection rawData = base.GetCollection(data);
 
+            // Converts the raw data into queryable Data
+            // that makes it possible to make LINQ queries operations with it
             IEnumerable<string[]> queryableData = rawData.OfType<string[]>();
 
+            // Dictionary that contain Column headers linked to their index
+            // in the file
+            // For instance: <pl_name, 0>
+            // This implies that the column header named 'pl_name'
+            // is the column of index 0 in the file
             Dictionary<string, int> headersDic = new Dictionary<string, int>();
 
-            string[] orderedHeaders = new string[queryableData.ElementAt(0).Count()];
-
+            // Loops through the queryableData by columns
             for (int i = 0; i < queryableData.ElementAt(0).Count(); i++)
             {
+                // Gets the element of index 'i' of the line 0
+                // This means getting the column header of index 'i'
                 string header = queryableData.ElementAt(0)[i];
 
-                for (int j = 0; j < Headers.Length; j++)
+                // Loops through all the headers of interess
+                for (int j = 0; j < HeadersOfInteress.Length; j++)
                 {
-                    if (Headers[j] == header.Trim())
+                    // Checks if a certain header of interess of index 'j'
+                    // matches the header on the current column of the file
+                    if (HeadersOfInteress[j] == header.Trim())
                     {
-                        headersDic.Add(Headers[j], i);
+                        // If the column header matches a header of interess
+                        // the header is added to the dictionary as a KEY
+                        // its value will be the header column index on the file
+                        headersDic.Add(HeadersOfInteress[j], i);
                     }
-                    // System.Console.WriteLine("\n");
                 }
             }
-
-            List<string[]> listOfHeaders = new List<string[]>(Headers.Length);
-
-            foreach (var v in queryableData)
-            {
-                listOfHeaders.Add(v);
-            }
-
-            // This is here to make some tests ///////////////////////////
-            List<Exoplanet> planets1 = new List<Exoplanet>();
-            for (int i = 0; i < listOfHeaders.Count; i++)
-            {
-                planets1.Add(new Exoplanet(listOfHeaders[i]));
-            }
-            foreach (Exoplanet planet in planets1)
-            {
-                System.Console.WriteLine(planet);
-            }
-
+            // Returns a List of Exoplanets, skipping the first line
+            // of the data file that corresponds to the column headers
             return
                 queryableData.
                 Skip(1).
-                Select(p => new Exoplanet(p?[headersDic[Headers[0]]].Trim(),
-                                            p?[headersDic[Headers[1]]].Trim(),
-                                            p?[headersDic[Headers[2]]].Trim())).
-                                            ToList();
+                Select(p => new Exoplanet(
+                                p?[headersDic[HeadersOfInteress[0]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[1]]].Trim(),
+                                p?[headersDic[HeadersOfInteress[2]]].Trim())).
+                                ToList();
         }
     }
 }
