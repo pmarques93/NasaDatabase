@@ -18,6 +18,25 @@ namespace AstroFinder
         public float StellarRotationPeriod { get; }
         public float Distance { get; }
 
+        public Exoplanet(string name, string hostName)
+        {
+            PlanetName = name;
+            HostName = hostName;
+            DiscoveryMethod = default;
+            DiscoveryYear = default;
+            OrbitalPeriod = default;
+            PlanetRadius = default;
+            PlanetMass = default;
+            PlanetTemperature = default;
+            StellarTemperature = default;
+            StellarRadius = default;
+            StellarMass = default;
+            StellarAge = default;
+            StellarRotationVelocity = default;
+            StellarRotationPeriod = default;
+            Distance = default;
+        }
+
         public Exoplanet(string name, string hostName, string discoveryMethod,
             ushort discoveryYear, float orbitalPeriod, float planetRadius,
             float planetMass, float planetTemperature, float stellarTemperature,
@@ -41,5 +60,10 @@ namespace AstroFinder
             StellarRotationPeriod = stellarRotationPeriod;
             Distance = distance;
         }
+
+        public override string ToString()
+        {
+            return $"Name: {PlanetName} | HostName{HostName}";
+        }
     }
-}   
+}

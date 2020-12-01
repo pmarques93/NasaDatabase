@@ -2,9 +2,8 @@ namespace AstroFinder
 {
     public interface IFileDataReader
     {
-        string[] FileData { get; set; }
+        string[] FileData { get; }
         string Path { get; }
-        bool TryGetDataFromFile();
-        bool TryOpenFile(string _path, out string path);
+        bool TryGetDataFromFile(out string[] fileData);
     }
 }

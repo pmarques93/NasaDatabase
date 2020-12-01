@@ -44,8 +44,8 @@ namespace AstroFinder
             return
                 queryableData.
                 Skip(1).
-                Select(p => new Exoplanet(p?[headersDic["pl_name"]].Trim(' '),
-                                            p?[headersDic["hostname"]].Trim(' '))).
+                Select(p => new Exoplanet(p?[headersDic[Headers[0]]].Trim(' '),
+                                            p?[headersDic[Headers[1]]].Trim(' '))).
                                             ToList();
         }
     }

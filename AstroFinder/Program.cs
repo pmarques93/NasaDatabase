@@ -10,15 +10,21 @@ namespace AstroFinder
         {
             // Manager manager = new Manager();
             // manager.Run();
-            CSVFileDataReader fileDataReader = new CSVFileDataReader("planets.csv");
+            string[] headers = new string[] { "pl_name", "hostname" };
+            const string filePath = "planets.csv";
 
-            IGetCollectionFromData get = new ExoplanetsListFromCSVData(new string[] { "pl_name", "hostname" });
+
+            CSVFileDataReader fileDataReader = new CSVFileDataReader(filePath);
+
+            ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
+
+            Exoplanet planet = new Exoplanet(name: "pudim", hostName: "hey");
 
             var v = get.GetCollection(fileDataReader.FileData);
 
-            foreach (string[] p in v)
+            foreach (Exoplanet p in v)
             {
-                System.Console.WriteLine(p[0]);
+                System.Console.WriteLine(p);
             }
 
         }
