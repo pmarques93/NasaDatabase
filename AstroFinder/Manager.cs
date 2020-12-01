@@ -5,24 +5,24 @@ using System.Reflection;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Class responsible for running the application
+    /// </summary>
     public class Manager
     {
-        private UserInterface UI;
-
         private FileReader fileReader;
-        
-        public Manager()
-        {
-            UI = new UserInterface();
-        }
+   
 
+        /// <summary>
+        /// Method responsible for starting the main loop
+        /// </summary>
         public void Run()
         {
             string input;
             do
             {
-                UI.ChooseAnOptionNoFile();
-                switch (input = UI.GetInput())
+                Program.UI.ChooseAnOptionNoFile();
+                switch (input = Program.UI.GetInput())
                 {
                     case "new file":
                         // Gets file path and reads the file
@@ -35,21 +35,25 @@ namespace AstroFinder
                     case "quit":
                         break;
                     default:
-                        UI.NotValid();
+                        Program.UI.NotValid("Not a valid option");
                         break;
                 } 
                 
             }while (input != "quit");
-            UI.Goodbye();
+            Program.UI.Goodbye();
         }
 
+        /// <summary>
+        /// Method that asks the user for an option to run the application
+        /// </summary>
+        /// <param name="input">Receives string from user input</param>
         private void ChooseAnOption(string input)
         {
             do
             {
                 // Player chooses an option
-                UI.ChooseAnOption();
-                switch (input = UI.GetInput())
+                Program.UI.ChooseAnOption();
+                switch (input = Program.UI.GetInput())
                 {
                     case "planet":
                         SearchPlanet(input);
@@ -61,13 +65,16 @@ namespace AstroFinder
                         fileReader = null;  
                         break;
                     default:
-                        UI.NotValid();
+                        Program.UI.NotValid("Not a valid option");
                         break;
                 }
             } while (input != "back");
         }
 
-        // Planet data to search
+        /// <summary>
+        /// Method responsible for searching planets in a list
+        /// </summary>
+        /// <param name="input">Receives string from user input</param>
         private void SearchPlanet(string input)
         {
             List<Exoplanet> exoplanets = fileReader.CSVtoList();
@@ -75,8 +82,8 @@ namespace AstroFinder
             do
             {
                 // Shows information and asks for input
-                UI.PossibleCriteria(exoplanetCriteria);
-                input = UI.GetInput();
+                Program.UI.PossibleCriteria(exoplanetCriteria);
+                input = Program.UI.GetInput();
 
                 // If user types search, it will search for the criteria
                 if (input == "search")
@@ -96,37 +103,39 @@ namespace AstroFinder
                         exoplanetCriteria.AddCriteria(inputEnum, userValue);
                     } catch (IndexOutOfRangeException)
                     {
-                        UI.InvalidCriteria();
+                        Program.UI.NotValid("Invalid criteria");
                     }
                 }
                 else if (input != "back")
                 {
-                    UI.InvalidCriteria();
+                    Program.UI.NotValid("Invalid criteria");
                 }
 
             } while (input != "back");
         }
 
-
-        // Reads player input and adds a file's path
+        /// <summary>
+        /// Method responsible for reading a file
+        /// </summary>
+        /// <param name="input">Receives string from user input</param>
         private void ReadFile(string input)
         {
             do
             {
                 // Shows information and asks for input
-                UI.InitialInformation();
-                input = UI.GetInput();
+                Program.UI.AskForAFilePath();
+                input = Program.UI.GetInput();
 
                 try
                 {
                     fileReader = new FileReader(input);
-                    UI.FileOpened();
+                    Program.UI.FileOpened();
                     break;
                 }
                 catch (FileNotFoundException)
                 {
                     if (input != "back")
-                        UI.InvalidPath();
+                        Program.UI.InvalidPath();
                 }    
             } while (input != "back");
         }

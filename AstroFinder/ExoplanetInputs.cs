@@ -1,6 +1,8 @@
 namespace AstroFinder
 {
-
+    /// <summary>
+    /// Enum with Exoplanet criteria inputs
+    /// </summary>
     public enum ExoplanetInputs
     {
         planetname,

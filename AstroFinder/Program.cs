@@ -4,12 +4,27 @@ using System.Linq;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Class that contains Main() method
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// A static reference to a IUserInterface
+        /// </summary>
+        public static IUserInterface UI { get; private set; }
+
+        /// <summary>
+        /// Application starts from this method
+        /// </summary>
+        /// <param name="args">Command-Line options</param>
         static void Main(string[] args)
         {
-            // Manager manager = new Manager();
-            // manager.Run();
+            UI = new ConsoleUserInterface();
+            /*
+            Manager manager = new Manager();
+            manager.Run();*/
+
             string[] headers = new string[] { "pl_name", "hostname", "discoverymethod" };
             const string filePath = "planets.csv";
 
@@ -46,7 +61,6 @@ namespace AstroFinder
             // {
             //     System.Console.WriteLine(p);
             // }
-
         }
     }
 }

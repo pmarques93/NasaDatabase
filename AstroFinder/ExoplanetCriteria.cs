@@ -3,6 +3,10 @@ using System;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Class that inherits from SearchField
+    /// This class has Exoplanet searchable criteria
+    /// </summary>
     public class ExoplanetCriteria: SearchField
     {
         private const byte MINVALUE = 0;
@@ -38,6 +42,9 @@ namespace AstroFinder
         private float distanceMax;
 
         #region Properties
+        /// <summary>
+        /// DiscoveryYearMin property
+        /// </summary>
         public ushort DiscoveryYearMin 
         {
             get => discoveryYearMin;
@@ -49,6 +56,9 @@ namespace AstroFinder
                     discoveryYearMin = discoveryYearMax;
             }
         }
+        /// <summary>
+        /// DiscoveryYearMax property
+        /// </summary>
         public ushort DiscoveryYearMax 
         {
             get => discoveryYearMax;
@@ -60,6 +70,9 @@ namespace AstroFinder
                     discoveryYearMax = discoveryYearMin;
             }
         }
+        /// <summary>
+        /// OrbitalPeriodMin property
+        /// </summary>
         public float OrbitalPeriodMin
         {
             get => orbitalPeriodMin;
@@ -71,6 +84,9 @@ namespace AstroFinder
                     orbitalPeriodMin = orbitalPeriodMax;
             }
         }
+        /// <summary>
+        /// Property
+        /// </summary>
         public float OrbitalPeriodMax
         {
             get => orbitalPeriodMax;
@@ -82,6 +98,9 @@ namespace AstroFinder
                     orbitalPeriodMax = orbitalPeriodMin;
             }
         }
+        /// <summary>
+        /// PlanetRadiusMin property
+        /// </summary>
         public float PlanetRadiusMin
         {
             get => planetRadiusMin;
@@ -93,6 +112,9 @@ namespace AstroFinder
                     planetRadiusMin = planetRadiusMax;
             }
         }
+        /// <summary>
+        /// PlanetRadiusMax property
+        /// </summary>
         public float PlanetRadiusMax
         {
             get => planetRadiusMax;
@@ -104,6 +126,9 @@ namespace AstroFinder
                     planetRadiusMax = planetRadiusMin;
             }
         }
+        /// <summary>
+        /// PlanetMassMin property
+        /// </summary>
         public float PlanetMassMin
         {
             get => planetMassMin;
@@ -115,6 +140,9 @@ namespace AstroFinder
                     planetMassMin = planetMassMax;
             }
         }
+        /// <summary>
+        /// PlanetMassMax property
+        /// </summary>
         public float PlanetMassMax
         {
             get => planetMassMax;
@@ -126,6 +154,9 @@ namespace AstroFinder
                     planetMassMax = planetMassMin;
             }
         }
+        /// <summary>
+        /// PlanetTemperatureMin property
+        /// </summary>
         public float PlanetTemperatureMin
         {
             get => planetTemperatureMin;
@@ -137,6 +168,9 @@ namespace AstroFinder
                     planetTemperatureMin = planetTemperatureMax;
             }
         }
+        /// <summary>
+        /// PlanetTemperatureMax property
+        /// </summary>
         public float PlanetTemperatureMax
         {
             get => planetTemperatureMax;
@@ -148,6 +182,9 @@ namespace AstroFinder
                     planetTemperatureMax = planetTemperatureMin;
             }
         }
+        /// <summary>
+        /// StellarTemperatureMin property
+        /// </summary>
         public float StellarTemperatureMin
         {
             get => stellarTemperatureMin;
@@ -159,6 +196,9 @@ namespace AstroFinder
                     stellarTemperatureMin = stellarTemperatureMax;
             }
         }
+        /// <summary>
+        /// StellarTemperatureMax property
+        /// </summary>
         public float StellarTemperatureMax
         {
             get => stellarTemperatureMax;
@@ -170,6 +210,9 @@ namespace AstroFinder
                     stellarTemperatureMax = stellarTemperatureMin;
             }
         }
+        /// <summary>
+        /// StellarRadiusMin property
+        /// </summary>
         public float StellarRadiusMin
         {
             get => stellarRadiusMin;
@@ -181,6 +224,9 @@ namespace AstroFinder
                     stellarRadiusMin = stellarRadiusMax;
             }
         }
+        /// <summary>
+        /// StellarRadiusMax property
+        /// </summary>
         public float StellarRadiusMax
         {
             get => stellarRadiusMax;
@@ -192,6 +238,9 @@ namespace AstroFinder
                     stellarRadiusMax = stellarRadiusMin;
             }
         }
+        /// <summary>
+        /// StellarMassMin property
+        /// </summary>
         public float StellarMassMin
         {
             get => stellarMassMin;
@@ -203,6 +252,9 @@ namespace AstroFinder
                     stellarMassMin = stellarMassMax;
             }
         }
+        /// <summary>
+        /// StellarMassMax property
+        /// </summary>
         public float StellarMassMax
         {
             get => stellarMassMax;
@@ -214,6 +266,9 @@ namespace AstroFinder
                     stellarMassMax = stellarMassMin;
             }
         }
+        /// <summary>
+        /// StellarAgeMin property
+        /// </summary>
         public float StellarAgeMin
         {
             get => stellarAgeMin;
@@ -225,6 +280,9 @@ namespace AstroFinder
                     stellarAgeMin = stellarAgeMax;
             }
         }
+        /// <summary>
+        /// StellarAgeMax property
+        /// </summary>
         public float StellarAgeMax
         {
             get => stellarAgeMax;
@@ -236,6 +294,9 @@ namespace AstroFinder
                     stellarAgeMax = stellarAgeMin;
             }
         }
+        /// <summary>
+        /// StellarRotationVelocityMin property
+        /// </summary>
         public float StellarRotationVelocityMin
         {
             get => stellarRotationVelocityMin;
@@ -247,6 +308,9 @@ namespace AstroFinder
                     stellarRotationVelocityMin = stellarRotationVelocityMax;
             }
         }
+        /// <summary>
+        /// StellarRotationVelocityMax property
+        /// </summary>
         public float StellarRotationVelocityMax
         {
             get => stellarRotationVelocityMax;
@@ -258,6 +322,9 @@ namespace AstroFinder
                     stellarRotationVelocityMax = stellarRotationVelocityMin;
             }
         }
+        /// <summary>
+        /// StellarRotationPeriodMin property
+        /// </summary>
         public float StellarRotationPeriodMin
         {
             get => stellarRotationPeriodMin;
@@ -269,6 +336,9 @@ namespace AstroFinder
                     stellarRotationPeriodMin = stellarRotationPeriodMax;
             }
         }
+        /// <summary>
+        /// StellarRotationPeriodMax property
+        /// </summary>
         public float StellarRotationPeriodMax
         {
             get => stellarRotationPeriodMax;
@@ -280,6 +350,9 @@ namespace AstroFinder
                     stellarRotationPeriodMax = stellarRotationPeriodMin;
             }
         }
+        /// <summary>
+        /// DistanceMin property
+        /// </summary>
         public float DistanceMin
         {
             get => distanceMin;
@@ -291,6 +364,9 @@ namespace AstroFinder
                     distanceMin = distanceMax;
             }
         }
+        /// <summary>
+        /// DistanceMax property
+        /// </summary>
         public float DistanceMax
         {
             get => distanceMax;
@@ -304,6 +380,10 @@ namespace AstroFinder
         }
         #endregion
 
+        /// <summary>
+        /// ExoplanetCriteria constructor
+        /// Gives default values to the class variables
+        /// </summary>
         public ExoplanetCriteria()
         {
             PlanetName = "everything";
@@ -335,12 +415,16 @@ namespace AstroFinder
             DistanceMin = MINVALUE;
         }
 
+        /// <summary>
+        /// Adds/Converts received criteria
+        /// </summary>
+        /// <param name="inputName">Receives a kind of Enum</param>
+        /// <param name="inputValue">Receives a string with the user's input</param>
         public override void AddCriteria(Enum inputName, string inputValue)
         {
-            UserInterface UI = new UserInterface();
             ushort svalue;
             float fvalue;
-            
+            // Converts inputValue and sets a property
             switch (inputName)
             {
                 case ExoplanetInputs.planetname:
@@ -359,7 +443,7 @@ namespace AstroFinder
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMin = svalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.discoveryyearmax:
@@ -367,161 +451,161 @@ namespace AstroFinder
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMax = svalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.orbitalperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.orbitalperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.planetradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.planetradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.planetmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.planetmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.planettemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.planettemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.stellartemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellartemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.stellarradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellarradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.stellarmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellarmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.stellaragemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellaragemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.stellarrotationvelocitymin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellarrotationvelocitymax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellarrotationperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.stellarrotationperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
 
                 case ExoplanetInputs.distancemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMin = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
                 
                 case ExoplanetInputs.distancemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMax = fvalue;
-                    else UI.InvalidCriteria();
+                    else Program.UI.NotValid("Invalid criteria");
                     break;
             } 
         }

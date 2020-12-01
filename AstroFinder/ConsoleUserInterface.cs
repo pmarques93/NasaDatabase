@@ -3,26 +3,32 @@ using System.Reflection;
 
 namespace AstroFinder
 {
-    public class UserInterface
+    /// <summary>
+    /// Class that implements IUserInterface
+    /// </summary>
+    public class ConsoleUserInterface : IUserInterface
     {
-        private const string PLNAME = "pl_name";
-        private const string HONAME = "hostname";
         private const string PLANET = "planet";
         private const string STAR = "star";
         private const string NEWFILE = "new file";
         private const string QUIT = "quit";
         private const string BACK = "back";
-        private const string SEARCH = "search";
-        private const int x = -7;
 
+        /// <summary>
+        /// Asks for input
+        /// </summary>
+        /// <returns>Returns a string with the input</returns>
         public string GetInput() => Console.ReadLine().ToLower();
 
-        public void Print(object obj) =>
-            Console.WriteLine(obj);
-
-        public void InitialInformation() =>
+        /// <summary>
+        /// Prints a message asking for a file path
+        /// </summary>
+        public void AskForAFilePath() =>
             Console.WriteLine("\nInsert file path");
 
+        /// <summary>
+        /// Prints an invalid path message
+        /// </summary>
         public void InvalidPath()
         {
             Console.WriteLine("\n -----------------------------------");
@@ -31,36 +37,47 @@ namespace AstroFinder
             Console.WriteLine(" -----------------------------------");
         }
 
+        /// <summary>
+        /// Prints a message if the file opened successfully
+        /// </summary>
         public void FileOpened()
         {
             Console.WriteLine("\nFile opened successfully");
         }
 
+        /// <summary>
+        /// Prints a message if the file didn't open
+        /// </summary>
         public void ChooseAnOptionNoFile()
         {
             Console.WriteLine("\nChoose an option:");
             Console.WriteLine($"\n{NEWFILE} | {QUIT}");
         }
 
+        /// <summary>
+        /// Prints initial inputs
+        /// </summary>
         public void ChooseAnOption()
         {
             Console.WriteLine("\nChoose an option:");
             Console.WriteLine($"{PLANET} | {STAR} | {BACK}");
         }
 
-        public void TopPlanetInformation()
-        {
-            Console.WriteLine($"\n{PLNAME,x}{HONAME,x}");
-            Console.WriteLine("\n-------------------------\n");
-        }
-
-        public void NotValid()
+        /// <summary>
+        /// Prints a message when the player inputs
+        /// </summary>
+        /// <param name="message">Message to print</param>
+        public void NotValid(string message)
         {
             Console.WriteLine("\n ------------------------");
-            Console.WriteLine("|   Not a valid option   |");
+            Console.WriteLine($"   {message}   ");
             Console.WriteLine(" ------------------------");
-        }        
+        }
 
+        /// <summary>
+        /// Prints possible criteria of an ISearchField
+        /// </summary>
+        /// <param name="searchCriteria">ISearchField variable</param>
         public void PossibleCriteria(ISearchField searchCriteria)
         {
             // Gets proprties in received type
@@ -84,13 +101,9 @@ namespace AstroFinder
             Console.WriteLine("----------------------------------------");
         }
 
-        public void InvalidCriteria()
-        {
-            Console.WriteLine("\n ------------------------");
-            Console.WriteLine("|    Invalid criteria    |");
-            Console.WriteLine(" ------------------------");
-        }
-
+        /// <summary>
+        /// Prints a goodbye message
+        /// </summary>
         public void Goodbye() =>
             Console.WriteLine("\nGoodbye");
     }
