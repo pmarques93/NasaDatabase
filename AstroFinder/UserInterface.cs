@@ -61,7 +61,7 @@ namespace AstroFinder
             Console.WriteLine(" ------------------------");
         }        
 
-        public void PossibleCriteria(SearchField searchCriteria)
+        public void PossibleCriteria(ISearchField searchCriteria)
         {
             // Gets proprties in received type
             Type type = searchCriteria.GetType();

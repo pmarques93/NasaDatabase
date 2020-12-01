@@ -75,7 +75,7 @@ namespace AstroFinder
             do
             {
                 // Shows information and asks for input
-                UI.PossibleCriteria(exoplanetCriteria as SearchField);
+                UI.PossibleCriteria(exoplanetCriteria);
                 input = UI.GetInput();
 
                 // If user types search, it will search for the criteria
