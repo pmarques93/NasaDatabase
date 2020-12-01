@@ -1,7 +1,7 @@
 namespace AstroFinder
 {
 
-    public enum Inputs
+    public enum ExoplanetInputs
     {
         planetname,
         hostname,

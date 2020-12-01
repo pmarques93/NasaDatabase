@@ -3,12 +3,11 @@ using System;
 
 namespace AstroFinder
 {
-    public class SearchCriteria
+    public class ExoplanetCriteria: SearchField
     {
         private const byte MINVALUE = 0;
         private const ushort CURRENTYEAR = 2020;
         private const float FMAXVALUE = 100000000.0f;
-
 
         public string PlanetName {get; set;}
         public string HostName {get; set;}
@@ -305,7 +304,7 @@ namespace AstroFinder
         }
         #endregion
 
-        public SearchCriteria()
+        public ExoplanetCriteria()
         {
             PlanetName = "everything";
             HostName = "everything";
@@ -336,7 +335,7 @@ namespace AstroFinder
             DistanceMin = MINVALUE;
         }
 
-        public void AddCriteria(Inputs inputName, string inputValue)
+        public override void AddCriteria(Enum inputName, string inputValue)
         {
             UserInterface UI = new UserInterface();
             ushort svalue;
@@ -344,26 +343,26 @@ namespace AstroFinder
             
             switch (inputName)
             {
-                case Inputs.planetname:
+                case ExoplanetInputs.planetname:
                     PlanetName = inputValue;
                     break;
 
-                case Inputs.hostname:
+                case ExoplanetInputs.hostname:
                     HostName = inputValue;
                     break;
 
-                case Inputs.discoverymethod:
+                case ExoplanetInputs.discoverymethod:
                     DiscoveryMethod = inputValue;
                     break;
 
-                case Inputs.discoveryyearmin:
+                case ExoplanetInputs.discoveryyearmin:
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMin = svalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.discoveryyearmax:
+                case ExoplanetInputs.discoveryyearmax:
                     
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
@@ -371,154 +370,154 @@ namespace AstroFinder
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.orbitalperiodmin:
+                case ExoplanetInputs.orbitalperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.orbitalperiodmax:
+                case ExoplanetInputs.orbitalperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.planetradiusmin:
+                case ExoplanetInputs.planetradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.planetradiusmax:
+                case ExoplanetInputs.planetradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.planetmassmin:
+                case ExoplanetInputs.planetmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.planetmassmax:
+                case ExoplanetInputs.planetmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.planettemperaturemin:
+                case ExoplanetInputs.planettemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.planettemperaturemax:
+                case ExoplanetInputs.planettemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.stellartemperaturemin:
+                case ExoplanetInputs.stellartemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellartemperaturemax:
+                case ExoplanetInputs.stellartemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.stellarradiusmin:
+                case ExoplanetInputs.stellarradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellarradiusmax:
+                case ExoplanetInputs.stellarradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.stellarmassmin:
+                case ExoplanetInputs.stellarmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellarmassmax:
+                case ExoplanetInputs.stellarmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.stellaragemin:
+                case ExoplanetInputs.stellaragemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellaragemax:
+                case ExoplanetInputs.stellaragemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.stellarrotationvelocitymin:
+                case ExoplanetInputs.stellarrotationvelocitymin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellarrotationvelocitymax:
+                case ExoplanetInputs.stellarrotationvelocitymax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellarrotationperiodmin:
+                case ExoplanetInputs.stellarrotationperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.stellarrotationperiodmax:
+                case ExoplanetInputs.stellarrotationperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMax = fvalue;
                     else UI.InvalidCriteria();
                     break;
 
-                case Inputs.distancemin:
+                case ExoplanetInputs.distancemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMin = fvalue;
                     else UI.InvalidCriteria();
                     break;
                 
-                case Inputs.distancemax:
+                case ExoplanetInputs.distancemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMax = fvalue;
