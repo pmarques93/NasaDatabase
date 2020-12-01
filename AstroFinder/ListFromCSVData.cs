@@ -6,10 +6,10 @@ namespace AstroFinder
 {
     public class ListFromCSVData : CollectionFromCSVData
     {
-        protected virtual string[] Headers { get; }
+        protected virtual string[] HeadersOfInteress { get; }
         public ListFromCSVData(string[] headers)
         {
-            Headers = headers;
+            HeadersOfInteress = headers;
         }
 
         public override ICollection GetCollection(string[] data)
