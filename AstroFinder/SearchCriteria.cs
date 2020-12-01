@@ -12,7 +12,7 @@ namespace AstroFinder
 
         public string PlanetName {get; set;}
         public string HostName {get; set;}
-        public string Discoverymethod {get; set;}
+        public string DiscoveryMethod {get; set;}
         private ushort discoveryYearMin;
         private ushort discoveryYearMax;
         private float orbitalPeriodMin;
@@ -309,7 +309,7 @@ namespace AstroFinder
         {
             PlanetName = "everything";
             HostName = "everything";
-            Discoverymethod = "everything";
+            DiscoveryMethod = "everything";
             DiscoveryYearMax = CURRENTYEAR;
             DiscoveryYearMin = MINVALUE;
             OrbitalPeriodMax = FMAXVALUE;
@@ -353,7 +353,7 @@ namespace AstroFinder
                     break;
 
                 case Inputs.discoverymethod:
-                    Discoverymethod = inputValue;
+                    DiscoveryMethod = inputValue;
                     break;
 
                 case Inputs.discoveryyearmin:
