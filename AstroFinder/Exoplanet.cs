@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+
 namespace AstroFinder
 {
     public struct Exoplanet
@@ -18,11 +22,30 @@ namespace AstroFinder
         public float StellarRotationPeriod { get; }
         public float Distance { get; }
 
-        public Exoplanet(string name, string hostName)
+        public Exoplanet(string[] fields)
+        {
+            PlanetName              = fields.Length > 0 ? fields?[0] : default;
+            HostName                = fields.Length > 1 ? fields?[1] : default;
+            DiscoveryMethod         = fields.Length > 2 ? fields?[2] : default;
+            DiscoveryYear           = default;
+            OrbitalPeriod           = default;
+            PlanetRadius            = default;
+            PlanetMass              = default;
+            PlanetTemperature       = default;
+            StellarTemperature      = default;
+            StellarRadius           = default;
+            StellarMass             = default;
+            StellarAge              = default;
+            StellarRotationVelocity = default;
+            StellarRotationPeriod   = default;
+            Distance                = default;
+        }
+
+        public Exoplanet(string name, string hostName, string discoveryMethod)
         {
             PlanetName = name;
             HostName = hostName;
-            DiscoveryMethod = default;
+            DiscoveryMethod = discoveryMethod;
             DiscoveryYear = default;
             OrbitalPeriod = default;
             PlanetRadius = default;
@@ -63,7 +86,10 @@ namespace AstroFinder
 
         public override string ToString()
         {
-            return $"Name: {PlanetName} | HostName{HostName}";
+            return $"Name:              {PlanetName}\n" +
+                        $"HostName:          {HostName}\n" +
+                        $"DiscoveryMethod :  {DiscoveryMethod}\n" +
+                    "-------------------------------------------\n\n";
         }
     }
 }

@@ -29,23 +29,36 @@ namespace AstroFinder
                 {
                     if (Headers[j] == header.Trim())
                     {
-                       System.Console.WriteLine($"Header[{j}] - {Headers[j]} is on Column {i}");
-                       headersDic.Add(Headers[j],i);
+                        headersDic.Add(Headers[j], i);
                     }
                     // System.Console.WriteLine("\n");
                 }
             }
 
-            foreach (var v in headersDic)
+            List<string[]> listOfHeaders = new List<string[]>(Headers.Length);
+
+            foreach (var v in queryableData)
             {
-                System.Console.WriteLine($"Key: {v.Key}, Value: {v.Value}");
+                listOfHeaders.Add(v);
+            }
+
+            // This is here to make some tests ///////////////////////////
+            List<Exoplanet> planets1 = new List<Exoplanet>();
+            for (int i = 0; i < listOfHeaders.Count; i++)
+            {
+                planets1.Add(new Exoplanet(listOfHeaders[i]));
+            }
+            foreach (Exoplanet planet in planets1)
+            {
+                System.Console.WriteLine(planet);
             }
 
             return
                 queryableData.
                 Skip(1).
-                Select(p => new Exoplanet(p?[headersDic[Headers[0]]].Trim(' '),
-                                            p?[headersDic[Headers[1]]].Trim(' '))).
+                Select(p => new Exoplanet(p?[headersDic[Headers[0]]].Trim(),
+                                            p?[headersDic[Headers[1]]].Trim(),
+                                            p?[headersDic[Headers[2]]].Trim())).
                                             ToList();
         }
     }

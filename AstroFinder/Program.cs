@@ -10,7 +10,7 @@ namespace AstroFinder
         {
             // Manager manager = new Manager();
             // manager.Run();
-            string[] headers = new string[] { "pl_name", "hostname" };
+            string[] headers = new string[] { "pl_name", "hostname", "discoverymethod" };
             const string filePath = "planets.csv";
 
 
@@ -18,14 +18,34 @@ namespace AstroFinder
 
             ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
 
-            Exoplanet planet = new Exoplanet(name: "pudim", hostName: "hey");
+            List<Exoplanet> v = get.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
 
-            var v = get.GetCollection(fileDataReader.FileData);
+            string planetName = null;
+            string hostName = null;
+            string discoverymethod = "Imaging";
 
-            foreach (Exoplanet p in v)
+            IEnumerable<Exoplanet> planetas = v.
+                                        Where( // Checks for planet name
+                                                p => p.PlanetName == planetName
+                                                || planetName == null
+                                                // Checks for host name
+                                                && p.HostName == hostName
+                                                || hostName == null
+                                                // checks for discovery method
+                                                && p.DiscoveryMethod == discoverymethod
+                                                || discoverymethod == null).
+                                        Select(p => p);
+
+            foreach (Exoplanet planet in planetas)
             {
-                System.Console.WriteLine(p);
+                // Console.WriteLine(planet);
             }
+
+
+            // foreach (Exoplanet p in v)
+            // {
+            //     System.Console.WriteLine(p);
+            // }
 
         }
     }

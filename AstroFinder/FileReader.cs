@@ -62,7 +62,8 @@ namespace AstroFinder
             return
                 planets.
                 Select(p => new Exoplanet(p[headers["pl_name"]].Trim(' '),
-                                            p[headers["hostname"]].Trim(' '))).
+                                            p[headers["hostname"]].Trim(' '),
+                                            p[headers["discoverymethod "]].Trim())).
                                             ToList();
         }
     }
