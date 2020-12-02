@@ -25,23 +25,34 @@ namespace AstroFinder
             Manager manager = new Manager();
             manager.Run();*/
 
-            string[] headers = new string[] { "pl_name", "hostname", "discoverymethod",
-            "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt",
-            "st_teff", "st_rad", "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
-            ExoplanetsListFromCSVData get = new ExoplanetsListFromCSVData(headers);
-            const string filePath = "planets.csv";
 
+            const string filePath = "planets.csv";
             CSVFileDataReader fileDataReader = new CSVFileDataReader(filePath);
 
+            string[] starHeaders = new string[] { "hostname", "st_teff", "st_rad",
+                "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
+            StarsListFromCSVData getStars = new StarsListFromCSVData(starHeaders);
+            List<Star> stars = getStars.GetCollection(fileDataReader.FileData) as List<Star>;
+
+            string[] planetHeaders = new string[] { "pl_name", "hostname",
+                "discoverymethod", "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt"};
+            ExoplanetsListFromCSVData getPlanets = new ExoplanetsListFromCSVData(planetHeaders);
+            List<Exoplanet> planets = getPlanets.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
 
 
-            List<Exoplanet> v = get.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
-
-            string planetName = null;
+            // temp info
+            string planetName = "11 Com B";
             string hostName = null;
             string discoverymethod = null;
+            ushort? discoveryYear = null;
 
-            IEnumerable<Exoplanet> planetas = v.
+
+            // n apagar
+            byte numResultsToShow = 2; // RESULTADOS PARA MOSTRAR
+            byte numTimesShown = 0;   // QUANDO UTILIZADOR CARREGA NUM BOTAO, INCREMENTA numberOfTimes++ ;
+            // n apagar
+
+            IEnumerable<IPlanet> filteredPlanets = planets.
                                         Where( // Checks for planet name
                                                 p => p.Name == planetName
                                                 || planetName == null
@@ -50,19 +61,20 @@ namespace AstroFinder
                                                 || hostName == null
                                                 // checks for discovery method
                                                 && p.DiscoveryMethod == discoverymethod
-                                                || discoverymethod == null).
-                                        Select(p => p);
+                                                || discoverymethod == null
+                                                && p.DiscoveryYear == discoveryYear
+                                                || discoveryYear == null).
+                                        Select(p => p).
+                                            Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
 
-            foreach (Exoplanet planet in planetas)
+
+
+
+            foreach (var v in filteredPlanets)
             {
-                Console.WriteLine(planet);
+                Console.WriteLine(v);
             }
 
-
-            // foreach (Exoplanet p in v)
-            // {
-            //     System.Console.WriteLine(p);
-            // }
         }
     }
 }

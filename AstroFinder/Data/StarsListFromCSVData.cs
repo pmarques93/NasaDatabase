@@ -60,14 +60,7 @@ namespace AstroFinder
                                 p?[headersDic[HeadersOfInteress[4]]].Trim(),
                                 p?[headersDic[HeadersOfInteress[5]]].Trim(),
                                 p?[headersDic[HeadersOfInteress[6]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[7]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[8]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[9]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[10]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[11]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[12]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[13]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[14]]].Trim())).
+                                p?[headersDic[HeadersOfInteress[7]]].Trim())).
                                 ToList();
         }
     }

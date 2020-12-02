@@ -16,7 +16,7 @@ namespace AstroFinder
         public float? PlanetTemperature { get; }
 
 
-        public Exoplanet(string name, string discoveryMethod,
+        public Exoplanet(string name, string hostName, string discoveryMethod,
             string discoveryYear, string orbitalPeriod, string planetRadius,
             string planetMass, string planetTemperature)
         {
@@ -27,11 +27,11 @@ namespace AstroFinder
             PlanetRadius = float.TryParse(planetRadius, out float pradius) ? pradius : null;
             PlanetMass = float.TryParse(planetMass, out float pmass) ? pmass : null;
             PlanetTemperature = float.TryParse(planetTemperature, out float ptemp) ? ptemp : null;
-            ParentStar = new Star();
+            ParentStar = new Star(hostName);
 
             OnPlanetCreation();
         }
-        private void OnPlanetCreation()
+        public void OnPlanetCreation()
             => PlanetCreation?.Invoke(this);
 
         public static event Action<IPlanet> PlanetCreation;
@@ -39,8 +39,10 @@ namespace AstroFinder
         public override string ToString()
         {
             return $"Name:              {Name}\n" +
-                    $"HostName:          {ParentStar.Name}\n" +
-                    $"DiscoveryMethod :  {DiscoveryMethod}\n" +
+                   $"HostName:          {ParentStar.Name}\n" +
+                   $"TEMP ORBITING PLANETS:          {ParentStar.ChildPlanets.Count}\n" +
+                   $"DiscoveryYear :  {DiscoveryYear}\n" +
+                   $"DiscoveryMethod :  {DiscoveryMethod}\n" +
                     "-------------------------------------------\n\n";
         }
     }

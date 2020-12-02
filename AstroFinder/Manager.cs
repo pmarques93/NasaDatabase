@@ -60,7 +60,7 @@ namespace AstroFinder
                         SearchPlanet(input);
                         break;
                     case "star":
-
+                        SearchStar(input);
                         break;
                     case "back":     
                         // FILE VARIABLE //////////////////
@@ -79,7 +79,7 @@ namespace AstroFinder
         /// <param name="input">Receives string from user input</param>
         private void SearchPlanet(string input)
         {
-            ISearchField exoplanetCriteria = new ExoplanetCriteria();
+            ISearchField exoplanetCriteria = new AstronomicalObjectCriteria();
             do
             {
                 // Shows information and asks for input
@@ -95,7 +95,7 @@ namespace AstroFinder
                 }
                 // If input is in inputs enum
                 else if (Enum.TryParse(input.Split(": ")[0].Trim(), 
-                        out ExoplanetInputs inputEnum))
+                        out SearchFieldInputs inputEnum))
                 {
                     try
                     {
@@ -103,6 +103,49 @@ namespace AstroFinder
                         string userValue = input.Split(": ")[1].Trim();
                         exoplanetCriteria.AddCriteria(inputEnum, userValue);
                     } catch (IndexOutOfRangeException)
+                    {
+                        Program.UI.NotValid("Invalid criteria");
+                    }
+                }
+                else if (input != "back")
+                {
+                    Program.UI.NotValid("Invalid criteria");
+                }
+
+            } while (input != "back");
+        }
+
+        /// <summary>
+        /// Method responsible for searching stars in a list
+        /// </summary>
+        /// <param name="input">Receives string from user input</param>
+        private void SearchStar(string input)
+        {
+            ISearchField starCriteria = new AstronomicalObjectCriteria();
+            do
+            {
+                // Shows information and asks for input
+                Program.UI.PossibleCriteria(starCriteria);
+                input = Program.UI.GetInput();
+
+                // If user types search, it will search for the criteria
+                if (input == "search")
+                {
+
+                    // SEARCH
+
+                }
+                // If input is in inputs enum
+                else if (Enum.TryParse(input.Split(": ")[0].Trim(),
+                        out SearchFieldInputs inputEnum))
+                {
+                    try
+                    {
+                        // Sets value after the name
+                        string userValue = input.Split(": ")[1].Trim();
+                        starCriteria.AddCriteria(inputEnum, userValue);
+                    }
+                    catch (IndexOutOfRangeException)
                     {
                         Program.UI.NotValid("Invalid criteria");
                     }

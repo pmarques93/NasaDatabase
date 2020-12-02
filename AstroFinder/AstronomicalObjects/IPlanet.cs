@@ -1,4 +1,5 @@
-﻿namespace AstroFinder
+﻿using System;
+namespace AstroFinder
 {
     public interface IPlanet: IAstronomicalObject
     {
@@ -9,5 +10,8 @@
         float? PlanetRadius { get; }
         float? PlanetMass { get; }
         float? PlanetTemperature { get; }
+        void OnPlanetCreation();
+
+        static event Action<IPlanet> PlanetCriation;
     }
 }

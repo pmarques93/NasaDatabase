@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 namespace AstroFinder
 {
     public class Star: IStar
@@ -32,15 +32,21 @@ namespace AstroFinder
             Exoplanet.PlanetCreation += AddChildPlanet;
         }
 
-        public Star() { }
+        public Star(string name) { Name = name; }
 
         public void AddChildPlanet(IPlanet planetToTest)
         {
-            if (planetToTest.Name == Name)
+            if (planetToTest.ParentStar.Name == Name)
             {
                 ChildPlanets.Add(planetToTest);
                 planetToTest.ParentStar = this;
             }
         }
+
+        ~Star()
+        {
+            Exoplanet.PlanetCreation -= AddChildPlanet;
+        }
+
     }
 }
