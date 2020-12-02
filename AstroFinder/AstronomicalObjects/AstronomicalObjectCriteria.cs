@@ -13,9 +13,9 @@ namespace AstroFinder
         private const ushort CURRENTYEAR = 2020;
         private const float FMAXVALUE = 100000000.0f;
 
-        public string PlanetName {get; set;}
-        public string StarName {get; set;}
-        public string DiscoveryMethod {get; set;}
+        private string planetName;
+        private string starName;
+        private string discoveryMethod;
         private ushort discoveryYearMin;
         private ushort discoveryYearMax;
         private float orbitalPeriodMin;
@@ -42,6 +42,42 @@ namespace AstroFinder
         private float distanceMax;
 
         #region Properties
+        /// <summary>
+        /// PlanetName property
+        /// </summary>
+        public string PlanetName
+        {
+            get => planetName;
+            set
+            {
+                if (value == " ".Trim()) planetName = "any";
+                else planetName = value;
+            }
+        }
+        /// <summary>
+        /// StarName property
+        /// </summary>
+        public string StarName
+        {
+            get => starName;
+            set
+            {
+                if (value == " ".Trim()) starName = "any";
+                else starName = value;
+            }
+        }
+        /// <summary>
+        /// DiscoveryMethod property
+        /// </summary>
+        public string DiscoveryMethod
+        {
+            get => discoveryMethod;
+            set
+            {
+                if (value == " ".Trim()) discoveryMethod = "any";
+                else discoveryMethod = value;
+            }
+        }
         /// <summary>
         /// DiscoveryYearMin property
         /// </summary>
@@ -386,33 +422,7 @@ namespace AstroFinder
         /// </summary>
         public AstronomicalObjectCriteria()
         {
-            PlanetName = "any";
-            StarName = "any";
-            DiscoveryMethod = "any";
-            DiscoveryYearMax = CURRENTYEAR;
-            DiscoveryYearMin = MINVALUE;
-            OrbitalPeriodMax = FMAXVALUE;
-            OrbitalPeriodMin = MINVALUE;
-            PlanetRadiusMax = FMAXVALUE;
-            PlanetRadiusMin = MINVALUE;
-            PlanetMassMax = FMAXVALUE;
-            PlanetMassMin = MINVALUE;
-            PlanetTemperatureMax = FMAXVALUE;
-            PlanetTemperatureMin = MINVALUE;
-            StellarTemperatureMax = FMAXVALUE;
-            StellarTemperatureMin = MINVALUE;
-            StellarRadiusMax = FMAXVALUE;
-            StellarRadiusMin = MINVALUE;
-            StellarMassMax = FMAXVALUE;
-            StellarMassMin = MINVALUE;
-            StellarAgeMax = FMAXVALUE;
-            StellarAgeMin = MINVALUE;
-            StellarRotationVelocityMax = FMAXVALUE;
-            StellarRotationVelocityMin = MINVALUE;
-            StellarRotationPeriodMax = FMAXVALUE;
-            StellarRotationPeriodMin = MINVALUE;
-            DistanceMax = FMAXVALUE;
-            DistanceMin = MINVALUE;
+            ResetFields();
         }
 
         /// <summary>
@@ -431,7 +441,7 @@ namespace AstroFinder
                     PlanetName = inputValue;
                     break;
 
-                case SearchFieldInputs.hostname:
+                case SearchFieldInputs.starname:
                     StarName = inputValue;
                     break;
 
@@ -607,6 +617,40 @@ namespace AstroFinder
                     else Program.UI.NotValid("Invalid criteria");
                     break;
             } 
+        }
+
+        /// <summary>
+        /// Sets default values
+        /// </summary>
+        public override void ResetFields()
+        {
+            PlanetName = "any";
+            StarName = "any";
+            DiscoveryMethod = "any";
+            DiscoveryYearMax = CURRENTYEAR;
+            DiscoveryYearMin = MINVALUE;
+            OrbitalPeriodMax = FMAXVALUE;
+            OrbitalPeriodMin = MINVALUE;
+            PlanetRadiusMax = FMAXVALUE;
+            PlanetRadiusMin = MINVALUE;
+            PlanetMassMax = FMAXVALUE;
+            PlanetMassMin = MINVALUE;
+            PlanetTemperatureMax = FMAXVALUE;
+            PlanetTemperatureMin = MINVALUE;
+            StellarTemperatureMax = FMAXVALUE;
+            StellarTemperatureMin = MINVALUE;
+            StellarRadiusMax = FMAXVALUE;
+            StellarRadiusMin = MINVALUE;
+            StellarMassMax = FMAXVALUE;
+            StellarMassMin = MINVALUE;
+            StellarAgeMax = FMAXVALUE;
+            StellarAgeMin = MINVALUE;
+            StellarRotationVelocityMax = FMAXVALUE;
+            StellarRotationVelocityMin = MINVALUE;
+            StellarRotationPeriodMax = FMAXVALUE;
+            StellarRotationPeriodMin = MINVALUE;
+            DistanceMax = FMAXVALUE;
+            DistanceMin = MINVALUE;
         }
     }
 }

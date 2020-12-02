@@ -21,9 +21,9 @@ namespace AstroFinder
         static void Main(string[] args)
         {
             UI = new ConsoleUserInterface();
-            /*
+            
             Manager manager = new Manager();
-            manager.Run();*/
+            manager.Run();
 
 
             const string filePath = "planets.csv";

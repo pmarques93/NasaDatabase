@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace AstroFinder
@@ -93,12 +94,34 @@ namespace AstroFinder
             }
 
             Console.WriteLine("\nTo begin the search, type 'search'");
+            Console.WriteLine("To reset the fields, type 'reset'");
             Console.WriteLine("To go back to main menu, type 'back'");
             Console.WriteLine(
                 "Example to add planet name field: 'planetname: 51 peg b'");
             Console.WriteLine(
-                "Example to add discovery year field: 'distancemin: 10000.25'");
+                "Example to add distance field: 'distancemin: 10000.25'");
             Console.WriteLine("----------------------------------------");
+        }
+
+        /// <summary>
+        /// Prints elements of an IAstromicalObject ienumerable
+        /// </summary>
+        /// <param name="">IEnumerable of IAstronomicalObjects</param>
+        public void PrintCriteria(IEnumerable<IAstronomicalObject> listOfObjects)
+        {
+            foreach (IPlanet planet in listOfObjects)
+                Console.WriteLine(planet.Name);
+        }
+
+        /// <summary>
+        /// Prints possible options while inside the criteria loop
+        /// </summary>
+        public void OptionsOnSearchCriteria()
+        {
+            Console.WriteLine("\n ------------------------");
+            Console.WriteLine(" Press Enter key to show more results");
+            Console.WriteLine(" Type 'change' to change search fields");
+            Console.WriteLine(" ------------------------");
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace AstroFinder
     public enum SearchFieldInputs
     {
         planetname,
-        hostname,
+        starname,
         discoverymethod,
         discoveryyearmin,
         discoveryyearmax,

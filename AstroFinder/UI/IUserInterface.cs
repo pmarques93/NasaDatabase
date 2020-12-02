@@ -1,4 +1,5 @@
-﻿namespace AstroFinder
+﻿using System.Collections.Generic;
+namespace AstroFinder
 {
     /// <summary>
     /// Interface responsible for userinterface
@@ -47,6 +48,17 @@
         /// </summary>
         /// <param name="searchCriteria">ISearchField variable</param>
         void PossibleCriteria(ISearchField searchCriteria);
+
+        /// <summary>
+        /// Prints elements of an IAstromicalObject ienumerable
+        /// </summary>
+        /// <param name="">IEnumerable of IAstronomicalObjects</param>
+        void PrintCriteria(IEnumerable<IAstronomicalObject> listOfObjects);
+
+        /// <summary>
+        /// Prints possible options while inside the criteria loop
+        /// </summary>
+        public void OptionsOnSearchCriteria();
 
         /// <summary>
         /// Prints a goodbye message
