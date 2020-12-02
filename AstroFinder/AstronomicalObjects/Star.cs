@@ -48,5 +48,9 @@ namespace AstroFinder
             Exoplanet.PlanetCreation -= AddChildPlanet;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj as Star)?.Name == Name;
+        }
     }
 }
