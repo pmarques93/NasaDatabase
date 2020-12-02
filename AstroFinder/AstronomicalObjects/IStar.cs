@@ -10,6 +10,7 @@ namespace AstroFinder
         float? StellarRotationVelocity { get; }
         float? StellarRotationPeriod { get; }
         float? Distance { get; }
-        IEnumerable<IPlanet> ChildPlanets { get; }
+        ICollection<IPlanet> ChildPlanets { get; }
+        void AddChildPlanet(IPlanet planetToTest);
     }
 }

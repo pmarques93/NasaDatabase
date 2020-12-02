@@ -2,7 +2,7 @@
 {
     public interface IPlanet: IAstronomicalObject
     {
-        IStar ParentStar { get; }
+        IStar ParentStar { get; set; }
         string DiscoveryMethod { get; }
         ushort? DiscoveryYear { get; }
         float? OrbitalPeriod { get; }
