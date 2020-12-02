@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
+using System.Globalization;
 
 namespace AstroFinder
 {
@@ -22,28 +21,12 @@ namespace AstroFinder
         {
             Name = name;
             DiscoveryMethod = discoveryMethod;
-            DiscoveryYear = UInt16.TryParse(discoveryYear, out UInt16 discyear) ? discyear : null;
-            OrbitalPeriod = float.TryParse(orbitalPeriod, out float operiod) ? operiod : null;
-            PlanetRadius = float.TryParse(planetRadius, out float pradius) ? pradius : null;
-            PlanetMass = float.TryParse(planetMass, out float pmass) ? pmass : null;
-            PlanetTemperature = float.TryParse(planetTemperature, out float ptemp) ? ptemp : null;
+            DiscoveryYear = UInt16.TryParse(discoveryYear, NumberStyles.Any, CultureInfo.InvariantCulture, out UInt16 discyear) ? discyear : null;
+            OrbitalPeriod = float.TryParse(orbitalPeriod, NumberStyles.Any, CultureInfo.InvariantCulture, out float operiod) ? operiod : null;
+            PlanetRadius = float.TryParse(planetRadius, NumberStyles.Any, CultureInfo.InvariantCulture, out float pradius) ? pradius : null;
+            PlanetMass = float.TryParse(planetMass, NumberStyles.Any, CultureInfo.InvariantCulture, out float pmass) ? pmass : null;
+            PlanetTemperature = float.TryParse(planetTemperature, NumberStyles.Any, CultureInfo.InvariantCulture, out float ptemp) ? ptemp : null;
             ParentStar = new Star(hostName);
-
-            OnPlanetCreation();
-        }
-        public void OnPlanetCreation()
-            => PlanetCreation?.Invoke(this);
-
-        public static event Action<IPlanet> PlanetCreation;
-
-        public override string ToString()
-        {
-            return $"Name:              {Name}\n" +
-                   $"HostName:          {ParentStar.Name}\n" +
-                   $"TEMP ORBITING PLANETS:          {ParentStar.ChildPlanets.Count}\n" +
-                   $"DiscoveryYear :  {DiscoveryYear}\n" +
-                   $"DiscoveryMethod :  {DiscoveryMethod}\n" +
-                    "-------------------------------------------\n\n";
         }
     }
 }

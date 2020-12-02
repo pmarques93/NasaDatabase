@@ -33,42 +33,68 @@ namespace AstroFinder
             string[] starHeaders = new string[] { "hostname", "st_teff", "st_rad",
                 "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
             StarsListFromCSVData getStars = new StarsListFromCSVData(starHeaders);
-            List<Star> allStars = getStars.GetCollection(fileDataReader.FileData) as List<Star>;
-            // List with non repeated stars
-            List<Star> nonRepeatedStars = new List<Star>();
-            foreach(Star star in allStars)
-            {
-                if (nonRepeatedStars.Contains(star) == false)
-                    nonRepeatedStars.Add(star);
-            }
 
             // PLANET STUFF
             string[] planetHeaders = new string[] { "pl_name", "hostname",
                 "discoverymethod", "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt"};
             ExoplanetsListFromCSVData getPlanets = new ExoplanetsListFromCSVData(planetHeaders);
-            List<Exoplanet> allPlanets = getPlanets.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
 
+
+
+            // STARS CREATION
+            List<Star> allStars = getStars.GetCollection(fileDataReader.FileData) as List<Star>;
+
+            // List with non repeated stars
+            List<Star> nonRepeatedStars = new List<Star>();
+            foreach (Star star in allStars)
+            {
+                if (nonRepeatedStars.Contains(star) == false)
+                {
+                    nonRepeatedStars.Add(star);
+                }
+            }
+
+            // PLANET DECLARATION
+            List<Exoplanet> allPlanets = getPlanets.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
+            
+
+            foreach (Exoplanet planet in allPlanets)
+            {
+                foreach (Star star in nonRepeatedStars)
+                {
+                    if (planet.ParentStar.Name == star.Name)
+                    {
+                        star.ChildPlanets.Add(planet);
+                        planet.ParentStar = star;
+                    }
+                }
+            }
 
 
             // TESTES /////////////////////////////////////////////////////////////////////////////////////
             // temp info
             string planetName = null;
-            string hostName = "55 cnc";
+            string hostName = "ngc";
             string discoverymethod = null;
             ushort? discoveryYear = null;
 
             // n apagar
-            const byte numResultsToShow = 2; // RESULTADOS PARA MOSTRAR
+            const byte numResultsToShow = 5; // RESULTADOS PARA MOSTRAR
             byte numTimesShown = 0;   // QUANDO UTILIZADOR CARREGA NUM BOTAO, INCREMENTA numberOfTimes++ ;
             // n apagar
 
-            IEnumerable<IPlanet> filteredPlanets = 
+            IEnumerable<IPlanet> filteredPlanets =
                 (from planet in allPlanets
-                 where planet.Name.ToLower() == planetName || planetName == null
-                 where planet.ParentStar.Name.ToLower() == hostName || hostName == null
-                 where planet.DiscoveryMethod.ToLower() == discoverymethod || discoverymethod == null
+                 where planet.Name.ToLower().Contains(planetName ?? "any") || planetName == null || planetName == "any"
+                 where planet.ParentStar.Name.ToLower().Contains(hostName ?? "any") || hostName == null || hostName == "any"
+                 where planet.DiscoveryMethod.ToLower().Contains(discoverymethod ?? "any") || discoverymethod == null || discoverymethod == "any"
                  where planet.DiscoveryYear == discoveryYear || discoveryYear == null
                  select planet).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
+
+
+            //foreach (var v in filteredPlanets)
+            //    Console.WriteLine(v.ParentStar.Name+ ": " + v.Name);
+
 
             /* STARS + CHILD PLANETS
             foreach (Star star in nonRepeatedStars)

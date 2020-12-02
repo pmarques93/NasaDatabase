@@ -386,9 +386,9 @@ namespace AstroFinder
         /// </summary>
         public AstronomicalObjectCriteria()
         {
-            PlanetName = "everything";
-            StarName = "everything";
-            DiscoveryMethod = "everything";
+            PlanetName = "any";
+            StarName = "any";
+            DiscoveryMethod = "any";
             DiscoveryYearMax = CURRENTYEAR;
             DiscoveryYearMin = MINVALUE;
             OrbitalPeriodMax = FMAXVALUE;
@@ -447,7 +447,6 @@ namespace AstroFinder
                     break;
 
                 case SearchFieldInputs.discoveryyearmax:
-                    
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMax = svalue;

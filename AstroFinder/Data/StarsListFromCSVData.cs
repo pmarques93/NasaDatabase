@@ -46,7 +46,6 @@ namespace AstroFinder
                 }
             }
 
-
             // Returns a List of Exoplanets, skipping the first line
             // of the data file that corresponds to the column headers
             return

@@ -11,6 +11,5 @@ namespace AstroFinder
         float? StellarRotationPeriod { get; }
         float? Distance { get; }
         ICollection<IPlanet> ChildPlanets { get; }
-        void AddChildPlanet(IPlanet planetToTest);
     }
 }

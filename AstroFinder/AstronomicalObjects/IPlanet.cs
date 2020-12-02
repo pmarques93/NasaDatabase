@@ -10,8 +10,5 @@ namespace AstroFinder
         float? PlanetRadius { get; }
         float? PlanetMass { get; }
         float? PlanetTemperature { get; }
-        void OnPlanetCreation();
-
-        static event Action<IPlanet> PlanetCriation;
     }
 }

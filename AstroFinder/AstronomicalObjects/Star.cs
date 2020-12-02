@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace AstroFinder
 {
@@ -20,37 +21,26 @@ namespace AstroFinder
             string distance)
         {
             Name = starName;
-            StellarTemperature = float.TryParse(stellarTemperature, out float sTemp) ? sTemp : null;
-            StellarRadius = float.TryParse(stellarRadius, out float sRad) ? sRad : null;
-            StellarMass = float.TryParse(stellarMass, out float sMass) ? sMass : null;
-            StellarAge = float.TryParse(stellarAge, out float sAge) ? sAge : null;
-            StellarRotationVelocity = float.TryParse(stellarRotationVelocity, out float srotvel) ? srotvel : null;
-            StellarRotationPeriod = float.TryParse(stellarRotationPeriod, out float srotper) ? srotper : null;
-            Distance = float.TryParse(distance, out float dist) ? dist : null;
+            StellarTemperature = float.TryParse(stellarTemperature, NumberStyles.Any, CultureInfo.InvariantCulture, out float sTemp) ? sTemp : null;
+            StellarRadius = float.TryParse(stellarRadius, NumberStyles.Any, CultureInfo.InvariantCulture, out float sRad) ? sRad : null;
+            StellarMass = float.TryParse(stellarMass, NumberStyles.Any, CultureInfo.InvariantCulture, out float sMass) ? sMass : null;
+            StellarAge = float.TryParse(stellarAge, NumberStyles.Any, CultureInfo.InvariantCulture, out float sAge) ? sAge : null;
+            StellarRotationVelocity = float.TryParse(stellarRotationVelocity, NumberStyles.Any, CultureInfo.InvariantCulture, out float srotvel) ? srotvel : null;
+            StellarRotationPeriod = float.TryParse(stellarRotationPeriod, NumberStyles.Any, CultureInfo.InvariantCulture, out float srotper) ? srotper : null;
+            Distance = float.TryParse(distance, NumberStyles.Any, CultureInfo.InvariantCulture, out float dist) ? dist : null;
             ChildPlanets = new List<IPlanet>();
-
-            Exoplanet.PlanetCreation += AddChildPlanet;
         }
 
         public Star(string name) { Name = name; }
 
-        public void AddChildPlanet(IPlanet planetToTest)
-        {
-            if (planetToTest.ParentStar.Name == Name)
-            {
-                ChildPlanets.Add(planetToTest);
-                planetToTest.ParentStar = this;
-            }
-        }
-
-        ~Star()
-        {
-            Exoplanet.PlanetCreation -= AddChildPlanet;
-        }
-
         public override bool Equals(object obj)
         {
             return (obj as Star)?.Name == Name;
+        }
+
+        public override int GetHashCode()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
