@@ -85,7 +85,8 @@ namespace AstroFinder
             // Creates IPlanet IEnumerable, Creates a list with nonRepeatedStars
             CreateStarsAndPlanets();
             // Search field and list with all planets creation
-            AstronomicalObjectCriteria criteria = new AstronomicalObjectCriteria();
+            AstronomicalObjectCriteria criteria =
+                new AstronomicalObjectCriteria();
 
             do
             {
@@ -114,7 +115,8 @@ namespace AstroFinder
         /// Method responsible for searching planets in a list
         /// </summary>
         /// <param name="input">Receives string from user input</param>
-        private void SearchPlanet(string input, AstronomicalObjectCriteria criteria)
+        private void SearchPlanet(string input,
+            AstronomicalObjectCriteria criteria)
         {
             do
             {
@@ -184,7 +186,8 @@ namespace AstroFinder
         /// Method responsible for searching stars in a list
         /// </summary>
         /// <param name="input">Receives string from user input</param>
-        private void SearchStar(string input, AstronomicalObjectCriteria criteria)
+        private void SearchStar(string input, 
+            AstronomicalObjectCriteria criteria)
         {
             
         }
@@ -196,8 +199,10 @@ namespace AstroFinder
         /// </summary>
         private void CreateStarsAndPlanets()
         {
-            allStars = getStars.GetCollection(fileReader.FileData) as List<Star>;
-            allPlanets = getPlanets.GetCollection(fileReader.FileData) as List<Exoplanet>;
+            allStars = getStars.GetCollection(fileReader.FileData)
+                as List<Star>;
+            allPlanets = getPlanets.GetCollection(fileReader.FileData)
+                as List<Exoplanet>;
             nonRepeatedStars = new List<IStar>();
             foreach (IStar star in allStars)
             {

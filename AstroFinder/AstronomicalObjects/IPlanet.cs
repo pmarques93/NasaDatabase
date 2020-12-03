@@ -10,5 +10,6 @@ namespace AstroFinder
         float? PlanetRadius { get; }
         float? PlanetMass { get; }
         float? PlanetTemperature { get; }
+        public string Information();
     }
 }
