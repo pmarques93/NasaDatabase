@@ -14,6 +14,12 @@ namespace AstroFinder
         private const string NEWFILE = "new file";
         private const string QUIT = "quit";
         private const string BACK = "back";
+        private const string SEARCH = "search";
+        private const string RESET = "reset";
+        private const string ORDER = "order";
+        private const string CHANGE = "change";
+        private const string INFORMATION = "information";
+        private const string LIST = "list";
 
         /// <summary>
         /// Asks for input
@@ -79,7 +85,8 @@ namespace AstroFinder
         /// Prints possible criteria of an ISearchField
         /// </summary>
         /// <param name="searchCriteria">ISearchField variable</param>
-        public void PossibleCriteria(ISearchField searchCriteria)
+        /// <param name="curOrd">String with current list order</param>
+        public void PossibleCriteria(ISearchField searchCriteria, string curOrd)
         {
             // Gets proprties in received type
             Type type = searchCriteria.GetType();
@@ -93,10 +100,18 @@ namespace AstroFinder
                 $"{property.GetValue(searchCriteria, null)}");
             }
 
-            Console.WriteLine("\nTo begin the search, type 'search'");
-            Console.WriteLine("To reset the fields, type 'reset'");
-            Console.WriteLine("To order the list, type 'order'");
-            Console.WriteLine("To go back to main menu, type 'back'");
+            Console.WriteLine($"\nTo begin the search, type '{SEARCH}'");
+            Console.WriteLine($"To reset the fields, type '{RESET}'");
+            Console.Write($"To order the list, type '{ORDER}'. ");
+            if (Enum.TryParse(curOrd, out ListOrder tempOrder))
+            {
+                Console.WriteLine($"Current order is {tempOrder}");
+            }
+            else
+            {
+                Console.WriteLine($"Current order is defaultorder");
+            }
+            Console.WriteLine($"To go back to main menu, type '{BACK}'");
             Console.WriteLine(
                 "Example to add planet name field: 'planetname: 51 peg b'");
             Console.WriteLine(
@@ -137,11 +152,11 @@ namespace AstroFinder
             Console.WriteLine(" Press Enter key to show more results");
             if (time > 0)
             {
-                Console.WriteLine(" Type 'back' to move back the list to show" +
-                    " previous results");
+                Console.WriteLine($" Type '{BACK}' to move back the list " +
+                                    "to show previous results");
             }
-            Console.WriteLine(" Type 'change' to change search fields");
-            Console.WriteLine(" Type 'information' to search for detailed" +
+            Console.WriteLine($" Type '{CHANGE}' to go back to search fields");
+            Console.WriteLine($" Type '{INFORMATION}' to search for detailed" +
                                 " information");
             if (Enum.TryParse(order, out ListOrder tempOrder))
             {
@@ -162,8 +177,8 @@ namespace AstroFinder
         {
             Console.WriteLine("\n ---------------------------" +
                 "------------------------------");
-            Console.WriteLine($" Type 'list' to go back to the list   ");
-            Console.WriteLine($" Type a planet's name on the the list to " +
+            Console.WriteLine($" Type '{LIST}' to go back to the list   ");
+            Console.WriteLine($" Type a name on the the list to " +
                                 $"see detailed information");
             Console.WriteLine(" ---------------------------" +
                 "------------------------------");

@@ -119,21 +119,20 @@ namespace AstroFinder
             AstronomicalObjectCriteria criteria)
         {
             // List order
-            string order = null;
+            string order = "defaultorder";
             do
             {
                 // Number of times the query was shown;
                 ushort numTimesShown = 0; 
 
                 // Shows information and asks for input
-                Program.UI.PossibleCriteria(criteria);
+                Program.UI.PossibleCriteria(criteria, order);
 
                 input = Program.UI.GetInput();
 
-                
-                #region filteredPlanets
                 // Filters planets to show the user input data only
                 // Shows 'numResultsToShow' elements at a time
+                #region filteredPlanets
                 IEnumerable<IPlanet> filteredPlanets =
                 from planet in allPlanets
                 where planet.Name.ToLower().Contains(
@@ -223,8 +222,7 @@ namespace AstroFinder
                     Enum.TryParse(order, out ListOrder listOrder);
                     do
                     {
-                        #region SwitchWithListOrder
-                        // Ordererd planets
+                        // Switch with Ordererd planets
                         switch (listOrder)
                         {
                             case ListOrder.ascendingname:
@@ -537,8 +535,7 @@ namespace AstroFinder
                                 Take(numResultsToShow);
                                 break;
                         }
-                        #endregion
-
+ 
                         // Prints criteria and options
                         Program.UI.PrintCriteria(orderedPlanets);
                         Program.UI.OptionsOnSearchCriteria(numTimesShown, order);
@@ -628,76 +625,443 @@ namespace AstroFinder
         private void SearchStar(string input, 
             AstronomicalObjectCriteria criteria)
         {
-            string order = null;
+            string order = "defaultorder";
             do
             {
                 // Number of times the query was shown;
                 ushort numTimesShown = 0;
 
                 // Shows information and asks for input
-                Program.UI.PossibleCriteria(criteria);
+                Program.UI.PossibleCriteria(criteria, order);
 
                 input = Program.UI.GetInput();
+
+                // Filters planets to show the user input data only
+                // Shows 'numResultsToShow' elements at a time
+                #region filteredStars
+                IEnumerable<IStar> filteredStars =
+                from star in nonRepeatedStars
+                 where star.Name.ToLower().Contains(
+                    criteria.StarName ?? "any") ||
+                    criteria.StarName == null ||
+                    criteria.StarName == "any"
+                 where star.StellarTemperature <=
+                        criteria.StellarTemperatureMax &&
+                        star.StellarTemperature >=
+                        criteria.StellarTemperatureMin ||
+                        star.StellarTemperature == null
+                 where star.StellarRadius <=
+                        criteria.StellarRadiusMax &&
+                        star.StellarRadius >=
+                        criteria.StellarRadiusMin ||
+                        star.StellarRadius == null
+                 where star.StellarMass <=
+                        criteria.StellarMassMax &&
+                        star.StellarMass >=
+                        criteria.StellarMassMin ||
+                        star.StellarMass == null
+                 where star.StellarAge <=
+                        criteria.StellarAgeMax &&
+                        star.StellarAge >=
+                        criteria.StellarAgeMin ||
+                        star.StellarAge == null
+                 where star.StellarRotationVelocity <=
+                        criteria.StellarRotationVelocityMax &&
+                        star.StellarRotationVelocity >=
+                        criteria.StellarRotationVelocityMin ||
+                        star.StellarRotationVelocity == null
+                 where star.StellarRotationPeriod <=
+                        criteria.StellarRotationPeriodMax &&
+                        star.StellarRotationPeriod >=
+                        criteria.StellarRotationPeriodMin ||
+                        star.StellarRotationPeriod == null
+                 where star.Distance <=
+                        criteria.DistanceMax &&
+                        star.Distance >=
+                        criteria.DistanceMin ||
+                        star.Distance == null
+                 where star.ChildPlanets.Count <=
+                        criteria.ChildPlanetsMax &&
+                        star.ChildPlanets.Count >=
+                        criteria.ChildPlanetsMin
+                 join planet in allPlanets on star.Name
+                    equals planet.ParentStar.Name
+                 where planet.Name.ToLower().Contains(
+                       criteria.PlanetName ?? "any") ||
+                       criteria.PlanetName == null ||
+                       criteria.PlanetName == "any"
+                 where planet.DiscoveryMethod.ToLower().Contains(
+                        criteria.DiscoveryMethod ?? "any") ||
+                        criteria.DiscoveryMethod == null ||
+                        criteria.DiscoveryMethod == "any"
+                 where planet.DiscoveryYear <=
+                        criteria.DiscoveryYearMax &&
+                        planet.DiscoveryYear >=
+                        criteria.DiscoveryYearMin ||
+                        planet.DiscoveryYear == null
+                 where planet.OrbitalPeriod <=
+                        criteria.OrbitalPeriodMax &&
+                        planet.OrbitalPeriod >=
+                        criteria.OrbitalPeriodMin ||
+                        planet.OrbitalPeriod == null
+                 where planet.PlanetRadius <=
+                        criteria.PlanetRadiusMax &&
+                        planet.PlanetRadius >=
+                        criteria.PlanetRadiusMin ||
+                        planet.PlanetRadius == null
+                 where planet.PlanetMass <=
+                        criteria.PlanetMassMax &&
+                        planet.PlanetMass >=
+                        criteria.PlanetMassMin ||
+                        planet.PlanetMass == null
+                 where planet.PlanetTemperature <=
+                        criteria.PlanetTemperatureMax &&
+                        planet.PlanetTemperature >=
+                        criteria.PlanetTemperatureMin ||
+                        planet.PlanetTemperature == null
+                 select star;
+                #endregion
 
                 // If user types search, it will search for the criteria
                 if (input == "search")
                 {
+                    IEnumerable<IStar> orderedStars =
+                            new List<IStar>();
+                    Enum.TryParse(order, out ListOrder listOrder);
                     do
                     {
-                        // Filters planets to show the user input data only
-                        // Shows 'numResultsToShow' elements at a time
-                        IEnumerable<IStar> filteredStars =
-                        (from star in nonRepeatedStars
-                         where star.Name.ToLower().Contains(
-                            criteria.StarName ?? "any") ||
-                            criteria.StarName == null ||
-                            criteria.StarName == "any"
-
-                         where star.StellarTemperature <=
-                                criteria.StellarTemperatureMax &&
-                                star.StellarTemperature >=
-                                criteria.StellarTemperatureMin ||
-                                star.StellarTemperature == null
-                         where star.StellarRadius <=
-                                criteria.StellarRadiusMax &&
-                                star.StellarRadius >=
-                                criteria.StellarRadiusMin ||
-                                star.StellarRadius == null
-                         where star.StellarMass <=
-                                criteria.StellarMassMax &&
-                                star.StellarMass >=
-                                criteria.StellarMassMin ||
-                                star.StellarMass == null
-                         where star.StellarAge <=
-                                criteria.StellarAgeMax &&
-                                star.StellarAge >=
-                                criteria.StellarAgeMin ||
-                                star.StellarAge == null
-                         where star.StellarRotationVelocity <=
-                                criteria.StellarRotationVelocityMax &&
-                                star.StellarRotationVelocity >=
-                                criteria.StellarRotationVelocityMin ||
-                                star.StellarRotationVelocity == null
-                         where star.StellarRotationPeriod <=
-                                criteria.StellarRotationPeriodMax &&
-                                star.StellarRotationPeriod >=
-                                criteria.StellarRotationPeriodMin ||
-                                star.StellarRotationPeriod == null
-                         where star.Distance <=
-                                criteria.DistanceMax &&
-                                star.Distance >=
-                                criteria.DistanceMin ||
-                                star.Distance == null
-                         where star.ChildPlanets.Count <=
-                                criteria.ChildPlanetsMax &&
-                                star.ChildPlanets.Count >=
-                                criteria.ChildPlanetsMin
-                         select star).
+                        // Switch with Ordererd planets
+                        switch (listOrder)
+                        {
+                            case ListOrder.ascendingname:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.Name ascending
+                                 select star).             
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingname:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.Name descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstarname:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.ParentStar.Name ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstarname:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.ParentStar.Name descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingdiscoverymethod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.DiscoveryMethod ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingdiscoverymethod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.DiscoveryMethod descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingdiscoveryyear:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.DiscoveryYear ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingdiscoveryyear:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.DiscoveryYear descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingorbitalperiod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.OrbitalPeriod ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingorbitalperiod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.OrbitalPeriod descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingplanetradius:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetRadius ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingplanetradius:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetRadius descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingplanetmass:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetMass ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingplanetmass:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetMass descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingplanettemperature:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetTemperature ascending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingplanettemperature:
+                                orderedStars =
+                                (from star in filteredStars
+                                 join planet in allPlanets
+                                 on star.Name equals planet.ParentStar.Name
+                                 orderby planet.PlanetTemperature descending
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellartemperature:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarTemperature
+                                 ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellartemperature:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarTemperature
+                                 descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellarradius:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarRadius
+                                 ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellarradius:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarRadius
+                                 descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellarmass:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarMass
+                                 ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellarmass:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarMass
+                                 descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellarage:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarAge
+                                 ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellarage:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.StellarAge
+                                 descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellarrotationvelocity:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.
+                                        StellarRotationVelocity ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellarrotationvelocity:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.
+                                        StellarRotationVelocity descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingstellarrotationperiod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.
+                                        StellarRotationPeriod ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingstellarrotationperiod:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.
+                                        StellarRotationPeriod descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingdistance:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.Distance ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingdistance:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.Distance descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.ascendingchildplanets:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.ChildPlanets
+                                 ascending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            case ListOrder.descendingchildplanets:
+                                orderedStars =
+                                (from star in filteredStars
+                                 orderby star.ChildPlanets
+                                 descending
+                                 select star).
+                                 ThenBy(p => p.Name).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                            default:
+                                orderedStars =
+                                (from star in filteredStars
+                                 select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+                                break;
+                        }
 
                         // Prints criteria and options
-                        Program.UI.PrintCriteria(filteredStars);
+                        Program.UI.PrintCriteria(orderedStars);
                         Program.UI.OptionsOnSearchCriteria(numTimesShown, order);
 
                         numTimesShown++;
@@ -740,6 +1104,14 @@ namespace AstroFinder
 
                         // Goes back to user values
                     } while (input != "change");
+                }
+
+                // Sets list order
+                else if (input == "order")
+                {
+                    // Prints every field of an enum
+                    Program.UI.PrintEnumValues(ListOrder.defaultorder);
+                    order = Program.UI.GetInput();
                 }
 
                 // Resets every field

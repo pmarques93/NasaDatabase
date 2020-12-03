@@ -49,7 +49,8 @@ namespace AstroFinder
         /// Prints possible criteria of an ISearchField
         /// </summary>
         /// <param name="searchCriteria">ISearchField variable</param>
-        void PossibleCriteria(ISearchField searchCriteria);
+        /// <param name="curOrd">String with current list order</param>
+        void PossibleCriteria(ISearchField searchCriteria, string curOrd);
 
         /// <summary>
         /// Prints elements of an IAstromicalObject ienumerable
