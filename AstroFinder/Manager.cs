@@ -68,7 +68,7 @@ namespace AstroFinder
                     case "quit":
                         break;
                     default:
-                        Program.UI.NotValid("Not a valid option");
+                        Program.UI.Message("Not a valid option");
                         break;
                 } 
                 
@@ -105,7 +105,7 @@ namespace AstroFinder
                         fileReader = null;  
                         break;
                     default:
-                        Program.UI.NotValid("Not a valid option");
+                        Program.UI.Message("Not a valid option");
                         break;
                 }
             } while (input != "back");
@@ -133,29 +133,133 @@ namespace AstroFinder
                 {
                     do
                     {
-                        // Filters planets to show the user input data
+                        // Filters planets to show the user input data only
                         // Shows 'numResultsToShow' elements at a time
                         IEnumerable<IPlanet> filteredPlanets =
                         (from planet in allPlanets
-                         where planet.Name.ToLower().Contains(criteria.PlanetName ?? "any") ||
-                                criteria.PlanetName == null || criteria.PlanetName == "any"
-                         where planet.ParentStar.Name.ToLower().Contains(criteria.StarName ?? "any") 
-                                || criteria.StarName == null || criteria.StarName == "any"
-                         where planet.DiscoveryMethod.ToLower().Contains(criteria.DiscoveryMethod ?? "any") 
-                                || criteria.DiscoveryMethod == null || criteria.DiscoveryMethod == "any"
-                         where planet.DiscoveryYear < criteria.DiscoveryYearMax &&
-                                planet.DiscoveryYear > criteria.DiscoveryYearMin
-                         select planet).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
+                         where planet.Name.ToLower().Contains(
+                            criteria.PlanetName ?? "any") ||
+                            criteria.PlanetName == null || 
+                            criteria.PlanetName == "any"
+                         where planet.ParentStar.Name.ToLower().Contains(
+                             criteria.StarName ?? "any") || 
+                             criteria.StarName == null || 
+                             criteria.StarName == "any"
+                         where planet.DiscoveryMethod.ToLower().Contains(
+                             criteria.DiscoveryMethod ?? "any") || 
+                             criteria.DiscoveryMethod == null || 
+                             criteria.DiscoveryMethod == "any"
+                         where planet.DiscoveryYear <= 
+                                criteria.DiscoveryYearMax &&
+                                planet.DiscoveryYear >= 
+                                criteria.DiscoveryYearMin ||
+                                planet.DiscoveryYear == null
+                         where planet.OrbitalPeriod <= 
+                                criteria.OrbitalPeriodMax &&
+                                planet.OrbitalPeriod >= 
+                                criteria.OrbitalPeriodMin ||
+                                planet.OrbitalPeriod == null
+                         where planet.PlanetRadius <= 
+                                criteria.PlanetRadiusMax &&
+                                planet.PlanetRadius >= 
+                                criteria.PlanetRadiusMin ||
+                                planet.PlanetRadius == null
+                         where planet.PlanetMass <= 
+                                criteria.PlanetMassMax &&
+                                planet.PlanetMass >= 
+                                criteria.PlanetMassMin ||
+                                planet.PlanetMass == null
+                         where planet.PlanetTemperature <= 
+                                criteria.PlanetTemperatureMax &&
+                                planet.PlanetTemperature >= 
+                                criteria.PlanetTemperatureMin ||
+                                planet.PlanetTemperature == null
+                         where planet.ParentStar.StellarTemperature <=
+                                criteria.StellarTemperatureMax &&
+                                planet.ParentStar.StellarTemperature >=
+                                criteria.StellarTemperatureMin ||
+                                planet.ParentStar.StellarTemperature == null
+                         where planet.ParentStar.StellarRadius <=
+                                criteria.StellarRadiusMax &&
+                                planet.ParentStar.StellarRadius >=
+                                criteria.StellarRadiusMin ||
+                                planet.ParentStar.StellarRadius == null
+                         where planet.ParentStar.StellarMass <=
+                                criteria.StellarMassMax &&
+                                planet.ParentStar.StellarMass >=
+                                criteria.StellarMassMin ||
+                                planet.ParentStar.StellarMass == null
+                         where planet.ParentStar.StellarAge <=
+                                criteria.StellarAgeMax &&
+                                planet.ParentStar.StellarAge >=
+                                criteria.StellarAgeMin ||
+                                planet.ParentStar.StellarAge == null
+                         where planet.ParentStar.StellarRotationVelocity <=
+                                criteria.StellarRotationVelocityMax &&
+                                planet.ParentStar.StellarRotationVelocity >=
+                                criteria.StellarRotationVelocityMin ||
+                                planet.ParentStar.StellarRotationVelocity ==null
+                         where planet.ParentStar.StellarRotationPeriod <=
+                                criteria.StellarRotationPeriodMax &&
+                                planet.ParentStar.StellarRotationPeriod >=
+                                criteria.StellarRotationPeriodMin ||
+                                planet.ParentStar.StellarRotationPeriod == null
+                         where planet.ParentStar.Distance <=
+                                criteria.DistanceMax &&
+                                planet.ParentStar.Distance >=
+                                criteria.DistanceMin ||
+                                planet.ParentStar.Distance == null
+                         select planet).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
 
+                        // Prints criteria and options
                         Program.UI.PrintCriteria(filteredPlanets);
+                        Program.UI.OptionsOnSearchCriteria(numTimesShown);
 
                         numTimesShown++;
 
-                        Program.UI.OptionsOnSearchCriteria();
                         input = Program.UI.GetInput();
+
+                        // If input == information shows detailed information
+                        if (input == "information")
+                        {
+                            byte counter = 0;
+                            do
+                            {
+                                if (counter > 0)
+                                {
+                                    input = Program.UI.GetInput();
+
+                                    // Gets the planet the user chose
+                                    List<IPlanet> detailedPlanet =
+                                        (from planet in filteredPlanets
+                                         where planet.Name.ToLower() == input
+                                         select planet).ToList();
+
+                                    Program.UI.
+                                        PrintDetailedCriteria(detailedPlanet);
+                                }
+                                Program.UI.OptionsOnDetailedInformation();
+                                counter++;
+
+                            } while (input != "list");
+                            // The list stays the same
+                            numTimesShown--;
+                        }
+
+                        // Goes back to previous results
+                        else if (numTimesShown > 1)
+                        {
+                            if (input == "back")
+                                numTimesShown -= 2;
+                        }
+                        
+                    // Goes back to user values
                     } while (input != "change");
                 }
 
+                // Resets every field
                 else if (input == "reset")
                     criteria.ResetFields();
 
@@ -171,12 +275,12 @@ namespace AstroFinder
                     }
                     catch (IndexOutOfRangeException)
                     {
-                        Program.UI.NotValid("Invalid criteria");
+                        Program.UI.Message("Invalid criteria");
                     }
                 }
                 else if (input != "back")
                 {
-                    Program.UI.NotValid("Invalid criteria");
+                    Program.UI.Message("Invalid criteria");
                 }
 
             } while (input != "back");
@@ -204,27 +308,101 @@ namespace AstroFinder
                 {
                     do
                     {
-                        // Filters planets to show the user input data
+                        // Filters planets to show the user input data only
                         // Shows 'numResultsToShow' elements at a time
                         IEnumerable<IStar> filteredStars =
                         (from star in nonRepeatedStars
-                         where star.Name.ToLower().Contains(criteria.StarName ?? "any") ||
-                                criteria.StarName == null || criteria.StarName == "any"
-                         where star.StellarTemperature < criteria.StellarTemperatureMax &&
-                                star.StellarTemperature > criteria.StellarTemperatureMin
-                         where star.StellarTemperature < criteria.StellarTemperatureMax &&
-                            star.StellarTemperature > criteria.StellarTemperatureMin
-                         select star).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
+                         where star.Name.ToLower().Contains(
+                            criteria.StarName ?? "any") ||
+                            criteria.StarName == null ||
+                            criteria.StarName == "any"
 
+                         where star.StellarTemperature <=
+                                criteria.StellarTemperatureMax &&
+                                star.StellarTemperature >=
+                                criteria.StellarTemperatureMin ||
+                                star.StellarTemperature == null
+                         where star.StellarRadius <=
+                                criteria.StellarRadiusMax &&
+                                star.StellarRadius >=
+                                criteria.StellarRadiusMin ||
+                                star.StellarRadius == null
+                         where star.StellarMass <=
+                                criteria.StellarMassMax &&
+                                star.StellarMass >=
+                                criteria.StellarMassMin ||
+                                star.StellarMass == null
+                         where star.StellarAge <=
+                                criteria.StellarAgeMax &&
+                                star.StellarAge >=
+                                criteria.StellarAgeMin ||
+                                star.StellarAge == null
+                         where star.StellarRotationVelocity <=
+                                criteria.StellarRotationVelocityMax &&
+                                star.StellarRotationVelocity >=
+                                criteria.StellarRotationVelocityMin ||
+                                star.StellarRotationVelocity == null
+                         where star.StellarRotationPeriod <=
+                                criteria.StellarRotationPeriodMax &&
+                                star.StellarRotationPeriod >=
+                                criteria.StellarRotationPeriodMin ||
+                                star.StellarRotationPeriod == null
+                         where star.Distance <=
+                                criteria.DistanceMax &&
+                                star.Distance >=
+                                criteria.DistanceMin ||
+                                star.Distance == null
+                         select star).
+                                Skip(numResultsToShow * numTimesShown).
+                                Take(numResultsToShow);
+
+                        // Prints criteria and options
                         Program.UI.PrintCriteria(filteredStars);
+                        Program.UI.OptionsOnSearchCriteria(numTimesShown);
 
                         numTimesShown++;
 
-                        Program.UI.OptionsOnSearchCriteria();
                         input = Program.UI.GetInput();
+
+                        // If input == information shows detailed information
+                        if (input == "information")
+                        {
+                            byte counter = 0;
+                            do
+                            {
+                                if (counter > 0)
+                                {
+                                    input = Program.UI.GetInput();
+
+                                    // Gets the planet the user chose
+                                    List<IStar> detailedStar =
+                                        (from star in filteredStars
+                                         where star.Name.ToLower() == input
+                                         select star).ToList();
+
+                                    Program.UI.
+                                        PrintDetailedCriteria(detailedStar);
+                                }
+                                Program.UI.OptionsOnDetailedInformation();
+                                counter++;
+
+                            } while (input != "list");
+                            // The list stays the same
+                            numTimesShown--;
+                        }
+
+                        // Goes back to previous results
+                        else if (numTimesShown > 1)
+                        {
+                            if (input == "back")
+                                numTimesShown -= 2;
+                        }
+
+                        // Goes back to user values
                     } while (input != "change");
                 }
 
+                // Resets every field
                 else if (input == "reset")
                     criteria.ResetFields();
 
@@ -240,12 +418,12 @@ namespace AstroFinder
                     }
                     catch (IndexOutOfRangeException)
                     {
-                        Program.UI.NotValid("Invalid criteria");
+                        Program.UI.Message("Invalid criteria");
                     }
                 }
                 else if (input != "back")
                 {
-                    Program.UI.NotValid("Invalid criteria");
+                    Program.UI.Message("Invalid criteria");
                 }
 
             } while (input != "back");

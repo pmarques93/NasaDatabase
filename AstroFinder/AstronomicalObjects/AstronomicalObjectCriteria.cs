@@ -453,168 +453,168 @@ namespace AstroFinder
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMin = svalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.discoveryyearmax:
                     if (UInt16.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out svalue))
                         DiscoveryYearMax = svalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.orbitalperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.orbitalperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         OrbitalPeriodMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.planetradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.planetradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetRadiusMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.planetmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.planetmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetMassMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.planettemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.planettemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         PlanetTemperatureMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.stellartemperaturemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellartemperaturemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarTemperatureMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.stellarradiusmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellarradiusmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRadiusMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.stellarmassmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellarmassmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarMassMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.stellaragemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellaragemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarAgeMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.stellarrotationvelocitymin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellarrotationvelocitymax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationVelocityMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellarrotationperiodmin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.stellarrotationperiodmax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         StellarRotationPeriodMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
 
                 case SearchFieldInputs.distancemin:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMin = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
                 
                 case SearchFieldInputs.distancemax:
                     if (float.TryParse(inputValue, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out fvalue))
                         DistanceMax = fvalue;
-                    else Program.UI.NotValid("Invalid criteria");
+                    else Program.UI.Message("Invalid criteria");
                     break;
             } 
         }

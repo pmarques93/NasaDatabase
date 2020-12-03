@@ -10,38 +10,38 @@ namespace AstroFinder
         /// Asks for input
         /// </summary>
         /// <returns>Returns a string with the input</returns>
-        public string GetInput();
+        string GetInput();
 
         /// <summary>
         /// Prints a message asking for a file path
         /// </summary>
-        public void AskForAFilePath();
+        void AskForAFilePath();
 
         /// <summary>
         /// Prints an invalid path message
         /// </summary>
-        public void InvalidPath();
+        void InvalidPath();
 
         /// <summary>
         /// Prints a message if the file opened successfully
         /// </summary>
-        public void FileOpened();
+        void FileOpened();
 
         /// <summary>
         /// Prints a message if the file didn't open
         /// </summary>
-        public void ChooseAnOptionNoFile();
+        void ChooseAnOptionNoFile();
 
         /// <summary>
         /// Prints initial inputs
         /// </summary>
-        public void ChooseAnOption();
+        void ChooseAnOption();
 
         /// <summary>
         /// Prints a message when the player inputs
         /// </summary>
         /// <param name="str">Message to print</param>
-        public void NotValid(string str);
+        void Message(string str);
 
         /// <summary>
         /// Prints possible criteria of an ISearchField
@@ -56,13 +56,25 @@ namespace AstroFinder
         void PrintCriteria(IEnumerable<IAstronomicalObject> listOfObjects);
 
         /// <summary>
+        /// Prints detailed information of an IAstronomicalObject
+        /// </summary>
+        /// <param name="astroObject">IAstronomicalObject to print</param>
+        void PrintDetailedCriteria(IEnumerable<IAstronomicalObject> astroObject);
+
+        /// <summary>
         /// Prints possible options while inside the criteria loop
         /// </summary>
-        public void OptionsOnSearchCriteria();
+        /// <param name="time">Number of times the result was shown</param>
+        void OptionsOnSearchCriteria(byte time);
+
+        /// <summary>
+        /// Prints possible options while inside the detailed information loop
+        /// </summary>
+        void OptionsOnDetailedInformation();
 
         /// <summary>
         /// Prints a goodbye message
         /// </summary>
-        public void Goodbye();
+        void Goodbye();
     }
 }
