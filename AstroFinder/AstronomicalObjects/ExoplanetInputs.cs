@@ -32,5 +32,7 @@ namespace AstroFinder
         stellarrotationperiodmax,
         distancemin,
         distancemax,
+        childplanetsmin,
+        childplanetsmax,
     }
 }

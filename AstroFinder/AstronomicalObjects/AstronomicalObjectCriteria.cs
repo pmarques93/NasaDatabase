@@ -12,6 +12,7 @@ namespace AstroFinder
         private const byte MINVALUE = 0;
         private const ushort CURRENTYEAR = 2020;
         private const float FMAXVALUE = 100000000.0f;
+        private const byte BMAXVALUE = 100;
 
         private string planetName;
         private string starName;
@@ -40,6 +41,8 @@ namespace AstroFinder
         private float stellarRotationPeriodMax;
         private float distanceMin;
         private float distanceMax;
+        private byte childPlanetsMin;
+        private byte childPlanetsMax;
 
         #region Properties
         /// <summary>
@@ -414,6 +417,34 @@ namespace AstroFinder
                     distanceMax = distanceMin;
             }
         }
+        /// <summary>
+        /// DistanceMax property
+        /// </summary>
+        public byte ChildPlanetsMin
+        {
+            get => childPlanetsMin;
+            set
+            {
+                childPlanetsMin = value;
+                if (value < MINVALUE) childPlanetsMin = MINVALUE;
+                if (childPlanetsMin > childPlanetsMax)
+                    childPlanetsMin = childPlanetsMax;
+            }
+        }
+        /// <summary>
+        /// DistanceMax property
+        /// </summary>
+        public byte ChildPlanetsMax
+        {
+            get => childPlanetsMax;
+            set
+            {
+                childPlanetsMax = value;
+                if (value > BMAXVALUE) childPlanetsMax = BMAXVALUE;
+                if (childPlanetsMax < childPlanetsMin)
+                    childPlanetsMax = childPlanetsMin;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -434,6 +465,7 @@ namespace AstroFinder
         {
             ushort svalue;
             float fvalue;
+            byte bvalue;
             // Converts inputValue and sets a property
             switch (inputName)
             {
@@ -616,6 +648,20 @@ namespace AstroFinder
                         DistanceMax = fvalue;
                     else Program.UI.Message("Invalid criteria");
                     break;
+
+                case SearchFieldInputs.childplanetsmin:
+                    if (byte.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out bvalue))
+                        ChildPlanetsMin = bvalue;
+                    else Program.UI.Message("Invalid criteria");
+                    break;
+
+                case SearchFieldInputs.childplanetsmax:
+                    if (byte.TryParse(inputValue, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out bvalue))
+                        ChildPlanetsMax = bvalue;
+                    else Program.UI.Message("Invalid criteria");
+                    break;
             } 
         }
 
@@ -651,6 +697,8 @@ namespace AstroFinder
             StellarRotationPeriodMin = MINVALUE;
             DistanceMax = FMAXVALUE;
             DistanceMin = MINVALUE;
+            ChildPlanetsMax = BMAXVALUE;
+            ChildPlanetsMin = MINVALUE;
         }
     }
 }

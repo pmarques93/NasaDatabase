@@ -209,6 +209,10 @@ namespace AstroFinder
                                 planet.ParentStar.Distance >=
                                 criteria.DistanceMin ||
                                 planet.ParentStar.Distance == null
+                         where planet.ParentStar.ChildPlanets.Count <=
+                                criteria.ChildPlanetsMax &&
+                                planet.ParentStar.ChildPlanets.Count >=
+                                criteria.ChildPlanetsMin
                          select planet).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
@@ -352,6 +356,10 @@ namespace AstroFinder
                                 star.Distance >=
                                 criteria.DistanceMin ||
                                 star.Distance == null
+                         where star.ChildPlanets.Count <=
+                                criteria.ChildPlanetsMax &&
+                                star.ChildPlanets.Count >=
+                                criteria.ChildPlanetsMin
                          select star).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
