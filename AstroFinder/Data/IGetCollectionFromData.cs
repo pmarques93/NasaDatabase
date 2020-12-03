@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace AstroFinder
 {
-    public interface IGetCollectionFromData
+    public interface IGetCollectionFromData<T>
     {
-        ICollection GetCollection(string[] data);
+        ICollection GetCollection(T data);
     }
 }
