@@ -33,8 +33,8 @@ namespace AstroFinder
         public void InvalidPath()
         {
             Console.WriteLine("\n -----------------------------------");
-            Console.WriteLine("| Invalid path                      |");
-            Console.WriteLine("| Choose a valid path or type 'back'|");
+            Console.WriteLine(" Invalid path / file");
+            Console.WriteLine(" Choose a valid path or type 'back'");
             Console.WriteLine(" -----------------------------------");
         }
 
@@ -68,11 +68,11 @@ namespace AstroFinder
         /// Prints a message when the player inputs
         /// </summary>
         /// <param name="message">Message to print</param>
-        public void NotValid(string message)
+        public void Message(string message)
         {
-            Console.WriteLine("\n ------------------------");
+            Console.WriteLine("\n ----------------------------");
             Console.WriteLine($"   {message}   ");
-            Console.WriteLine(" ------------------------");
+            Console.WriteLine(" ----------------------------");
         }
 
         /// <summary>
@@ -114,14 +114,49 @@ namespace AstroFinder
         }
 
         /// <summary>
+        /// Prints detailed information of an IAstronomicalObject
+        /// </summary>
+        /// <param name="astroObject">IAstronomicalObject to print</param>
+        public void PrintDetailedCriteria(
+            IEnumerable<IAstronomicalObject> astroObject)
+        {
+            foreach (IAstronomicalObject astroBody in astroObject)
+                Console.WriteLine(astroBody.DetailedInformation());
+        }
+
+        /// <summary>
         /// Prints possible options while inside the criteria loop
         /// </summary>
-        public void OptionsOnSearchCriteria()
+        /// <param name="time">Number of times the result was shown</param>
+        public void OptionsOnSearchCriteria(byte time)
         {
-            Console.WriteLine("\n ------------------------");
+            Console.WriteLine("\n ---------------------------" +
+                "------------------------------");
             Console.WriteLine(" Press Enter key to show more results");
+            if (time > 0)
+            {
+                Console.WriteLine(" Type 'back' to move back the list to show" +
+                    " previous results");
+            }
             Console.WriteLine(" Type 'change' to change search fields");
-            Console.WriteLine(" ------------------------");
+            Console.WriteLine(" Type 'information' to search for detailed" +
+                                " information");
+            Console.WriteLine(" ---------------------------" +
+                "------------------------------");
+        }
+
+        /// <summary>
+        /// Prints possible options while inside the detailed information loop
+        /// </summary>
+        public void OptionsOnDetailedInformation()
+        {
+            Console.WriteLine("\n ---------------------------" +
+                "------------------------------");
+            Console.WriteLine($" Type 'list' to go back to the list   ");
+            Console.WriteLine($" Type a planet's name on the the list to " +
+                                $"see detailed information");
+            Console.WriteLine(" ---------------------------" +
+                "------------------------------");
         }
 
         /// <summary>
