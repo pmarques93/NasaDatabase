@@ -109,8 +109,8 @@ namespace AstroFinder
         /// <param name="">IEnumerable of IAstronomicalObjects</param>
         public void PrintCriteria(IEnumerable<IAstronomicalObject> listOfObjects)
         {
-            foreach (IPlanet planet in listOfObjects)
-                Console.WriteLine(planet.Name);
+            foreach (IAstronomicalObject astroBody in listOfObjects)
+                Console.WriteLine(astroBody.Information());
         }
 
         /// <summary>

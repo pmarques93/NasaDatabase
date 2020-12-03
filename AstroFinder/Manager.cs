@@ -189,7 +189,66 @@ namespace AstroFinder
         private void SearchStar(string input, 
             AstronomicalObjectCriteria criteria)
         {
-            
+            do
+            {
+                // Number of times the query was shown;
+                byte numTimesShown = 0;
+
+                // Shows information and asks for input
+                Program.UI.PossibleCriteria(criteria);
+
+                input = Program.UI.GetInput();
+
+                // If user types search, it will search for the criteria
+                if (input == "search")
+                {
+                    do
+                    {
+                        // Filters planets to show the user input data
+                        // Shows 'numResultsToShow' elements at a time
+                        IEnumerable<IStar> filteredStars =
+                        (from star in nonRepeatedStars
+                         where star.Name.ToLower().Contains(criteria.StarName ?? "any") ||
+                                criteria.StarName == null || criteria.StarName == "any"
+                         where star.StellarTemperature < criteria.StellarTemperatureMax &&
+                                star.StellarTemperature > criteria.StellarTemperatureMin
+                         where star.StellarTemperature < criteria.StellarTemperatureMax &&
+                            star.StellarTemperature > criteria.StellarTemperatureMin
+                         select star).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
+
+                        Program.UI.PrintCriteria(filteredStars);
+
+                        numTimesShown++;
+
+                        Program.UI.OptionsOnSearchCriteria();
+                        input = Program.UI.GetInput();
+                    } while (input != "change");
+                }
+
+                else if (input == "reset")
+                    criteria.ResetFields();
+
+                // If input is in searchable criteria enum
+                else if (Enum.TryParse(input.Split(": ")[0].Trim(),
+                        out SearchFieldInputs inputEnum))
+                {
+                    try
+                    {
+                        // Sets value after the name
+                        string userValue = input.Split(": ")[1].Trim();
+                        criteria.AddCriteria(inputEnum, userValue);
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        Program.UI.NotValid("Invalid criteria");
+                    }
+                }
+                else if (input != "back")
+                {
+                    Program.UI.NotValid("Invalid criteria");
+                }
+
+            } while (input != "back");
         }
 
         /// <summary>
