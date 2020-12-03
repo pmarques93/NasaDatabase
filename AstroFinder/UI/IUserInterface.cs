@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 namespace AstroFinder
 {
     /// <summary>
@@ -65,12 +67,19 @@ namespace AstroFinder
         /// Prints possible options while inside the criteria loop
         /// </summary>
         /// <param name="time">Number of times the result was shown</param>
-        void OptionsOnSearchCriteria(byte time);
+        /// <param name="order">Current list order</param>
+        void OptionsOnSearchCriteria(ushort time, string order);
 
         /// <summary>
         /// Prints possible options while inside the detailed information loop
         /// </summary>
         void OptionsOnDetailedInformation();
+
+        /// <summary>
+        /// Prints every value in an Enum
+        /// </summary>
+        /// <param name="message">Enum to print values from</param>
+        void PrintEnumValues(Enum values);
 
         /// <summary>
         /// Prints a goodbye message
