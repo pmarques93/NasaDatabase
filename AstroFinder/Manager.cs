@@ -133,6 +133,7 @@ namespace AstroFinder
                 {
                     do
                     {
+                        #region filteredPlanets
                         // Filters planets to show the user input data only
                         // Shows 'numResultsToShow' elements at a time
                         IEnumerable<IPlanet> filteredPlanets =
@@ -216,6 +217,7 @@ namespace AstroFinder
                          select planet).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
+                        #endregion
 
                         // Prints criteria and options
                         Program.UI.PrintCriteria(filteredPlanets);
@@ -224,6 +226,15 @@ namespace AstroFinder
                         numTimesShown++;
 
                         input = Program.UI.GetInput();
+
+                        if (input == "order")
+                        {
+                            IEnumerable<IPlanet> orderedList =
+                                from planet in filteredPlanets
+                                orderby planet.DiscoveryYear ascending
+                                select planet;
+
+                        }
 
                         // If input == information shows detailed information
                         if (input == "information")
@@ -248,6 +259,7 @@ namespace AstroFinder
                                 counter++;
 
                             } while (input != "list");
+
                             // The list stays the same
                             numTimesShown--;
                         }
