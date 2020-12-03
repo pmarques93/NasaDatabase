@@ -95,6 +95,7 @@ namespace AstroFinder
 
             Console.WriteLine("\nTo begin the search, type 'search'");
             Console.WriteLine("To reset the fields, type 'reset'");
+            Console.WriteLine("To order the list, type 'order'");
             Console.WriteLine("To go back to main menu, type 'back'");
             Console.WriteLine(
                 "Example to add planet name field: 'planetname: 51 peg b'");
@@ -128,7 +129,8 @@ namespace AstroFinder
         /// Prints possible options while inside the criteria loop
         /// </summary>
         /// <param name="time">Number of times the result was shown</param>
-        public void OptionsOnSearchCriteria(byte time)
+        /// <param name="order">Current list order</param>
+        public void OptionsOnSearchCriteria(ushort time, string order)
         {
             Console.WriteLine("\n ---------------------------" +
                 "------------------------------");
@@ -141,6 +143,14 @@ namespace AstroFinder
             Console.WriteLine(" Type 'change' to change search fields");
             Console.WriteLine(" Type 'information' to search for detailed" +
                                 " information");
+            if (Enum.TryParse(order, out ListOrder tempOrder))
+            {
+                Console.WriteLine($" Ordering by {tempOrder}");
+            }
+            else 
+            {
+                Console.WriteLine($" Ordering by default order");
+            }
             Console.WriteLine(" ---------------------------" +
                 "------------------------------");
         }
@@ -157,6 +167,26 @@ namespace AstroFinder
                                 $"see detailed information");
             Console.WriteLine(" ---------------------------" +
                 "------------------------------");
+        }
+
+        /// <summary>
+        /// Prints every value in an eum
+        /// </summary>
+        /// <param name="message">Enum to print values from</param>
+        public void PrintEnumValues(Enum values)
+        {
+            // Gets proprties in received type
+            Type type = values.GetType();
+            Array vals = Enum.GetValues(type);
+
+            Console.WriteLine("\n Type one of the following orders or the " +
+                                "order will be default");
+            Console.WriteLine(" ----------------------------");
+            foreach (var value in vals)
+            {
+                Console.WriteLine(" " + value);
+            }
+            Console.WriteLine(" ----------------------------");
         }
 
         /// <summary>
