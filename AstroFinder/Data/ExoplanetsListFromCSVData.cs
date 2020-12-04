@@ -22,21 +22,21 @@ namespace AstroFinder
             // For instance: <pl_name, 0>
             // This implies that the column header named 'pl_name'
             // is the column of index 0 in the file
-            Dictionary<string, int> headersDic = new Dictionary<string, int>();
+            Dictionary<string, int?> headersDic = new Dictionary<string, int?>();
 
             // Loops through the queryableData by columns
             for (int i = 0; i < queryableData.ElementAt(0).Count(); i++)
             {
                 // Gets the element of index 'i' of the line 0
                 // This means getting the column header of index 'i'
-                string header = queryableData.ElementAt(0)[i];
+                string header = queryableData.ElementAt(0)[i].Trim();
 
                 // Loops through all the headers of interess
                 for (int j = 0; j < HeadersOfInteress.Length; j++)
                 {
                     // Checks if a certain header of interess of index 'j'
                     // matches the header on the current column of the file
-                    if (HeadersOfInteress[j] == header.Trim())
+                    if (HeadersOfInteress[j] == header)
                     {
                         // If the column header matches a header of interess
                         // the header is added to the dictionary as a KEY
@@ -46,21 +46,31 @@ namespace AstroFinder
                 }
             }
 
+            for (int i = 0; i < HeadersOfInteress.Length; i ++)
+            {
+                if (!(headersDic.ContainsKey(HeadersOfInteress[i])))
+                {
+                    string missingHeader = HeadersOfInteress[i];
+                    headersDic.Add(missingHeader, null);
+                }
+            }
 
+            Dictionary<string,int?> hd = headersDic;
+            string[] HoI = HeadersOfInteress;
             // Returns a List of Exoplanets, skipping the first line
             // of the data file that corresponds to the column headers
             return
                 queryableData.
                 Skip(1).
                 Select(p => new Exoplanet(
-                                p?[headersDic[HeadersOfInteress[0]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[1]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[2]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[3]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[4]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[5]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[6]]].Trim(),
-                                p?[headersDic[HeadersOfInteress[7]]].Trim())).
+                                hd[HoI[0]] != null ? p[(int)hd[HoI[1]]].Trim() :  null,
+                                hd[HoI[1]] != null ? p[(int)hd[HoI[1]]].Trim() :  null,
+                                hd[HoI[2]] != null ? p[(int)hd[HoI[2]]].Trim() :  null,
+                                hd[HoI[3]] != null ? p[(int)hd[HoI[3]]].Trim() :  null,
+                                hd[HoI[4]] != null ? p[(int)hd[HoI[4]]].Trim() :  null,
+                                hd[HoI[5]] != null ? p[(int)hd[HoI[5]]].Trim() :  null,
+                                hd[HoI[6]] != null ? p[(int)hd[HoI[6]]].Trim() :  null,
+                                hd[HoI[7]] != null ? p[(int)hd[HoI[7]]].Trim() :  null)).
                                 ToList();
         }
     }

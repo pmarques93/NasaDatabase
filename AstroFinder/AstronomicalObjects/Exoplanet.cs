@@ -21,6 +21,7 @@ namespace AstroFinder
         {
             Name = name;
             DiscoveryMethod = discoveryMethod;
+
             DiscoveryYear = UInt16.TryParse(discoveryYear, NumberStyles.Any,
                 CultureInfo.InvariantCulture, out UInt16 discyear) ? 
                 discyear : null;
