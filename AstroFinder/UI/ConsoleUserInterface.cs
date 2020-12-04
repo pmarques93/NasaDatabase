@@ -125,8 +125,28 @@ namespace AstroFinder
         /// <param name="">IEnumerable of IAstronomicalObjects</param>
         public void PrintCriteria(IEnumerable<IAstronomicalObject> listOfObjects)
         {
+            if (listOfObjects is IEnumerable<IPlanet>)
+            {
+                Console.WriteLine($"{"pl_name",-30}|{"hostname",-30}|" +
+                $"{"discoverymethod",-30}|" +
+                $"{"d.year",-7}|{"pl_orbper",-10}|" +
+                $"{"pl_rade",-10}|{"pl_masse",-10}|" +
+                $"{"pl_eqt",-10}\n");
+            }
+            else
+            {
+                Console.WriteLine($"{"hostname",-30}|" +
+                $"{"st_teff",-15}|" +
+                $"{"st_rad",-15}|" +
+                $"{"st_mass",-7}|{"st_age",-8}|" +
+                $"{"st_vsin",-8}|" +
+                $"{"st_rotp",-8}|" +
+                $"{"sy_dist",-10}|{"child_planets",-13}\n");
+            }
             foreach (IAstronomicalObject astroBody in listOfObjects)
                 Console.WriteLine(astroBody.Information());
+            Console.WriteLine("\nFields with '0' mean it's an empty field with " +
+                "unknown information");
         }
 
         /// <summary>
