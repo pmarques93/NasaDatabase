@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using AstroFinder.Data;
+using AstroFinder.Table;
 
 namespace AstroFinder
 {
@@ -16,19 +17,19 @@ namespace AstroFinder
                         = new GetDataTableFromCSVData(data, null,
                                                       HeadersOfInteress);
 
-            DataTable dataTable = dataTableGetter.GetTableFromData();
-
+            DataTable<string> dataTable = dataTableGetter.GetTableFromData();
+            string[] HoI = HeadersOfInteress;
             return
-                dataTable.AsEnumerable().
+                dataTable.
                 Select(p => new Star(
-                            p[0].ToString() != "" ? p[0].ToString() : null,
-                            p[1].ToString() != "" ? p[1].ToString() : null,
-                            p[2].ToString() != "" ? p[2].ToString() : null,
-                            p[3].ToString() != "" ? p[3].ToString() : null,
-                            p[4].ToString() != "" ? p[4].ToString() : null,
-                            p[5].ToString() != "" ? p[5].ToString() : null,
-                            p[6].ToString() != "" ? p[6].ToString() : null,
-                            p[7].ToString() != "" ? p[7].ToString() : null)).
+                            p?[HoI[0]].ToString() != "" && p?[HoI[0]].ToString() != null ? p?[HoI[0]].ToString() : "N/A",
+                            p?[HoI[1]].ToString() != "" && p?[HoI[1]].ToString() != null ? p?[HoI[1]].ToString() : "N/A",
+                            p?[HoI[2]].ToString() != "" && p?[HoI[2]].ToString() != null ? p?[HoI[2]].ToString() : "N/A",
+                            p?[HoI[3]].ToString() != "" && p?[HoI[3]].ToString() != null ? p?[HoI[3]].ToString() : "N/A",
+                            p?[HoI[4]].ToString() != "" && p?[HoI[4]].ToString() != null ? p?[HoI[4]].ToString() : "N/A",
+                            p?[HoI[5]].ToString() != "" && p?[HoI[5]].ToString() != null ? p?[HoI[5]].ToString() : "N/A",
+                            p?[HoI[6]].ToString() != "" && p?[HoI[6]].ToString() != null ? p?[HoI[6]].ToString() : "N/A",
+                            p?[HoI[7]].ToString() != "" && p?[HoI[7]].ToString() != null ? p?[HoI[7]].ToString() : "N/A")).
                             ToList();
         }
     }

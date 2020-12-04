@@ -1,5 +1,6 @@
 using System.Collections;
-using System.Data;
+using System.Collections.Generic;
+using AstroFinder.Table;
 
 namespace AstroFinder.Data
 {
@@ -28,6 +29,6 @@ namespace AstroFinder.Data
         /// Gets a DataTable from data keeping only the the columns with the
         /// given headers of interess if there is any</summary>
         /// <returns>Table filtered by the given paramaters</returns>
-        DataTable GetTableFromData();
+        DataTable<string> GetTableFromData();
     }
 }

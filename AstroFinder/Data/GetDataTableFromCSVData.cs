@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading;
 using AstroFinder.Data;
+using AstroFinder.Table;
 
 namespace AstroFinder.Data
 {
@@ -11,8 +13,9 @@ namespace AstroFinder.Data
 
         public string[] HeadersOfInteress { get; }
 
+        public Dictionary<string, int> HeadersOrder { get; }
+
         public string[] Data { get; }
-        int testNumber = 0;
 
         public GetDataTableFromCSVData(string[] data,
                                        string[] mandatoryHeaders,
@@ -21,45 +24,77 @@ namespace AstroFinder.Data
             Data = data;
             MandatoryHeaders = mandatoryHeaders;
             HeadersOfInteress = headersOfInteress;
+            HeadersOrder = new Dictionary<string, int>();
         }
 
         /// <summary>
         /// Gets a table based 
         /// </summary>
         /// <returns></returns>
-        public DataTable GetTableFromData()
+        public DataTable<string> GetTableFromData()
         {
             // Converts the raw data into queryable Data
             // that makes it possible to make LINQ queries operations with it
             IEnumerable<string[]> queryableData = Data.
                                                     Where(p => p[0] != '#').
                                                     Select(p => p.Split(","));
-            DataTable dataTable = new DataTable();
 
-            AddTableFields(queryableData, dataTable);
+            List<List<string>> tableTest = new List<List<string>>();
+            DataTable<string> table = new DataTable<string>();
 
-            if (HeadersOfInteress != null)
-            {
-                RemoveNonInteressColumns(dataTable);
+            AddTableFields(queryableData, tableTest, table);
 
-                AddMissingColumnsOfInteress(dataTable);
-
-                SortColumnByInteress(dataTable);
-            }
-            return dataTable;
+            // if (HeadersOfInteress != null)
+            // {
+            //     // AddMissingColumnsOfInteress(tableTest, table);
+            //     // SortColumnByInteress(tableTest, table);
+            // }
+            return table;
         }
 
         /// <summary>
         /// Sorts table columns accordingly to the HeaderOfInteresse array
         /// </summary>
         /// <param name="dataTable">Table in which the data is written</param>
-        private void SortColumnByInteress(DataTable dataTable)
+        private void SortColumnByInteress(List<List<string>> tableTest,
+                                            DataTable<string> dataTable)
         {
-            int colIndex = 0;
-            foreach (string columnName in HeadersOfInteress)
+            // int colIndex = 0;
+
+            // colIndex = 0;
+            List<List<string>> tempList = new List<List<string>>();
+            tempList.Add(new List<string>());
+
+            for (int i = 0; i < tableTest[0].Count; i++)
             {
-                dataTable.Columns?[columnName].SetOrdinal(colIndex);
-                colIndex++;
+                tempList[0].Add((string)default);
+            }
+            for (int i = 1; i < tableTest.Count; i++)
+            {
+                tempList.Add(new List<string>());
+            }
+
+            Dictionary<int, string> dicHeaders = new Dictionary<int, string>();
+
+            for (int i = 0; i < HeadersOfInteress.Length; i++)
+            {
+                dicHeaders.Add(i, HeadersOfInteress[i]);
+            }
+
+            // Loops through the columns
+            for (int i = 0; i < tableTest[0].Count; i++)
+            {
+                // Loops through the headers of interess
+                for (int j = 0; j < HeadersOfInteress.Length; j++)
+                {
+                    if (tableTest[0][i].Contains(dicHeaders[j]))
+                    {
+                        for (int k = 0; k < tableTest.Count; k++)
+                        {
+                            // tempList[k][j] = tableTest[k][i];
+                        }
+                    }
+                }
             }
         }
 
@@ -68,42 +103,33 @@ namespace AstroFinder.Data
         /// but still correspond to one of the headers of interess
         /// </summary>
         /// <param name="dataTable">Table in which the data is written</param>
-        private void AddMissingColumnsOfInteress(DataTable dataTable)
+        private void AddMissingColumnsOfInteress(List<List<string>> tableTest,
+                                                DataTable<string> dataTable,
+                                                List<string> missingHeaders)
         {
+            if (tableTest.Count == HeadersOfInteress.Length)
+                return;
+
+            // List of the headers that the table has
+            List<string> tableHeaders = new List<string>();
+            for (int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                tableHeaders.Add(dataTable.Columns[i].ColumnName);
+            }
+
             for (int i = 0; i < HeadersOfInteress.Length; i++)
             {
-                if (!(dataTable.Columns.Contains(HeadersOfInteress[i])))
+                string missingColumnName = "";
+                if (!(tableHeaders.Contains(HeadersOfInteress[i])))
                 {
-                    DataColumn missingColumn = new DataColumn();
-                    missingColumn.ColumnName = HeadersOfInteress[i];
-                    dataTable.Columns.Add(missingColumn);
+                    missingColumnName = HeadersOfInteress[i];
+                    TableColumn missingColumn = new TableColumn(missingColumnName);
+                    dataTable.AddColumn(missingColumn);
+                    missingHeaders.Add(missingColumnName);
                 }
             }
         }
 
-        /// <summary>
-        /// Removes the table the columns that do not correspond to one of the 
-        /// headers of interess
-        /// </summary>
-        /// <param name="dataTable">Table in which the data is written</param>
-        private void RemoveNonInteressColumns(DataTable dataTable)
-        {
-            List<string> allColumnsNames = new List<string>(dataTable.Columns.Count);
-
-            for (int i = 0; i < allColumnsNames.Count; i ++)
-            {
-                allColumnsNames.Add(dataTable.Columns[i].ColumnName);
-            }
-
-            for (int i = 0; i < allColumnsNames.Count; i++)
-            {
-                string columnName = dataTable.Columns[i].ColumnName;
-                if (!(HeadersOfInteress.Contains(columnName)))
-                {
-                    dataTable.Columns.Remove(columnName);
-                }
-            }
-        }
 
         /// <summary>
         /// Add columns and rows to the table
@@ -113,27 +139,88 @@ namespace AstroFinder.Data
         /// <param name="dataTable">Table in which the data will be 
         /// written</param>
         private void AddTableFields(IEnumerable<string[]> queryableData,
-                                     DataTable dataTable)
+                                     List<List<string>> tableTest,
+                                     DataTable<string> dataTable)
         {
+            Dictionary<string, int> headersDic = new Dictionary<string, int>();
+
+            // Adds the columns that match the headers of interess
+            for (int i = 0; i < queryableData.ElementAt(0).Count(); i++)
+            {
+                string headerName = queryableData.ElementAt(0)[i].Trim();
+                if (!(HeadersOfInteress.Contains(headerName)))
+                    continue;
+
+                HeadersOrder.Add(headerName, i);
+                TableColumn column = new TableColumn(headerName);
+                dataTable.AddColumn(column);
+            }
+
+            List<string> missingHeaders = new List<string>();
+            AddMissingColumnsOfInteress(tableTest, dataTable, missingHeaders);
+
+            // Writes the rows on the table
             for (int rowIndex = 1; rowIndex < queryableData.Count(); rowIndex++)
             {
-                DataRow row = dataTable.NewRow();
-                dataTable.Rows.Add(row);
-
-                for (int columnIndex = 0; columnIndex
-                    < queryableData.ElementAt(0).Count(); columnIndex++)
+                TableRow<string> row = dataTable.NewRow();
+                for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
                 {
-                    if (rowIndex == 1)
+                    string columnName = dataTable.
+                                        Columns[columnIndex].ColumnName;
+
+                    if (missingHeaders.Contains(columnName))
                     {
-                        DataColumn column = new DataColumn();
-                        column.ColumnName = queryableData.
-                                            ElementAt(0)[columnIndex].Trim();
-
-                        dataTable.Columns.Add(column);
+                        row[columnName] = "n/a";
+                        if (!(HeadersOrder.ContainsKey(columnName)))
+                            HeadersOrder.Add(columnName, columnIndex);
                     }
+                    else
+                    {
+                        int dataColumnIndex = HeadersOrder[columnName];
+                        row[columnName] = queryableData.
+                                            ElementAt(rowIndex)[dataColumnIndex];
+                    }
+                }
+                dataTable.AddRow(row);
+            }
 
-                    row[dataTable.Columns[columnIndex].ColumnName] =
-                        queryableData.ElementAt(rowIndex)[columnIndex].Trim();
+            foreach (var v in HeadersOrder)
+            {
+                Console.WriteLine($"Key: {v.Key}, Value: {v.Value} ");
+            }
+
+            // foreach (TableColumn v in dataTable.Columns)
+            // {
+            //     Console.WriteLine("--------------- HEADERS ----------------");
+            //     Console.WriteLine($"{v.ColumnName}\n");
+            //     foreach (TableRow<string> w in dataTable.Rows)
+            //     {
+            //         Console.WriteLine($"It is: {w[v.ColumnName]}");
+            //     }
+            // }
+
+            // THIS IS ABOUT TO GO OUT /////////////////////////////////////////
+            // Adds the first row to the table
+            // This row corresponds to te headers row
+            tableTest.Add(new List<string>());
+
+            for (int columnIndex = 0; columnIndex
+                < queryableData.ElementAt(0).Count(); columnIndex++)
+            {
+                string colName = queryableData.
+                                    ElementAt(0)[columnIndex].Trim();
+
+                if (!(HeadersOfInteress.Contains(colName)))
+                    continue;
+                tableTest[0].Add(colName);
+            }
+
+            for (int rowIndex = 1; rowIndex < queryableData.Count(); rowIndex++)
+            {
+                tableTest.Add(new List<string>());
+                for (int columnIndex = 0; columnIndex < tableTest[0].Count; columnIndex++)
+                {
+                    tableTest[rowIndex].Add(queryableData.ElementAt(rowIndex)[columnIndex].Trim());
                 }
             }
         }

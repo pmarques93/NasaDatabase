@@ -70,9 +70,9 @@ namespace AstroFinder
                     default:
                         Program.UI.Message("Not a valid option");
                         break;
-                } 
-                
-            }while (input != "quit");
+                }
+
+            } while (input != "quit");
             Program.UI.Goodbye();
         }
 
@@ -100,9 +100,9 @@ namespace AstroFinder
                     case "star":
                         SearchStar(input, criteria);
                         break;
-                    case "back":     
+                    case "back":
                         // Turns file back to null
-                        fileReader = null;  
+                        fileReader = null;
                         break;
                     default:
                         Program.UI.Message("Not a valid option");
@@ -123,14 +123,14 @@ namespace AstroFinder
             do
             {
                 // Number of times the query was shown;
-                ushort numTimesShown = 0; 
+                ushort numTimesShown = 0;
 
                 // Shows information and asks for input
                 Program.UI.PossibleCriteria(criteria);
 
                 input = Program.UI.GetInput();
 
-                
+
                 #region filteredPlanets
                 // Filters planets to show the user input data only
                 // Shows 'numResultsToShow' elements at a time
@@ -230,17 +230,17 @@ namespace AstroFinder
                             case ListOrder.ascendingname:
                                 orderedPlanets =
                                 (from planet in filteredPlanets
-                                orderby planet.Name ascending
-                                select planet).
-                                ThenBy(p=>p.DiscoveryYear).
+                                 orderby planet.Name ascending
+                                 select planet).
+                                ThenBy(p => p.DiscoveryYear).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
                                 break;
                             case ListOrder.descendingname:
                                 orderedPlanets =
                                 (from planet in filteredPlanets
-                                orderby planet.Name descending
-                                select planet).
+                                 orderby planet.Name descending
+                                 select planet).
                                 ThenBy(p => p.DiscoveryYear).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
@@ -284,8 +284,8 @@ namespace AstroFinder
                             case ListOrder.ascendingdiscoveryyear:
                                 orderedPlanets =
                                 (from planet in filteredPlanets
-                                orderby planet.DiscoveryYear ascending
-                                select planet).
+                                 orderby planet.DiscoveryYear ascending
+                                 select planet).
                                 ThenBy(p => p.Name).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
