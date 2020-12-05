@@ -24,6 +24,10 @@ namespace AstroFinder.Data.FilterData
             this.data = data;
             this.headers = headers;
         }
+        
+        /// <summary>
+        /// Responsible for filtering data.
+        /// </summary>
         public abstract void Filter();
     }
 }
