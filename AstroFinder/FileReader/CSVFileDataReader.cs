@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 namespace AstroFinder
 {
@@ -23,7 +24,10 @@ namespace AstroFinder
         }
         public bool TryGetDataFromFile(out string[] fileData)
         {
-            fileData = File.ReadAllLines(Path);
+            string[] tempData = File.ReadAllLines(Path).
+                                Where(p => p.Length != 0).
+                                Select(p => p).ToArray();
+            fileData = tempData;
             return fileData.Length > 0;
         }
     }

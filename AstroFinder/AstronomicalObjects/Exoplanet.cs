@@ -41,11 +41,10 @@ namespace AstroFinder
 
         public string Information()
         {
-            const string nonAvailable = "N/A";
+            const string nonAvailable = "N/a";
             return
-                (Name == null ?
-                $"{nonAvailable,-30}|" :
-                $"{Name,-30}|") +
+                $"{Name,-30}|" +
+                $"{ParentStar.Name,-30}|" +
 
                 (DiscoveryMethod == null ?
                 $"{nonAvailable,-30}|" :
@@ -77,7 +76,7 @@ namespace AstroFinder
         {
             const sbyte x = -18;
             const sbyte y = -25;
-            const string nonAvailable = "N/A";
+            const string nonAvailable = "N/a";
             const string kmPerSec = "km/s";
             const string kelvin = "K";
             const string days = "days";
@@ -89,10 +88,7 @@ namespace AstroFinder
                 "\n--------------------------------------------------------" +
                 "-------\n" +
                 $"{"--Planet Information--",x}\n" +
-
-                $"{"Name",x}: " + (Name == null ?
-                                    $"{nonAvailable}\n" :
-                                    $"{Name}\n") +
+                $"{"Name",x}: {Name}\n" +
                 $"{"DiscoveryMethod",x}: " + (DiscoveryMethod == null ?
                                                 $"{nonAvailable}\n" :
                                                 $"{DiscoveryMethod}\n") +
