@@ -87,4 +87,4 @@ https://www.youtube.com/watch?v=W5L2_wXj6gw&feature=youtu.be)
 - ["How to get properties (System.Reflection)"](
 https://www.youtube.com/watch?v=9_tEKosktNo&feature=youtu.be)
 - ["2º projeto de LP1 2018/19"](
-https://github.com/VideojogosLusofona/lp2_2020_p1)
+https://github.com/VideojogosLusofona/lp1_2018_p2_solucao)
