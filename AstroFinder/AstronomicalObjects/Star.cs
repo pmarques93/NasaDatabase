@@ -98,30 +98,13 @@ namespace AstroFinder
         /// <returns>Returns a string with information</returns>
         public string Information()
         {
-            const sbyte y = -25;
             return
-                "\n--------------------------------------------------------" +
-                "-------\n" +
-                $"{"\nStar Information:",y}\n" +
-                $"{"StellarName",y}: {Name}\n" +
-                $"{"StellarTemperature",y}: " +
-                    $"{StellarTemperature ?? 0} kelvin\n" +
-                $"{"StellarRadius",y}: {StellarRadius ?? 0}" +
-                    $" compared to sun\n" +
-                $"{"StellarMass",y}: {StellarMass ?? 0} " +
-                    $"compared to sun\n" +
-                $"{"StellarAge",y}: {StellarAge ?? 0} " +
-                    $"billion years\n" +
-                $"{"StellarRotationVelocity",y}: " +
-                    $"{StellarRotationVelocity ?? 0} km/s\n" +
-                $"{"StellarRotationPeriod",y}: " +
-                    $"{StellarRotationPeriod ?? 0} days\n" +
-                $"{"Distance",y}: {Distance ?? 0} parsec \n" +
-                $"{"NumberOfChildPlanets",y}: {ChildPlanets.Count}\n" +
-                "----------------------------------------------------------" +
-                "-------\n" +
-                "Fields with '0' mean it's an empty field with " +
-                "unknown information";
+                $"{Name,-30}|{StellarTemperature ?? 0,-15}|" +
+                $"{StellarRadius ?? 0,-15}|" +
+                $"{StellarMass ?? 0,-7}|{StellarAge ?? 0,-8}|" +
+                $"{StellarRotationVelocity ?? 0,-8}|" +
+                $"{StellarRotationPeriod ?? 0,-8}|" +
+                $"{Distance ?? 0,-10}|{ChildPlanets.Count,-13}";
         }
 
         /// <summary>

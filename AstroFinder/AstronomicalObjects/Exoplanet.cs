@@ -41,24 +41,12 @@ namespace AstroFinder
 
         public string Information()
         {
-            const sbyte x = -18;
             return
-                "\n--------------------------------------------------------" +
-                "-------\n" +
-                $"{"Planet Information:",x}\n" +
-                $"{"Name",x}: {Name}\n" +
-                $"{"StellarName",x}: {ParentStar.Name}\n" +
-                $"{"DiscoveryMethod",x}: {DiscoveryMethod}\n" +
-                $"{"DiscoveryYear",x}: {DiscoveryYear}\n" +
-                $"{"OrbitalPeriod",x}: {OrbitalPeriod ?? 0} days\n" +
-                $"{"PlanetRadius",x}: " +
-                    $"{PlanetRadius ?? 0} compared to earth\n" +
-                $"{"PlanetMass",x}: {PlanetMass ?? 0} compared to earth\n" +
-                $"{"PlanetTemperature",x}: {PlanetTemperature ?? 0} kelvin\n" +
-                "----------------------------------------------------------" +
-                "-------\n" +
-                "Fields with '0' mean it's an empty field with " +
-                "unknown information";
+                $"{Name,-30}|{ParentStar.Name,-30}|{DiscoveryMethod,-30}|" +
+                $"{DiscoveryYear,-7}|{OrbitalPeriod ?? 0,-10}|" +
+                $"{PlanetRadius ?? 0,-10}|{PlanetMass ?? 0,-10}|" +
+                $"{PlanetTemperature ?? 0,-10}";
+
         }
 
         public string DetailedInformation()
