@@ -1,0 +1,52 @@
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AstroFinder.Data.FilterData
+{
+    public class FilterCSVDataByHeaders : FilterCSVData<IEnumerable<string[]>>
+    {
+        private Dictionary<string, int?> headersIndex;
+        public FilterCSVDataByHeaders(IEnumerable<string[]>data,
+                                      string[] headers,
+                                      Dictionary<string, int?> headersIndex) :
+                                      base(data, headers)
+        {
+            this.headersIndex = headersIndex;
+        }
+
+        public override void Filter()
+        {                       
+            // Loops through the data by columns
+            for (int i = 0; i < data.ElementAt(0).Count(); i++)
+            {
+                // Gets the element of index 'i' of the line 0
+                // This means getting the column header of index 'i'
+                string header = data.ElementAt(0)[i].Trim();
+
+                // Loops through all the headers of interess
+                for (int j = 0; j < headers.Length; j++)
+                {
+                    // Checks if a certain header of interess of index 'j'
+                    // matches the header on the current column of the file
+                    if (headers[j] == header)
+                    {
+                        // If the column header matches a header of interess
+                        // the header is added to the dictionary as a KEY
+                        // its value will be the header column index on the file
+                        headersIndex.Add(headers[j], i);
+                    }
+                }
+            }
+
+            for (int i = 0; i < headers.Length; i ++)
+            {
+                if (!(headersIndex.ContainsKey(headers[i])))
+                {
+                    string missingHeader = headers[i];
+                    headersIndex.Add(missingHeader, null);
+                }
+            }
+
+        }
+    }
+}

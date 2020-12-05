@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace AstroFinder
 {
-    public abstract class CollectionFromCSVData : IGetCollectionFromData
+    public abstract class CollectionFromCSVData<T> : 
+                            IGetCollectionFromData<string[], T> 
+                            where T : ICollection
     {
-        public abstract ICollection GetCollection(string[] data);
+        public abstract T GetCollection(string[] data);
     }
 }

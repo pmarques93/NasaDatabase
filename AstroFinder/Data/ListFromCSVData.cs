@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace AstroFinder
 {
-    public class ListFromCSVData : CollectionFromCSVData
+    public abstract class ListFromCSVData<T> : 
+                            CollectionFromCSVData<List<T>> 
     {
         protected virtual string[] HeadersOfInteress { get; }
         public ListFromCSVData(string[] headers)
@@ -12,15 +13,6 @@ namespace AstroFinder
             HeadersOfInteress = headers;
         }
 
-        public override ICollection GetCollection(string[] data)
-        {
-            IEnumerable<string[]> refinedData =
-                data.
-                Where(p => p[0] != '#').
-                Select(p => p.Split(","));
-
-            return refinedData.ToArray();
-
-        }
+        public abstract override List<T> GetCollection(string[] data);
     }
 }
