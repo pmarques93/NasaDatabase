@@ -111,10 +111,10 @@ namespace AstroFinder
                 switch (input = Program.UI.GetInput())
                 {
                     case "planet":
-                        SearchPlanet(TypeOfSearch.Planet, input, criteria);
+                        SearchPlanet(input, criteria);
                         break;
                     case "star":
-                        SearchStar(TypeOfSearch.Star, input, criteria);
+                        SearchStar(input, criteria);
                         break;
                     case "back":
                         // Turns file back to null
@@ -132,12 +132,10 @@ namespace AstroFinder
         /// </summary>
         /// <param name="input">Receives string from user input</param>
         /// <param name="criteria">Receives criteria for search fields</param>
-        private void SearchPlanet(TypeOfSearch searchType, string input,
+        private void SearchPlanet(string input,
             AstronomicalObjectCriteria criteria)
         {
             IQuery<IPlanet> query = new PlanetQuery(allPlanets);
-
-            // Switch
 
             // List order
             string order = "defaultorder";
@@ -161,6 +159,8 @@ namespace AstroFinder
                         Program.UI.PrintCriteria(query.Order(listOrder, 
                                                 criteria, numTimesShown));
 
+                        // Prints possible options while inside the criteria
+                        // loop.
                         Program.UI.OptionsOnSearchCriteria(numTimesShown, order);
 
                         numTimesShown++;
@@ -179,9 +179,9 @@ namespace AstroFinder
 
                                     // Gets the planet the user chose
                                     List<IPlanet> detailedPlanet =
-                                        (from planet in query.Filter(criteria)
-                                         where planet.Name.ToLower() == input
-                                         select planet).ToList();
+                                        (from body in query.Filter(criteria)
+                                         where body.Name.ToLower() == input
+                                         select body).ToList();
 
                                     Program.UI.
                                         PrintDetailedCriteria(detailedPlanet);
@@ -246,7 +246,7 @@ namespace AstroFinder
         /// </summary>
         /// <param name="input">Receives string from user input</param>
         /// <param name="criteria">Receives criteria for search fields</param>
-        private void SearchStar(TypeOfSearch searchType, string input,
+        private void SearchStar(string input,
             AstronomicalObjectCriteria criteria)
         {
             IQuery<IStar> query = new StarQuery(allPlanets, nonRepeatedStars);
@@ -264,6 +264,7 @@ namespace AstroFinder
                 // If user types search, it will search for the criteria
                 if (input == "search")
                 {
+                    // 
                     Enum.TryParse(order, out ListOrder listOrder);
                     do
                     {
@@ -271,6 +272,8 @@ namespace AstroFinder
                         Program.UI.PrintCriteria(query.Order(listOrder,
                                                 criteria, numTimesShown));
 
+                        // Prints possible options while inside the criteria
+                        // loop.
                         Program.UI.OptionsOnSearchCriteria(numTimesShown, order);
 
                         numTimesShown++;
@@ -360,7 +363,6 @@ namespace AstroFinder
         private void StarPlanetRelation(
             IGetCollectionFromData<string[], List<Exoplanet>> getPlanets,
             IGetCollectionFromData<string[], List<Star>> getStars
-
             )
         {
             allPlanets = getPlanets.GetCollection(fileReader.FileData)
@@ -369,8 +371,8 @@ namespace AstroFinder
             allStars = getStars.GetCollection(fileReader.FileData)
                     as List<Star>;
 
+            // Creates a list with all non repeated stars
             nonRepeatedStars = new List<IStar>();
-
             foreach (IStar star in allStars)
             {
                 if (nonRepeatedStars.Contains(star) == false)
@@ -378,6 +380,9 @@ namespace AstroFinder
                     nonRepeatedStars.Add(star);
                 }
             }
+
+            // Adds planets to star's child planets
+            // Adds a star as a planet's star parent
             foreach (Exoplanet planet in allPlanets)
             {
                 foreach (Star star in nonRepeatedStars)

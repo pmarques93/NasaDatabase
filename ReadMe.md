@@ -52,7 +52,7 @@ que tem como objetivo a criação das listas. Após a criação, correm dois
 mesmo *hostname* da estrela, este planeta é adicionado como um childplanet
 dessa estrela, sendo esta também adicionada com parentstar deste planeta.
 
-O algoritmo criado para pesquisa baseia-se no input do utilizador que modifica
+O algoritmo criado para pesquisa baseia-se no *input* do utilizador que modifica
 critérios de pesquisa criados através da classe `SearchCriteria`. O utilizador
 coloca o critério que quer modificar e de seguida coloca o valor, sendo
 confirmada a existência deste critério através de um *TryParse* que verifica
@@ -68,13 +68,15 @@ utilizador.
 As principais *queries* utilizadas são *queries* executadas em listas de
 planetas e estrelas filtradas, nomeadamente
 `ICollection<IStar> nonRepeatedStars` e `IEnumerable<IStar> allStars`
-encontradas na `Manager`. Estas queries filtram
+encontradas na `Manager`. Estas *queries*, `PlanetQuery` e `SearchQuery`,filtram
 todos os planetas/estrelas consoante o *input* do utilizador através das
 propriedades da classe `SearchCriteria`. De modo a podermos realizar a pesquisa
 avançada, foi também utilizado o *Join* na *query* das `nonRepeatedStars`,
 conseguindo assim aceder a uma lista de planetas, sendo possível incluir os
 seus campos na pesquisa. Deste modo é possível pesquisar por estrelas com
-campos pertencentes a planetas e vice-versa.
+campos pertencentes a planetas e vice-versa. As *queries* mencionadas contêm
+o método `Order` que possibilita a ordenação da mesma por ordem ascendente e
+descendente, onde existe também um critério secundário de ordenação.
 
 Gabriel stuff ------------------------------
 
