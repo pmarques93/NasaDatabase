@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace AstroFinder
 {
-    public abstract class ListFromCSVData : CollectionFromCSVData
+    public abstract class ListFromCSVData<T> : 
+                            CollectionFromCSVData<List<T>> 
     {
         protected virtual string[] HeadersOfInteress { get; }
         public ListFromCSVData(string[] headers)
@@ -12,6 +13,6 @@ namespace AstroFinder
             HeadersOfInteress = headers;
         }
 
-        public abstract override ICollection GetCollection(string[] data);
+        public abstract override List<T> GetCollection(string[] data);
     }
 }

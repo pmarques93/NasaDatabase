@@ -11,9 +11,9 @@ namespace AstroFinder
     {
         ////////////////////// PARA TAR NOUTRA CLASSE ////////////////////////////////////////////////////////////
         string[] planetHeaders;
-        ExoplanetsListFromCSVData getPlanets;
+        IGetCollectionFromData<string[], List<Exoplanet>> getPlanets;
         string[] starHeaders;
-        StarsListFromCSVData getStars;
+        IGetCollectionFromData<string[], List<Star>> getStars;
         //////////////////////////// TEMPORARIO //////////////////////////////////////////////////////////
 
         /// <summary>

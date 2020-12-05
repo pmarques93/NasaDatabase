@@ -5,11 +5,11 @@ using AstroFinder.Data.FilterData;
 
 namespace AstroFinder
 {
-    public class ExoplanetsListFromCSVData : ListFromCSVData
+    public class ExoplanetsListFromCSVData : ListFromCSVData<Exoplanet>
     {
         public ExoplanetsListFromCSVData(string[] headers) : base(headers) { }
 
-        public override ICollection GetCollection(string[] data)
+        public override List<Exoplanet> GetCollection(string[] data)
         {
             IEnumerable<string[]> queryableData =
                                     data.
