@@ -41,11 +41,34 @@ namespace AstroFinder
 
         public string Information()
         {
+            const string nonAvailable = "N/a";
             return
-                $"{Name,-30}|{ParentStar.Name,-30}|{DiscoveryMethod,-30}|" +
-                $"{DiscoveryYear,-7}|{OrbitalPeriod ?? 0,-10}|" +
-                $"{PlanetRadius ?? 0,-10}|{PlanetMass ?? 0,-10}|" +
-                $"{PlanetTemperature ?? 0,-10}";
+                $"{Name,-30}|" +
+                $"{ParentStar.Name,-30}|" +
+
+                (DiscoveryMethod == null ?
+                $"{nonAvailable,-30}|" :
+                $"{DiscoveryMethod,-30}|") +
+
+                (DiscoveryYear == null ?
+                $"{nonAvailable,-7}|" :
+                $"{DiscoveryYear,-7}|") +
+
+                (OrbitalPeriod == null ?
+                $"{nonAvailable,-10}|" :
+                $"{OrbitalPeriod,-10}|") +
+
+                (PlanetRadius == null ?
+                $"{nonAvailable,-10}|" :
+                $"{PlanetRadius,-10}|") +
+
+                (PlanetMass == null ?
+                $"{nonAvailable,-10}|" :
+                $"{PlanetMass,-10}|") +
+
+                (PlanetTemperature == null ?
+                $"{nonAvailable,-10}|" :
+                $"{PlanetTemperature,-10}|");
 
         }
 
