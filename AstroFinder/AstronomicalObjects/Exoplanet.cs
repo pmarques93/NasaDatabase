@@ -23,7 +23,7 @@ namespace AstroFinder
             DiscoveryMethod = discoveryMethod;
 
             DiscoveryYear = UInt16.TryParse(discoveryYear, NumberStyles.Any,
-                CultureInfo.InvariantCulture, out UInt16 discyear) ? 
+                CultureInfo.InvariantCulture, out UInt16 discyear) ?
                 discyear : null;
             OrbitalPeriod = float.TryParse(orbitalPeriod, NumberStyles.Any,
                 CultureInfo.InvariantCulture, out float operiod) ?
@@ -53,35 +53,91 @@ namespace AstroFinder
         {
             const sbyte x = -18;
             const sbyte y = -25;
+            const string nonAvailable = "N/a";
+            const string kmPerSec = "km/s";
+            const string kelvin = "K";
+            const string days = "days";
+            const string compToEarth = "compared to Earth";
+            const string compToSun = "compared to Sun";
+            const string bilYears = "billion years";
+            const string parsec = "pc";
             return
                 "\n--------------------------------------------------------" +
                 "-------\n" +
                 $"{"--Planet Information--",x}\n" +
                 $"{"Name",x}: {Name}\n" +
-                $"{"DiscoveryMethod",x}: {DiscoveryMethod}\n" +
-                $"{"DiscoveryYear",x}: {DiscoveryYear}\n" +
-                $"{"OrbitalPeriod",x}: {OrbitalPeriod ?? 0} days\n" +
-                $"{"PlanetRadius",x}: " +
-                    $"{PlanetRadius ?? 0} compared to earth\n" +
-                $"{"PlanetMass",x}: {PlanetMass ?? 0} compared to earth\n" +
-                $"{"PlanetTemperature",x}: {PlanetTemperature ?? 0} kelvin\n" +
+                $"{"DiscoveryMethod",x}: " + (DiscoveryMethod == null ?
+                                                $"{nonAvailable}\n" :
+                                                $"{DiscoveryMethod}\n") +
+                $"{"DiscoveryYear",x}: " + (DiscoveryYear == null ?
+                                            $"{nonAvailable}\n" :
+                                            $"{DiscoveryYear}\n") +
+                $"{"OrbitalPeriod",x}: " + (OrbitalPeriod == null ?
+                                            $"{nonAvailable}\n" :
+                                            $"{OrbitalPeriod} {days}\n") +
+                $"{"PlanetRadius",x}: " + (PlanetRadius == null ?
+                                            $"{nonAvailable}\n" :
+                                            $"{PlanetRadius} {compToEarth}\n") +
+                $"{"PlanetMass",x}: " + (PlanetMass == null ?
+                                            $"{nonAvailable}\n" :
+                                            $"{PlanetMass} {compToEarth}\n") +
+                $"{"PlanetTemperature",x}: " + (PlanetTemperature == null ?
+                                            $"{nonAvailable}\n" :
+                                            $"{PlanetTemperature} {kelvin}\n") +
                 $"{"\n\t--Star Information--",y}\n" +
-                $"{"\tStellarName",y}: {ParentStar.Name}\n" +
+                $"{"\tStellarName",x}: " + (ParentStar == null ||
+                                                ParentStar.Name == null ?
+                                                $"{nonAvailable}\n" :
+                                                $"{ParentStar.Name}\n") +
                 $"{"\tStellarTemperature",y}: " +
-                    $"{ParentStar.StellarTemperature ?? 0} kelvin\n" +
-                $"{"\tStellarRadius",y}: {ParentStar.StellarRadius ?? 0}" +
-                    $" compared to sun\n" +
-                $"{"\tStellarMass",y}: {ParentStar.StellarMass ?? 0} " +
-                    $"compared to sun\n" +
-                $"{"\tStellarAge",y}: {ParentStar.StellarAge ?? 0} " +
-                    $"billion years\n" +
+                            (ParentStar == null ||
+                            ParentStar.StellarTemperature == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarTemperature} {kelvin}\n") +
+
+                $"{"\tStellarRadius",y}: " +
+                            (ParentStar == null ||
+                            ParentStar.StellarRadius == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarRadius} {compToSun}\n") +
+
+                $"{"\tStellarMass",y}: " +
+                            (ParentStar == null ||
+                            ParentStar.StellarMass == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarMass} {compToSun}\n") +
+
+                $"{"\tStellarAge",y}: " +
+                            (ParentStar == null ||
+                            ParentStar.StellarMass == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarMass} {bilYears}\n") +
+
                 $"{"\tStellarRotationVelocity",y}: " +
-                    $"{ParentStar.StellarRotationVelocity ?? 0} km/s\n" +
-                $"{"\tStellarRotationPeriod",y}: " +
-                    $"{ParentStar.StellarRotationPeriod ?? 0} days\n" +
-                $"{"\tDistance",y}: {ParentStar.Distance ?? 0} parsec \n" +
+                            (ParentStar == null ||
+                            ParentStar.StellarRotationVelocity == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarRotationVelocity} {kmPerSec}\n") +
+
+
+                $"{"\tStellarRotStellarRotationPeriodtationVelocity",y}: " +
+                            (ParentStar == null ||
+                            ParentStar.StellarRotationPeriod == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.StellarRotationPeriod} {days}\n") +
+
+                $"{"\tDistance",y}: " +
+                            (ParentStar == null ||
+                            ParentStar.Distance == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.Distance} {parsec}\n") +
+
                 $"{"\tNumberOfChildPlanets",y}: " +
-                    $"{ParentStar.ChildPlanets.Count}\n" +
+                            (ParentStar == null ||
+                            ParentStar.ChildPlanets == null ?
+                            $"{nonAvailable}\n" :
+                            $"{ParentStar.ChildPlanets.Count}\n") +
+
                 "----------------------------------------------------------" +
                 "-------\n" +
                 "Fields with '0' mean it's an empty field with " +
@@ -89,4 +145,3 @@ namespace AstroFinder
         }
     }
 }
-                                                                                
