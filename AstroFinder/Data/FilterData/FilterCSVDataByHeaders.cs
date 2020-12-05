@@ -3,10 +3,23 @@ using System.Linq;
 
 namespace AstroFinder.Data.FilterData
 {
+    /// <summary>
+    /// Responsible for going through CSV data and filtering it by the given
+    /// headers.
+    /// </summary>
     public class FilterCSVDataByHeaders : FilterCSVData<IEnumerable<string[]>>
     {
         private Dictionary<string, int?> headersIndex;
-        public FilterCSVDataByHeaders(IEnumerable<string[]>data,
+        /// <summary>
+        /// Constructor, that initializes and creates a new instance of 
+        /// FilterCSVDataByHeaders.
+        /// </summary>
+        /// <param name="headers">Headers that will be looked for on the
+        /// CSV data</param>
+        /// <param name="headersIndex">Dictionary that establishes and
+        /// relation between a header and its index on the data.</param>
+        /// <returns></returns>
+        public FilterCSVDataByHeaders(IEnumerable<string[]> data,
                                       string[] headers,
                                       Dictionary<string, int?> headersIndex) :
                                       base(data, headers)
@@ -14,8 +27,11 @@ namespace AstroFinder.Data.FilterData
             this.headersIndex = headersIndex;
         }
 
+        /// <summary>
+        /// Responsible for filtering data.
+        /// </summary>
         public override void Filter()
-        {                       
+        {
             // Loops through the data by columns
             for (int i = 0; i < data.ElementAt(0).Count(); i++)
             {
@@ -38,7 +54,9 @@ namespace AstroFinder.Data.FilterData
                 }
             }
 
-            for (int i = 0; i < headers.Length; i ++)
+
+            // Adds the missing headers to the headers dictionary
+            for (int i = 0; i < headers.Length; i++)
             {
                 if (!(headersIndex.ContainsKey(headers[i])))
                 {
