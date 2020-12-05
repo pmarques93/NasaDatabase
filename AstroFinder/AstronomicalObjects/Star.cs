@@ -98,13 +98,43 @@ namespace AstroFinder
         /// <returns>Returns a string with information</returns>
         public string Information()
         {
+            const string nonAvailable = "N/A";
             return
-                $"{Name,-30}|{StellarTemperature ?? 0,-15}|" +
-                $"{StellarRadius ?? 0,-15}|" +
-                $"{StellarMass ?? 0,-7}|{StellarAge ?? 0,-8}|" +
-                $"{StellarRotationVelocity ?? 0,-8}|" +
-                $"{StellarRotationPeriod ?? 0,-8}|" +
-                $"{Distance ?? 0,-10}|{ChildPlanets.Count,-13}";
+                (Name == null ?
+                $"{nonAvailable,-30}|" :
+                $"{Name,-30}|") +
+
+                (StellarTemperature == null ?
+                $"{nonAvailable,-15}|" :
+                $"{StellarTemperature,-15}|") +
+
+                (StellarRadius == null ?
+                $"{nonAvailable,-15}|" :
+                $"{StellarRadius,-15}|") +
+
+                (StellarMass == null ?
+                $"{nonAvailable,-7}|" :
+                $"{StellarMass,-7}|") +
+
+                (StellarAge == null ?
+                $"{nonAvailable,-8}|" :
+                $"{StellarAge,-8}|") +
+
+                (StellarRotationVelocity == null ?
+                $"{nonAvailable,-8}|" :
+                $"{StellarRotationVelocity,-8}|") +
+
+                (StellarRotationPeriod == null ?
+                $"{nonAvailable,-8}|" :
+                $"{StellarRotationPeriod,-8}|") +
+
+                (Distance == null ?
+                $"{nonAvailable,-10}|" :
+                $"{Distance,-10}|") +                
+
+                (ChildPlanets == null ?
+                $"{nonAvailable,-13}|" :
+                $"{ChildPlanets.Count,-13}|");
         }
 
         /// <summary>
@@ -113,25 +143,58 @@ namespace AstroFinder
         /// <returns>Returns a string with information</returns>
         public string DetailedInformation()
         {
+
+            const string nonAvailable = "N/A";
+            const string kmPerSec = "km/s";
+            const string kelvin = "K";
+            const string days = "days";
+            const string compToSun = "compared to Sun";
+            const string bilYears = "billion years";
+            const string parsec = "pc";
+
             const sbyte y = -25;
             return
                 "\n--------------------------------------------------------" +
                 "-------\n" +
                 $"{"\n--Star Information--",y}\n" +
-                $"{"StellarName",y}: {Name}\n" +
+
+                $"{"StellarName",y}: " + (Name == null ?
+                                                $"{nonAvailable}\n" :
+                                                $"{Name}\n") +
+
                 $"{"StellarTemperature",y}: " +
-                    $"{StellarTemperature ?? 0} kelvin\n" +
-                $"{"StellarRadius",y}: {StellarRadius ?? 0}" +
-                    $" compared to sun\n" +
-                $"{"StellarMass",y}: {StellarMass ?? 0} " +
-                    $"compared to sun\n" +
-                $"{"StellarAge",y}: {StellarAge ?? 0} " +
-                    $"billion years\n" +
-                $"{"StellarRotationVelocity",y}: " +
-                    $"{StellarRotationVelocity ?? 0} km/s\n" +
-                $"{"StellarRotationPeriod",y}: " +
-                    $"{StellarRotationPeriod ?? 0} days\n" +
-                $"{"Distance",y}: {Distance ?? 0} parsec \n" +
+                                 (StellarTemperature == null ?
+                                        $"{nonAvailable}\n" :
+                                        $"{StellarTemperature} {kelvin}\n") +
+
+                $"{"StellarRadius",y}: " + 
+                                (StellarRadius == null ?
+                                    $"{nonAvailable}\n" :
+                                    $"{StellarRadius} {compToSun}\n") +
+
+                $"{"StellarMass",y}: " + 
+                                (StellarMass == null ?
+                                    $"{nonAvailable}\n" :
+                                    $"{StellarMass} {compToSun}\n") +
+
+                $"{"StellarAge",y}: " + (StellarAge == null ?
+                                                $"{nonAvailable}\n" :
+                                                $"{StellarAge} {bilYears}\n") +
+
+                $"{"StellarRotationVelocity",y}: " + (
+                                StellarRotationVelocity == null ?
+                                    $"{nonAvailable}\n" :
+                                    $"{StellarRotationVelocity} {kmPerSec}\n") +
+
+                $"{"StellarRotationPeriod",y}: " + 
+                                    (StellarRotationPeriod == null ?
+                                        $"{nonAvailable}\n" :
+                                        $"{StellarRotationPeriod} {days}\n") +
+
+                $"{"Distance",y}: " + (Distance == null ?
+                                                $"{nonAvailable}\n" :
+                                                $"{Distance} {parsec}\n") +
+
                 $"{"\n\tChildPlanets"}: \n" +
                 ExtractChildPlanetName() +
                 "\n----------------------------------------------------------" +
