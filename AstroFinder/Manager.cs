@@ -9,13 +9,6 @@ namespace AstroFinder
     /// </summary>
     public class Manager
     {
-        ////////////////////// PARA TAR NOUTRA CLASSE ////////////////////////////////////////////////////////////
-        string[] planetHeaders;
-        IGetCollectionFromData<string[], List<Exoplanet>> getPlanets;
-        string[] starHeaders;
-        IGetCollectionFromData<string[], List<Star>> getStars;
-        //////////////////////////// TEMPORARIO //////////////////////////////////////////////////////////
-
         /// <summary>
         /// Variable responsible for reading a file
         /// </summary>
@@ -24,27 +17,7 @@ namespace AstroFinder
         /// <summary>
         /// Number of results to show on query
         /// </summary>
-        private const byte numResultsToShow = 10;
-
-        private IEnumerable<IStar> allStars;
-        private IEnumerable<IPlanet> allPlanets;
-        private ICollection<IStar> nonRepeatedStars;
-
-        public Manager()
-        {
-            //////////////////////////// TEMPORARIO //////////////////////////////////////////////////////////
-            planetHeaders = new string[] { "pl_name", "hostname",
-                "discoverymethod", "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt"};
-            getPlanets = new ExoplanetsListFromCSVData(planetHeaders);
-            starHeaders = new string[] { "hostname", "st_teff", "st_rad",
-                "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
-            getStars = new StarsListFromCSVData(starHeaders);
-            //////////////////////////// TEMPORARIO //////////////////////////////////////////////////////////
-
-            allStars = new List<IStar>();
-            allPlanets = new List<IPlanet>();
-            nonRepeatedStars = new List<IStar>(); ;
-        }
+        const byte numResultsToShow = 10;
 
         /// <summary>
         /// Method responsible for starting the main loop
@@ -82,12 +55,36 @@ namespace AstroFinder
         /// <param name="input">Receives string from user input</param>
         private void ChooseAnOption(string input)
         {
-            // Creates IPlanet IEnumerable, Creates a list with nonRepeatedStars
-            CreateStarsAndPlanets();
-            // Search field and list with all planets creation
+            // Creates new Planets and Stars ///////////////////////////////////
+            // Creates headers of interess for the file
+            string[] planetHeaders = new string[] { "pl_name", "hostname",
+                "discoverymethod", "disc_year", "pl_orbper", "pl_rade",
+                "pl_bmasse", "pl_eqt"};
+            string []starHeaders = new string[] { "hostname", "st_teff", 
+                "st_rad", "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
+
+            // Creates new planets and stars with the headers
+            IGetCollectionFromData<string[], List<Star>> getStars = 
+                new StarsListFromCSVData(starHeaders);
+            IGetCollectionFromData<string[], List<Exoplanet>> getPlanets =
+                new ExoplanetsListFromCSVData(planetHeaders);
+            ////////////////////////////////////////////////////////////////////
+
+            // Searchfield with all searchable criteria
             AstronomicalObjectCriteria criteria =
                 new AstronomicalObjectCriteria();
 
+            // Creates 3 empty lists
+            IEnumerable<IPlanet> allPlanets = new List<IPlanet>();
+            IEnumerable<IStar> allStars = new List<IStar>();
+            ICollection<IStar> nonRepeatedStars = new List<IStar>();
+
+            // Creates IPlanet IEnumerable, Creates a list with nonRepeatedStars
+            // Sets star child planets and planet parent stars
+            StarPlanetRelation(getPlanets, getStars, allPlanets, allStars,
+                                nonRepeatedStars);
+
+            Console.WriteLine(allPlanets.Count());
             do
             {
                 // Player chooses an option
@@ -95,10 +92,11 @@ namespace AstroFinder
                 switch (input = Program.UI.GetInput())
                 {
                     case "planet":
-                        SearchPlanet(input, criteria);
+                        SearchPlanet(input, criteria, allPlanets);
                         break;
                     case "star":
-                        SearchStar(input, criteria);
+                        SearchStar(input, criteria, allPlanets, 
+                                    nonRepeatedStars);
                         break;
                     case "back":
                         // Turns file back to null
@@ -115,9 +113,14 @@ namespace AstroFinder
         /// Method responsible for searching planets in a list
         /// </summary>
         /// <param name="input">Receives string from user input</param>
+        /// <param name="criteria">Receives criteria for search fields</param>
+        /// <param name="allPlanets">All planets to filter on query</param>
         private void SearchPlanet(string input,
-            AstronomicalObjectCriteria criteria)
+            AstronomicalObjectCriteria criteria,
+            IEnumerable<IPlanet> allPlanets)
         {
+            IQuery<IPlanet> query = new PlanetQuery(allPlanets);
+
             // List order
             string order = "defaultorder";
             do
@@ -129,114 +132,6 @@ namespace AstroFinder
                 Program.UI.PossibleCriteria(criteria, order);
 
                 input = Program.UI.GetInput();
-
-                // Filters planets to show the user input data only
-                // Shows 'numResultsToShow' elements at a time
-                #region filteredPlanets
-                IEnumerable<IPlanet> filteredPlanets =
-                from planet in allPlanets
-                where planet.Name == null ||
-                        planet.Name.ToLower().Contains(
-                        criteria.PlanetName ?? "any") ||
-                        criteria.PlanetName == null ||
-                        criteria.PlanetName == "any"
-                where planet.ParentStar == null ||
-                        planet.ParentStar.Name.ToLower().Contains(
-                            criteria.StarName ?? "any") ||
-                            criteria.StarName == null ||
-                            criteria.StarName == "any"
-                where planet.DiscoveryMethod == null ||
-                        planet.DiscoveryMethod.ToLower().Contains(
-                            criteria.DiscoveryMethod ?? "any") ||
-                            criteria.DiscoveryMethod == null ||
-                            criteria.DiscoveryMethod == "any"
-                where planet.DiscoveryYear == null ||
-                        planet.DiscoveryYear <=
-                            criteria.DiscoveryYearMax &&
-                            planet.DiscoveryYear >=
-                            criteria.DiscoveryYearMin ||
-                            planet.DiscoveryYear == null
-                where planet.OrbitalPeriod == null ||
-                        planet.OrbitalPeriod <=
-                            criteria.OrbitalPeriodMax &&
-                            planet.OrbitalPeriod >=
-                            criteria.OrbitalPeriodMin ||
-                            planet.OrbitalPeriod == null
-                where planet.PlanetRadius == null ||
-                        planet.PlanetRadius <=
-                            criteria.PlanetRadiusMax &&
-                            planet.PlanetRadius >=
-                            criteria.PlanetRadiusMin ||
-                            planet.PlanetRadius == null
-                where planet.PlanetMass == null ||
-                        planet.PlanetMass <=
-                            criteria.PlanetMassMax &&
-                            planet.PlanetMass >=
-                            criteria.PlanetMassMin ||
-                            planet.PlanetMass == null
-                where planet.PlanetTemperature == null ||
-                        planet.PlanetTemperature <=
-                            criteria.PlanetTemperatureMax &&
-                            planet.PlanetTemperature >=
-                            criteria.PlanetTemperatureMin ||
-                            planet.PlanetTemperature == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.StellarTemperature == null ||
-                            planet.ParentStar.StellarTemperature <=
-                            criteria.StellarTemperatureMax &&
-                            planet.ParentStar.StellarTemperature >=
-                            criteria.StellarTemperatureMin ||
-                            planet.ParentStar.StellarTemperature == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.StellarRadius == null ||
-                            planet.ParentStar.StellarRadius <=
-                                criteria.StellarRadiusMax &&
-                                planet.ParentStar.StellarRadius >=
-                                criteria.StellarRadiusMin ||
-                                planet.ParentStar.StellarRadius == null
-                where planet.ParentStar == null ||
-                         planet.ParentStar.StellarMass == null ||
-                            planet.ParentStar.StellarMass <=
-                                criteria.StellarMassMax &&
-                                planet.ParentStar.StellarMass >=
-                                criteria.StellarMassMin ||
-                                planet.ParentStar.StellarMass == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.StellarAge == null ||
-                            planet.ParentStar.StellarAge <=
-                                criteria.StellarAgeMax &&
-                                planet.ParentStar.StellarAge >=
-                                criteria.StellarAgeMin ||
-                                planet.ParentStar.StellarAge == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.StellarRotationVelocity == null ||
-                            planet.ParentStar.StellarRotationVelocity <=
-                            criteria.StellarRotationVelocityMax &&
-                            planet.ParentStar.StellarRotationVelocity >=
-                            criteria.StellarRotationVelocityMin ||
-                            planet.ParentStar.StellarRotationVelocity == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.StellarRotationPeriod == null ||
-                            planet.ParentStar.StellarRotationPeriod <=
-                                criteria.StellarRotationPeriodMax &&
-                                planet.ParentStar.StellarRotationPeriod >=
-                                criteria.StellarRotationPeriodMin ||
-                                planet.ParentStar.StellarRotationPeriod == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.Distance == null ||
-                            planet.ParentStar.Distance <=
-                                criteria.DistanceMax &&
-                                planet.ParentStar.Distance >=
-                                criteria.DistanceMin ||
-                                planet.ParentStar.Distance == null
-                where planet.ParentStar == null ||
-                        planet.ParentStar.ChildPlanets == null ||
-                            planet.ParentStar.ChildPlanets.Count <=
-                                criteria.ChildPlanetsMax &&
-                                planet.ParentStar.ChildPlanets.Count >=
-                                criteria.ChildPlanetsMin
-                select planet;
-                #endregion
 
                 // If user types search, it will search for the criteria
                 if (input == "search")
@@ -251,8 +146,8 @@ namespace AstroFinder
                         {
                             case ListOrder.ascendingname:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
-                                 orderby planet.Name ascending
+                                (from planet in query.Filter(criteria)
+                                orderby planet.Name ascending
                                  select planet).
                                 ThenBy(p => p.DiscoveryYear).
                                 Skip(numResultsToShow * numTimesShown).
@@ -260,7 +155,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingname:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.Name descending
                                  select planet).
                                 ThenBy(p => p.DiscoveryYear).
@@ -269,7 +164,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstarname:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.Name ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -278,7 +173,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstarname:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.Name descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -287,7 +182,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdiscoverymethod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.DiscoveryMethod ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -296,7 +191,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdiscoverymethod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.DiscoveryMethod descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -305,7 +200,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdiscoveryyear:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.DiscoveryYear ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -314,7 +209,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdiscoveryyear:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.DiscoveryYear descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -323,7 +218,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingorbitalperiod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.OrbitalPeriod ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -332,7 +227,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingorbitalperiod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.OrbitalPeriod descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -341,7 +236,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanetradius:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetRadius ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -350,7 +245,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanetradius:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetRadius descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -359,7 +254,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanetmass:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetMass ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -368,7 +263,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanetmass:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetMass descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -377,7 +272,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanettemperature:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetTemperature ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -386,7 +281,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanettemperature:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.PlanetTemperature descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -395,7 +290,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellartemperature:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarTemperature
                                  ascending
                                  select planet).
@@ -405,7 +300,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellartemperature:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarTemperature
                                  descending
                                  select planet).
@@ -415,7 +310,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarradius:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarRadius
                                  ascending
                                  select planet).
@@ -425,7 +320,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarradius:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarRadius
                                  descending
                                  select planet).
@@ -435,7 +330,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarmass:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarMass
                                  ascending
                                  select planet).
@@ -445,7 +340,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarmass:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarMass
                                  descending
                                  select planet).
@@ -455,7 +350,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarage:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarAge
                                  ascending
                                  select planet).
@@ -465,7 +360,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarage:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.StellarAge
                                  descending
                                  select planet).
@@ -475,7 +370,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarrotationvelocity:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.
                                         StellarRotationVelocity ascending
                                  select planet).
@@ -485,7 +380,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarrotationvelocity:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.
                                         StellarRotationVelocity descending
                                  select planet).
@@ -495,7 +390,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarrotationperiod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.
                                         StellarRotationPeriod ascending
                                  select planet).
@@ -505,7 +400,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarrotationperiod:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.
                                         StellarRotationPeriod descending
                                  select planet).
@@ -515,7 +410,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdistance:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.Distance ascending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -524,7 +419,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdistance:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.Distance descending
                                  select planet).
                                 ThenBy(p => p.Name).
@@ -533,7 +428,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingchildplanets:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.ChildPlanets
                                  ascending
                                  select planet).
@@ -543,7 +438,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingchildplanets:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  orderby planet.ParentStar.ChildPlanets
                                  descending
                                  select planet).
@@ -553,7 +448,7 @@ namespace AstroFinder
                                 break;
                             default:
                                 orderedPlanets =
-                                (from planet in filteredPlanets
+                                (from planet in query.Filter(criteria)
                                  select planet).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
@@ -580,7 +475,7 @@ namespace AstroFinder
 
                                     // Gets the planet the user chose
                                     List<IPlanet> detailedPlanet =
-                                        (from planet in filteredPlanets
+                                        (from planet in query.Filter(criteria)
                                          where planet.Name.ToLower() == input
                                          select planet).ToList();
 
@@ -646,9 +541,15 @@ namespace AstroFinder
         /// Method responsible for searching stars in a list
         /// </summary>
         /// <param name="input">Receives string from user input</param>
+        /// <param name="criteria">Receives criteria for search fields</param>
+        /// <param name="allPlanets">Receives IEnumerable with all planets</param>
         private void SearchStar(string input,
-            AstronomicalObjectCriteria criteria)
+            AstronomicalObjectCriteria criteria,
+            IEnumerable<IPlanet> allPlanets,
+            ICollection<IStar> nonRepeatedStars)
         {
+            IQuery<IStar> query = new StarQuery(allPlanets, nonRepeatedStars);
+
             string order = "defaultorder";
             do
             {
@@ -658,108 +559,6 @@ namespace AstroFinder
                 Program.UI.PossibleCriteria(criteria, order);
 
                 input = Program.UI.GetInput();
-
-                // Filters planets to show the user input data only
-                // Shows 'numResultsToShow' elements at a time
-                #region filteredStars
-                IEnumerable<IStar> filteredStars =
-                from star in nonRepeatedStars
-                where star.Name == null ||
-                        star.Name.ToLower().Contains(
-                        criteria.StarName ?? "any") ||
-                        criteria.StarName == null ||
-                        criteria.StarName == "any"
-                where star.StellarTemperature == null ||
-                        star.StellarTemperature <=
-                            criteria.StellarTemperatureMax &&
-                            star.StellarTemperature >=
-                            criteria.StellarTemperatureMin ||
-                            star.StellarTemperature == null
-                where star.StellarRadius == null ||
-                        star.StellarRadius <=
-                            criteria.StellarRadiusMax &&
-                            star.StellarRadius >=
-                            criteria.StellarRadiusMin ||
-                            star.StellarRadius == null
-                where star.StellarMass == null ||
-                        star.StellarMass <=
-                            criteria.StellarMassMax &&
-                            star.StellarMass >=
-                            criteria.StellarMassMin ||
-                       star.StellarMass == null
-                where star.StellarAge == null ||
-                       star.StellarAge <=
-                       criteria.StellarAgeMax &&
-                       star.StellarAge >=
-                       criteria.StellarAgeMin ||
-                       star.StellarAge == null
-                where star.StellarRotationVelocity == null ||
-                        star.StellarRotationVelocity <=
-                            criteria.StellarRotationVelocityMax &&
-                            star.StellarRotationVelocity >=
-                            criteria.StellarRotationVelocityMin ||
-                            star.StellarRotationVelocity == null
-                where star.StellarRotationPeriod == null ||
-                        star.StellarRotationPeriod <=
-                            criteria.StellarRotationPeriodMax &&
-                            star.StellarRotationPeriod >=
-                            criteria.StellarRotationPeriodMin ||
-                            star.StellarRotationPeriod == null
-                where star.Distance == null ||
-                        star.Distance <=
-                            criteria.DistanceMax &&
-                            star.Distance >=
-                            criteria.DistanceMin ||
-                            star.Distance == null
-                where star.ChildPlanets == null ||
-                        star.ChildPlanets.Count <=
-                            criteria.ChildPlanetsMax &&
-                            star.ChildPlanets.Count >=
-                            criteria.ChildPlanetsMin
-                join planet in allPlanets on star.Name
-                   equals planet.ParentStar.Name
-                where planet.Name == null ||
-                        planet.Name.ToLower().Contains(
-                            criteria.PlanetName ?? "any") ||
-                            criteria.PlanetName == null ||
-                            criteria.PlanetName == "any"
-                where planet.DiscoveryMethod == null ||
-                        planet.DiscoveryMethod.ToLower().Contains(
-                        criteria.DiscoveryMethod ?? "any") ||
-                        criteria.DiscoveryMethod == null ||
-                        criteria.DiscoveryMethod == "any"
-                where planet.DiscoveryYear == null ||
-                        planet.DiscoveryYear <=
-                            criteria.DiscoveryYearMax &&
-                            planet.DiscoveryYear >=
-                            criteria.DiscoveryYearMin ||
-                            planet.DiscoveryYear == null
-                where planet.OrbitalPeriod == null ||
-                        planet.OrbitalPeriod <=
-                            criteria.OrbitalPeriodMax &&
-                            planet.OrbitalPeriod >=
-                            criteria.OrbitalPeriodMin ||
-                            planet.OrbitalPeriod == null
-                where planet.PlanetRadius == null ||
-                        planet.PlanetRadius <=
-                            criteria.PlanetRadiusMax &&
-                            planet.PlanetRadius >=
-                            criteria.PlanetRadiusMin ||
-                            planet.PlanetRadius == null
-                where planet.PlanetMass == null ||
-                        planet.PlanetMass <=
-                            criteria.PlanetMassMax &&
-                            planet.PlanetMass >=
-                            criteria.PlanetMassMin ||
-                            planet.PlanetMass == null
-                where planet.PlanetTemperature == null ||
-                        planet.PlanetTemperature <=
-                            criteria.PlanetTemperatureMax &&
-                            planet.PlanetTemperature >=
-                            criteria.PlanetTemperatureMin ||
-                            planet.PlanetTemperature == null
-                select star;
-                #endregion
 
                 // If user types search, it will search for the criteria
                 if (input == "search")
@@ -774,7 +573,7 @@ namespace AstroFinder
                         {
                             case ListOrder.ascendingname:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.Name ascending
@@ -784,7 +583,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingname:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.Name descending
@@ -794,7 +593,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstarname:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.ParentStar.Name ascending
@@ -804,7 +603,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstarname:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.ParentStar.Name descending
@@ -814,7 +613,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdiscoverymethod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.DiscoveryMethod ascending
@@ -824,7 +623,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdiscoverymethod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.DiscoveryMethod descending
@@ -834,7 +633,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdiscoveryyear:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.DiscoveryYear ascending
@@ -844,7 +643,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdiscoveryyear:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.DiscoveryYear descending
@@ -854,7 +653,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingorbitalperiod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.OrbitalPeriod ascending
@@ -864,7 +663,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingorbitalperiod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.OrbitalPeriod descending
@@ -874,7 +673,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanetradius:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetRadius ascending
@@ -884,7 +683,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanetradius:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetRadius descending
@@ -894,7 +693,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanetmass:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetMass ascending
@@ -904,7 +703,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanetmass:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetMass descending
@@ -914,7 +713,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingplanettemperature:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetTemperature ascending
@@ -924,7 +723,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingplanettemperature:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  join planet in allPlanets
                                  on star.Name equals planet.ParentStar.Name
                                  orderby planet.PlanetTemperature descending
@@ -934,7 +733,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellartemperature:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarTemperature
                                  ascending
                                  select star).
@@ -944,7 +743,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellartemperature:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarTemperature
                                  descending
                                  select star).
@@ -954,7 +753,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarradius:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarRadius
                                  ascending
                                  select star).
@@ -964,7 +763,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarradius:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarRadius
                                  descending
                                  select star).
@@ -974,7 +773,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarmass:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarMass
                                  ascending
                                  select star).
@@ -984,7 +783,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarmass:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarMass
                                  descending
                                  select star).
@@ -994,7 +793,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarage:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarAge
                                  ascending
                                  select star).
@@ -1004,7 +803,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarage:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.StellarAge
                                  descending
                                  select star).
@@ -1014,7 +813,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarrotationvelocity:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.
                                         StellarRotationVelocity ascending
                                  select star).
@@ -1024,7 +823,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarrotationvelocity:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.
                                         StellarRotationVelocity descending
                                  select star).
@@ -1034,7 +833,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingstellarrotationperiod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.
                                         StellarRotationPeriod ascending
                                  select star).
@@ -1044,7 +843,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingstellarrotationperiod:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.
                                         StellarRotationPeriod descending
                                  select star).
@@ -1054,7 +853,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingdistance:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.Distance ascending
                                  select star).
                                  ThenBy(p => p.Name).
@@ -1063,7 +862,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingdistance:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.Distance descending
                                  select star).
                                  ThenBy(p => p.Name).
@@ -1072,7 +871,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.ascendingchildplanets:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.ChildPlanets
                                  ascending
                                  select star).
@@ -1082,7 +881,7 @@ namespace AstroFinder
                                 break;
                             case ListOrder.descendingchildplanets:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  orderby star.ChildPlanets
                                  descending
                                  select star).
@@ -1092,7 +891,7 @@ namespace AstroFinder
                                 break;
                             default:
                                 orderedStars =
-                                (from star in filteredStars
+                                (from star in query.Filter(criteria)
                                  select star).
                                 Skip(numResultsToShow * numTimesShown).
                                 Take(numResultsToShow);
@@ -1119,7 +918,7 @@ namespace AstroFinder
 
                                     // Gets the planet the user chose
                                     List<IStar> detailedStar =
-                                        (from star in filteredStars
+                                        (from star in query.Filter(criteria)
                                          where star.Name.ToLower() == input
                                          select star).ToList();
 
@@ -1185,13 +984,21 @@ namespace AstroFinder
         /// Adds planets to star's child planets
         /// Adds a star as a planet's star parent
         /// </summary>
-        private void CreateStarsAndPlanets()
+        private void StarPlanetRelation(
+            IGetCollectionFromData<string[], List<Exoplanet>> getPlanets,
+            IGetCollectionFromData<string[], List<Star>> getStars,
+            IEnumerable<IPlanet> allPlanets,
+            IEnumerable<IStar> allStars,
+            ICollection<IStar> nonRepeatedStars
+            )
         {
-            allStars = getStars.GetCollection(fileReader.FileData)
-                as List<Star>;
             allPlanets = getPlanets.GetCollection(fileReader.FileData)
-                as List<Exoplanet>;
+                    as List<Exoplanet>;
+            Console.WriteLine(allPlanets.Count());
+            allStars = getStars.GetCollection(fileReader.FileData)
+                    as List<Star>;
             nonRepeatedStars = new List<IStar>();
+
             foreach (IStar star in allStars)
             {
                 if (nonRepeatedStars.Contains(star) == false)
@@ -1199,7 +1006,6 @@ namespace AstroFinder
                     nonRepeatedStars.Add(star);
                 }
             }
-
             foreach (Exoplanet planet in allPlanets)
             {
                 foreach (Star star in nonRepeatedStars)
