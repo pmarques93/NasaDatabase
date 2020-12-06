@@ -82,6 +82,22 @@ namespace AstroFinder
         }
 
         /// <summary>
+        /// Prints an error and a error message.
+        /// </summary>
+        /// <param name="errorName">Name of the error.</param>
+        /// <param name="errorMessage">Error message to print</param>
+        public void ErrorMessage(string errorName, string errorMessage)
+        {
+            string bar = new String('-', (90 - errorName.Length)/2);
+            string barComplement =  new String('-', (errorName.Length + 2));
+            
+            Console.Clear();
+            Console.WriteLine($"{bar} {errorName.ToUpper()} {bar}\n");
+            Console.WriteLine(errorMessage);
+            Console.WriteLine($"{bar}{bar}{barComplement}\n");
+        }
+
+        /// <summary>
         /// Prints possible criteria of an ISearchField
         /// </summary>
         /// <param name="searchCriteria">ISearchField variable</param>

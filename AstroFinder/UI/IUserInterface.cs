@@ -44,6 +44,13 @@ namespace AstroFinder
         /// </summary>
         /// <param name="str">Message to print</param>
         void Message(string str);
+        
+        /// <summary>
+        /// Prints an error and a error message.
+        /// </summary>
+        /// <param name="errorName">Name of the error.</param>
+        /// <param name="errorMessage">Error message to print</param>
+        void ErrorMessage(string errorName, string errorMessage);
 
         /// <summary>
         /// Prints possible criteria of an ISearchField
