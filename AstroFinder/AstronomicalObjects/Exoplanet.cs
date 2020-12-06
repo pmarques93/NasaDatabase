@@ -107,7 +107,7 @@ namespace AstroFinder
                                             $"{nonAvailable}\n" :
                                             $"{PlanetTemperature} {kelvin}\n") +
                 $"{"\n\t--Star Information--",y}\n" +
-                $"{"\tStellarName",x}: " + (ParentStar == null ||
+                $"{"\tStellarName",y}: " + (ParentStar == null ||
                                                 ParentStar.Name == null ?
                                                 $"{nonAvailable}\n" :
                                                 $"{ParentStar.Name}\n") +
@@ -142,7 +142,7 @@ namespace AstroFinder
                             $"{ParentStar.StellarRotationVelocity} {kmPerSec}\n") +
 
 
-                $"{"\tStellarRotStellarRotationPeriodtationVelocity",y}: " +
+                $"{"\tStellarRotationPeriod",y}: " +
                             (ParentStar == null ||
                             ParentStar.StellarRotationPeriod == null ?
                             $"{nonAvailable}\n" :

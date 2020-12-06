@@ -190,7 +190,7 @@ namespace AstroFinder
                     AstronomicalObjectCriteria.MINVALUE &&
                     criteria.DistanceMax ==
                     AstronomicalObjectCriteria.FMAXVALUE &&
-                    planet.ParentStar.StellarAge == null ||
+                    planet.ParentStar.Distance == null ||
 
                     planet.ParentStar.Distance <=
                     criteria.DistanceMax &&
@@ -201,7 +201,7 @@ namespace AstroFinder
                     AstronomicalObjectCriteria.MINVALUE &&
                     criteria.ChildPlanetsMax ==
                     AstronomicalObjectCriteria.BMAXVALUE &&
-                    planet.ParentStar.StellarAge == null ||
+                    planet.ParentStar.ChildPlanets == null ||
 
                     planet.ParentStar.ChildPlanets.Count <=
                     criteria.ChildPlanetsMax &&
