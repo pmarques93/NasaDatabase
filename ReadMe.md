@@ -122,3 +122,5 @@ https://www.youtube.com/watch?v=W5L2_wXj6gw&feature=youtu.be)
 https://www.youtube.com/watch?v=9_tEKosktNo&feature=youtu.be)
 - ["2º projeto de LP1 2018/19"](
 https://github.com/VideojogosLusofona/lp1_2018_p2_solucao)
+- ["Parse CVS Data with LINQ"](
+https://www.cidean.com/blog/2018/parse-cvs-data-with-linq/)
