@@ -6,7 +6,7 @@ namespace AstroFinder
     /// <summary>
     /// Class for planet queries. Implements IQuery<T>
     /// </summary>
-    class PlanetQuery : IQuery<IPlanet>
+    public class PlanetQuery : IQuery<IPlanet>
     {
         /// <summary>
         /// IEnumerable with all planets
