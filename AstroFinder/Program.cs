@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AstroFinder.FileReader.Exception;
 
 namespace AstroFinder
 {
@@ -25,71 +26,70 @@ namespace AstroFinder
             Manager manager = new Manager();
             manager.Run();
 
+            // const string filePath = "planets.csv";
+            // CSVFileDataReader fileDataReader = new CSVFileDataReader(filePath);
 
-            const string filePath = "planets.csv";
-            CSVFileDataReader fileDataReader = new CSVFileDataReader(filePath);
+            // // STAR STUFF
+            // string[] starHeaders = new string[] { "hostname", "st_teff", "st_rad",
+            //     "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
+            // StarsListFromCSVData getStars = new StarsListFromCSVData(starHeaders);
 
-            // STAR STUFF
-            string[] starHeaders = new string[] { "hostname", "st_teff", "st_rad",
-                "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
-            StarsListFromCSVData getStars = new StarsListFromCSVData(starHeaders);
-
-            // PLANET STUFF
-            string[] planetHeaders = new string[] { "pl_name", "hostname",
-                "discoverymethod", "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt"};
-            ExoplanetsListFromCSVData getPlanets = new ExoplanetsListFromCSVData(planetHeaders);
-
+            // // PLANET STUFF
+            // string[] planetHeaders = new string[] { "pl_name", "hostname",
+            //     "discoverymethod", "disc_year", "pl_orbper", "pl_rade", "pl_bmasse", "pl_eqt"};
+            // ExoplanetsListFromCSVData getPlanets = new ExoplanetsListFromCSVData(planetHeaders);
 
 
-            // STARS CREATION
-            List<Star> allStars = getStars.GetCollection(fileDataReader.FileData) as List<Star>;
 
-            // List with non repeated stars
-            List<Star> nonRepeatedStars = new List<Star>();
-            foreach (Star star in allStars)
-            {
-                if (nonRepeatedStars.Contains(star) == false)
-                {
-                    nonRepeatedStars.Add(star);
-                }
-            }
+            // // STARS CREATION
+            // List<Star> allStars = getStars.GetCollection(fileDataReader.FileData) as List<Star>;
 
-            // PLANET DECLARATION
-            List<Exoplanet> allPlanets = getPlanets.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
+            // // List with non repeated stars
+            // List<Star> nonRepeatedStars = new List<Star>();
+            // foreach (Star star in allStars)
+            // {
+            //     if (nonRepeatedStars.Contains(star) == false)
+            //     {
+            //         nonRepeatedStars.Add(star);
+            //     }
+            // }
+
+            // // PLANET DECLARATION
+            // List<Exoplanet> allPlanets = getPlanets.GetCollection(fileDataReader.FileData) as List<Exoplanet>;
             
 
-            foreach (Exoplanet planet in allPlanets)
-            {
-                foreach (Star star in nonRepeatedStars)
-                {
-                    if (planet.ParentStar.Name == star.Name)
-                    {
-                        star.ChildPlanets.Add(planet);
-                        planet.ParentStar = star;
-                    }
-                }
-            }
+            // foreach (Exoplanet planet in allPlanets)
+            // {
+            //     foreach (Star star in nonRepeatedStars)
+            //     {
+            //         if (planet.ParentStar.Name == star.Name)
+            //         {
+            //             star.ChildPlanets.Add(planet);
+            //             planet.ParentStar = star;
+            //         }
+            //     }
+            // }
 
 
-            // TESTES /////////////////////////////////////////////////////////////////////////////////////
-            // temp info
-            string planetName = null;
-            string hostName = "ngc";
-            string discoverymethod = null;
-            ushort? discoveryYear = null;
+            // // TESTES /////////////////////////////////////////////////////////////////////////////////////
+            // // temp info
+            // string planetName = null;
+            // string hostName = "ngc";
+            // string discoverymethod = null;
+            // ushort? discoveryYear = null;
 
-            // n apagar
-            const byte numResultsToShow = 5; // RESULTADOS PARA MOSTRAR
-            byte numTimesShown = 0;   // QUANDO UTILIZADOR CARREGA NUM BOTAO, INCREMENTA numberOfTimes++ ;
-            // n apagar
+            // // n apagar
+            // const byte numResultsToShow = 5; // RESULTADOS PARA MOSTRAR
+            // byte numTimesShown = 0;   // QUANDO UTILIZADOR CARREGA NUM BOTAO, INCREMENTA numberOfTimes++ ;
+            // // n apagar
 
-            IEnumerable<IPlanet> filteredPlanets =
-                (from planet in allPlanets
-                 where planet.Name.ToLower().Contains(planetName ?? "any") || planetName == null || planetName == "any"
-                 where planet.ParentStar.Name.ToLower().Contains(hostName ?? "any") || hostName == null || hostName == "any"
-                 where planet.DiscoveryMethod.ToLower().Contains(discoverymethod ?? "any") || discoverymethod == null || discoverymethod == "any"
-                 where planet.DiscoveryYear == discoveryYear || discoveryYear == null
-                 select planet).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
+            // IEnumerable<IPlanet> filteredPlanets =
+            //     (from planet in allPlanets
+            //      where planet.Name.ToLower().Contains(planetName ?? "any") || planetName == null || planetName == "any"
+            //      where planet.ParentStar.Name.ToLower().Contains(hostName ?? "any") || hostName == null || hostName == "any"
+            //      where planet.DiscoveryMethod.ToLower().Contains(discoverymethod ?? "any") || discoverymethod == null || discoverymethod == "any"
+            //      where planet.DiscoveryYear == discoveryYear || discoveryYear == null
+            //      select planet).Skip(numResultsToShow * numTimesShown).Take(numResultsToShow);
 
 
             //foreach (var v in filteredPlanets)

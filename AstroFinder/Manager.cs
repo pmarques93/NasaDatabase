@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AstroFinder.FileReader.Exception;
 
 namespace AstroFinder
 {
@@ -82,24 +83,24 @@ namespace AstroFinder
         {
             // Creates new Planets and Stars ///////////////////////////////////
             // Creates headers of interess for the file
-            string[] planetHeaders = new string[] { "pl_name", "hostname",
+            string[] planetHeaders = new string[8] { "pl_name", "hostname",
                 "discoverymethod", "disc_year", "pl_orbper", "pl_rade",
                 "pl_bmasse", "pl_eqt"};
-            string []starHeaders = new string[] { "hostname", "st_teff", 
+            string[] starHeaders = new string[8] { "hostname", "st_teff",
                 "st_rad", "st_mass", "st_age", "st_vsin", "st_rotp", "sy_dist"};
 
             // Creates new planets and stars with the headers
-            IGetCollectionFromData<string[], List<Star>> getStars = 
+            IGetCollectionFromData<string[], List<Star>> getStars =
                 new StarsListFromCSVData(starHeaders);
             IGetCollectionFromData<string[], List<Exoplanet>> getPlanets =
                 new ExoplanetsListFromCSVData(planetHeaders);
-            ////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////
 
             // Searchfield with all searchable criteria
             AstronomicalObjectCriteria criteria =
                 new AstronomicalObjectCriteria();
 
-            
+
             // Creates IPlanet IEnumerable, Creates a list with nonRepeatedStars
             // Sets star child planets and planet parent stars
             StarPlanetRelation(getPlanets, getStars);
@@ -156,7 +157,7 @@ namespace AstroFinder
                     do
                     {
                         // Prints criteria and options
-                        Program.UI.PrintCriteria(query.Order(listOrder, 
+                        Program.UI.PrintCriteria(query.Order(listOrder,
                                                 criteria, numTimesShown));
 
                         // Prints possible options while inside the criteria
@@ -405,6 +406,8 @@ namespace AstroFinder
         /// <param name="input">Receives string from user input</param>
         private void ReadFile(string input)
         {
+
+            string[] mandatoryHeaders = new string[2] { "pl_name", "hostname" };
             do
             {
                 // Shows information and asks for input
@@ -413,15 +416,33 @@ namespace AstroFinder
 
                 try
                 {
-                    fileReader = new CSVFileDataReader(input);
+                    fileReader = new CSVFileDataReader(input, mandatoryHeaders);
                     Program.UI.FileOpened();
                     break;
                 }
-                catch (Exception)
+                catch (MissingHeaderOnCSVFileException)
                 {
                     if (input != "back")
-                        Program.UI.InvalidPath();
+                    {
+                        System.Console.Clear();
+                        System.Console.WriteLine("Falta header!");
+                    }
                 }
+                catch (FileEmptyException)
+                {
+                    if (input != "back")
+                        System.Console.WriteLine("Ficheiro tá vazio!");
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    if (input != "back")
+                        System.Console.WriteLine("Ficheiro não existe!");
+                }
+                // catch (Exception)
+                // {
+                //     if (input != "back")
+                        // Program.UI.InvalidPath();
+                // }
             } while (input != "back");
         }
     }
