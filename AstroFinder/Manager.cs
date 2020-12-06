@@ -422,27 +422,31 @@ namespace AstroFinder
                 }
                 catch (MissingHeaderOnCSVFileException)
                 {
-                    if (input != "back")
-                    {
-                        System.Console.Clear();
-                        System.Console.WriteLine("Falta header!");
-                    }
+                    string message =
+                                  $"The file '{input}' is missing one of the" +
+                                  "following headers: 'hostname'," +
+                                  $" 'pl_name'.\nPlease, select a file that " +
+                                  "contains, at least, these both headers.\n";
+
+                    Program.UI.ErrorMessage("missing header", message);
                 }
                 catch (FileEmptyException)
                 {
-                    if (input != "back")
-                        System.Console.WriteLine("Ficheiro tá vazio!");
+                    string message =
+                                  $"The file '{input}' is empty" +
+                                  $"Please, make sure to select a file" +
+                                  " with information in it.\n";
+
+                    Program.UI.ErrorMessage("file empty", message);
                 }
                 catch (System.IO.FileNotFoundException)
                 {
-                    if (input != "back")
-                        System.Console.WriteLine("Ficheiro não existe!");
+                    string message =
+                                  $"The file '{input}' could not be found.\n" +
+                                  $"Please, chose a different file.\n";
+
+                    Program.UI.ErrorMessage("file not found", message);
                 }
-                // catch (Exception)
-                // {
-                //     if (input != "back")
-                        // Program.UI.InvalidPath();
-                // }
             } while (input != "back");
         }
     }
