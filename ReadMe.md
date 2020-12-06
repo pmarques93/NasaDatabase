@@ -13,7 +13,13 @@
 
 |Luiz Santos|Pedro Marques|
 |:-:|:-:|
-|temp|temp|
+|`File Reader`|`Manager`|
+||`Search Criteria`|
+|`Exoplanet` `Star`|`Exoplanet` `Star`|
+||`User Interface`|
+||`PlanetQuery` `StarQuery`|
+||Basic, Advanced and Ordered Search|
+|Read Me / UML|Read Me|
 
 ## Arquitetura da Solução
 

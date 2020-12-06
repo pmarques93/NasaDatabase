@@ -133,8 +133,8 @@ namespace AstroFinder
                 $"{Distance,-10}|") +                
 
                 (ChildPlanets == null ?
-                $"{nonAvailable,-13}|" :
-                $"{ChildPlanets.Count,-13}|");
+                $"{nonAvailable,-13}" :
+                $"{ChildPlanets.Count,-13}");
         }
 
         /// <summary>
@@ -199,8 +199,8 @@ namespace AstroFinder
                 ExtractChildPlanetName() +
                 "\n----------------------------------------------------------" +
                 "-------\n" +
-                "Fields with '0' mean it's an empty field with " +
-                "unknown information";
+                "Fields with N/A mean the field is empty " +
+                "or its information is unkown";
         }
 
         /// <summary>

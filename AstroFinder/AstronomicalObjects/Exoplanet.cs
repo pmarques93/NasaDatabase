@@ -21,7 +21,6 @@ namespace AstroFinder
         {
             Name = name;
             DiscoveryMethod = discoveryMethod;
-
             DiscoveryYear = UInt16.TryParse(discoveryYear, NumberStyles.Any,
                 CultureInfo.InvariantCulture, out UInt16 discyear) ?
                 discyear : null;
@@ -41,7 +40,7 @@ namespace AstroFinder
 
         public string Information()
         {
-            const string nonAvailable = "N/a";
+            const string nonAvailable = "N/A";
             return
                 $"{Name,-30}|" +
                 $"{ParentStar.Name,-30}|" +
@@ -67,8 +66,8 @@ namespace AstroFinder
                 $"{PlanetMass,-10}|") +
 
                 (PlanetTemperature == null ?
-                $"{nonAvailable,-10}|" :
-                $"{PlanetTemperature,-10}|");
+                $"{nonAvailable,-10}" :
+                $"{PlanetTemperature,-10}");
 
         }
 
@@ -76,7 +75,7 @@ namespace AstroFinder
         {
             const sbyte x = -18;
             const sbyte y = -25;
-            const string nonAvailable = "N/a";
+            const string nonAvailable = "N/A";
             const string kmPerSec = "km/s";
             const string kelvin = "K";
             const string days = "days";
@@ -163,8 +162,8 @@ namespace AstroFinder
 
                 "----------------------------------------------------------" +
                 "-------\n" +
-                "Fields with '0' mean it's an empty field with " +
-                "unknown information";
+                "Fields with N/A mean the field is empty " +
+                "or its information is unkown";
         }
     }
 }

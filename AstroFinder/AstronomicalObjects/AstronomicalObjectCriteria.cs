@@ -9,10 +9,10 @@ namespace AstroFinder
     /// </summary>
     public class AstronomicalObjectCriteria: SearchField
     {
-        private const byte MINVALUE = 0;
-        private const ushort CURRENTYEAR = 2020;
-        private const float FMAXVALUE = 100000000.0f;
-        private const byte BMAXVALUE = 100;
+        public const byte MINVALUE = 0;
+        public const ushort CURRENTYEAR = 2020;
+        public const float FMAXVALUE = 100000000.0f;
+        public const byte BMAXVALUE = 100;
 
         private string planetName;
         private string starName;

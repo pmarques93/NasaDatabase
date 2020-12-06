@@ -145,8 +145,8 @@ namespace AstroFinder
             }
             foreach (IAstronomicalObject astroBody in listOfObjects)
                 Console.WriteLine(astroBody.Information());
-            Console.WriteLine("\nFields with '0' mean it's an empty field with " +
-                "unknown information");
+            Console.WriteLine("\nFields with N/A mean the field is empty "+
+                "or its information is unkown");
         }
 
         /// <summary>
