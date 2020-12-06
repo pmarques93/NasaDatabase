@@ -11,6 +11,12 @@ namespace AstroFinder
                             IGetCollectionFromData<string[], T> 
                             where T : ICollection
     {
+        /// <summary>
+        /// Gets a collection of type T from the given data.
+        /// </summary>
+        /// <param name="data">Data from which tha collection will be 
+        /// created.</param>
+        /// <returns></returns>
         public abstract T GetCollection(string[] data);
     }
 }
