@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-
 namespace AstroFinder.Data.FilterData
 {
     /// <summary>
@@ -9,8 +7,15 @@ namespace AstroFinder.Data.FilterData
     /// <typeparam name="T">The type of the data to be filtered.</typeparam>
     public abstract class FilterCSVData<T> : IFilterData where T : IEnumerable
     {
+        /// <summary>
+        /// Data that will be filtered.
+        /// </summary>
         protected T data;
+        /// <summary>
+        /// Headers that will be looked for on the CSV data.
+        /// </summary>
         protected string[] headers;
+
         /// <summary>
         /// Constructor, that creates a new instance of FilterCSVData<T> and 
         /// initializes its variables.
@@ -24,7 +29,7 @@ namespace AstroFinder.Data.FilterData
             this.data = data;
             this.headers = headers;
         }
-        
+
         /// <summary>
         /// Responsible for filtering data.
         /// </summary>

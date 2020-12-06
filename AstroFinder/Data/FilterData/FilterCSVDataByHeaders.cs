@@ -9,7 +9,10 @@ namespace AstroFinder.Data.FilterData
     /// </summary>
     public class FilterCSVDataByHeaders : FilterCSVData<IEnumerable<string[]>>
     {
+        // Dictionary that will establish a relationship between e header and 
+        // its column index on the data
         private Dictionary<string, int?> headersIndex;
+
         /// <summary>
         /// Constructor, that initializes and creates a new instance of 
         /// FilterCSVDataByHeaders.
