@@ -44,100 +44,182 @@ namespace AstroFinder
             // Filters planets to show the user input data only
             IEnumerable<IStar> filteredStars =
             from star in nonRepeatedStars
-            where star.Name == null ||
-                    star.Name.ToLower().Contains(
-                    criteria.StarName ?? "any") ||
-                    criteria.StarName == null ||
-                    criteria.StarName == "any"
-            where star.StellarTemperature == null ||
+
+            where   star.Name != null &&
+                    criteria.StarName == "any" ||
+                    star.Name != null && star.
+                    Name.ToLower().Contains(criteria.StarName) ||
+
+                    (star?.Name?.ToLower().Contains(
+                    criteria.StarName ?? "any") ?? false ||
+                    (criteria.StarName == "any"))
+
+            where criteria.StellarTemperatureMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarTemperatureMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarTemperature == null ||
+
                     star.StellarTemperature <=
                     criteria.StellarTemperatureMax &&
                     star.StellarTemperature >=
-                    criteria.StellarTemperatureMin ||
-                    star.StellarTemperature == null
-            where star.StellarRadius == null ||
+                    criteria.StellarTemperatureMin
+
+            where criteria.StellarRadiusMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarRadiusMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarRadius == null ||
+
                     star.StellarRadius <=
                     criteria.StellarRadiusMax &&
                     star.StellarRadius >=
-                    criteria.StellarRadiusMin ||
-                    star.StellarRadius == null
-            where star.StellarMass == null ||
+                    criteria.StellarRadiusMin
+
+            where criteria.StellarMassMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarMassMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarMass == null ||
+
                     star.StellarMass <=
                     criteria.StellarMassMax &&
                     star.StellarMass >=
-                    criteria.StellarMassMin ||
-                   star.StellarMass == null
-            where star.StellarAge == null ||
-                   star.StellarAge <=
-                   criteria.StellarAgeMax &&
-                   star.StellarAge >=
-                   criteria.StellarAgeMin ||
-                   star.StellarAge == null
-            where star.StellarRotationVelocity == null ||
+                    criteria.StellarMassMin
+
+            where criteria.StellarAgeMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarAgeMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarAge == null ||
+
+                    star.StellarAge <=
+                    criteria.StellarAgeMax &&
+                    star.StellarAge >=
+                    criteria.StellarAgeMin
+
+            where criteria.StellarRotationVelocityMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarRotationVelocityMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarRotationVelocity == null ||
+
                     star.StellarRotationVelocity <=
                     criteria.StellarRotationVelocityMax &&
                     star.StellarRotationVelocity >=
-                    criteria.StellarRotationVelocityMin ||
-                    star.StellarRotationVelocity == null
-            where star.StellarRotationPeriod == null ||
+                    criteria.StellarRotationVelocityMin
+
+
+            where criteria.StellarRotationPeriodMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.StellarRotationPeriodMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.StellarRotationPeriod == null ||
+
                     star.StellarRotationPeriod <=
                     criteria.StellarRotationPeriodMax &&
                     star.StellarRotationPeriod >=
-                    criteria.StellarRotationPeriodMin ||
-                    star.StellarRotationPeriod == null
-            where star.Distance == null ||
+                    criteria.StellarRotationPeriodMin
+
+            where criteria.DistanceMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.DistanceMax ==
+                    AstronomicalObjectCriteria.FMAXVALUE &&
+                    star.Distance == null ||
+
                     star.Distance <=
                     criteria.DistanceMax &&
                     star.Distance >=
-                    criteria.DistanceMin ||
-                    star.Distance == null
-            where star.ChildPlanets == null ||
+                    criteria.DistanceMin
+
+            where criteria.ChildPlanetsMin ==
+                    AstronomicalObjectCriteria.MINVALUE &&
+                    criteria.ChildPlanetsMax ==
+                    AstronomicalObjectCriteria.BMAXVALUE &&
+                    star.ChildPlanets == null ||
+
                     star.ChildPlanets.Count <=
                     criteria.ChildPlanetsMax &&
                     star.ChildPlanets.Count >=
                     criteria.ChildPlanetsMin
+
             join planet in allPlanets on star.Name
                equals planet.ParentStar.Name
-                    where planet.Name == null ||
-                            planet.Name.ToLower().Contains(
-                            criteria.PlanetName ?? "any") ||
-                            criteria.PlanetName == null ||
-                            criteria.PlanetName == "any"
-                    where planet.DiscoveryMethod == null ||
-                            planet.DiscoveryMethod.ToLower().Contains(
-                            criteria.DiscoveryMethod ?? "any") ||
-                            criteria.DiscoveryMethod == null ||
-                            criteria.DiscoveryMethod == "any"
-                    where planet.DiscoveryYear == null ||
-                            planet.DiscoveryYear <=
-                            criteria.DiscoveryYearMax &&
-                            planet.DiscoveryYear >=
-                            criteria.DiscoveryYearMin ||
-                            planet.DiscoveryYear == null
-                    where planet.OrbitalPeriod == null ||
-                            planet.OrbitalPeriod <=
-                            criteria.OrbitalPeriodMax &&
-                            planet.OrbitalPeriod >=
-                            criteria.OrbitalPeriodMin ||
-                            planet.OrbitalPeriod == null
-                    where planet.PlanetRadius == null ||
-                            planet.PlanetRadius <=
-                            criteria.PlanetRadiusMax &&
-                            planet.PlanetRadius >=
-                            criteria.PlanetRadiusMin ||
-                            planet.PlanetRadius == null
-                    where planet.PlanetMass == null ||
-                            planet.PlanetMass <=
-                            criteria.PlanetMassMax &&
-                            planet.PlanetMass >=
-                            criteria.PlanetMassMin ||
-                            planet.PlanetMass == null
-                    where planet.PlanetTemperature == null ||
-                            planet.PlanetTemperature <=
-                            criteria.PlanetTemperatureMax &&
-                            planet.PlanetTemperature >=
-                            criteria.PlanetTemperatureMin ||
-                            planet.PlanetTemperature == null
+
+                where planet.Name != null &&
+                        criteria.PlanetName == "any" ||
+                        planet.Name != null && planet.
+                        Name.ToLower().Contains(criteria.PlanetName) ||
+
+                        (planet?.Name?.ToLower().Contains(
+                        criteria.PlanetName ?? "any") ?? false ||
+                        (criteria.PlanetName == "any"))
+
+                where planet.DiscoveryMethod != null &&
+                        criteria.DiscoveryMethod == "any" ||
+                        planet.DiscoveryMethod != null && planet.
+                        DiscoveryMethod.ToLower().Contains(
+                        criteria.DiscoveryMethod) ||
+
+                        (planet?.DiscoveryMethod?.ToLower().Contains(
+                        criteria.DiscoveryMethod ?? "any") ?? false ||
+                        (criteria.DiscoveryMethod == "any"))
+
+                where criteria.DiscoveryYearMin ==
+                        AstronomicalObjectCriteria.MINVALUE &&
+                        criteria.DiscoveryYearMax ==
+                        AstronomicalObjectCriteria.CURRENTYEAR &&
+                        planet.DiscoveryYear == null ||
+
+                        planet.DiscoveryYear <=
+                        criteria.DiscoveryYearMax &&
+                        planet.DiscoveryYear >=
+                        criteria.DiscoveryYearMin
+
+                where criteria.OrbitalPeriodMin ==
+                        AstronomicalObjectCriteria.MINVALUE &&
+                        criteria.OrbitalPeriodMax ==
+                        AstronomicalObjectCriteria.FMAXVALUE &&
+                        planet.OrbitalPeriod == null ||
+
+                        planet.OrbitalPeriod <=
+                        criteria.OrbitalPeriodMax &&
+                        planet.OrbitalPeriod >=
+                        criteria.OrbitalPeriodMin
+
+                where criteria.PlanetRadiusMin ==
+                        AstronomicalObjectCriteria.MINVALUE &&
+                        criteria.PlanetRadiusMax ==
+                        AstronomicalObjectCriteria.FMAXVALUE &&
+                        planet.PlanetRadius == null ||
+
+                        planet.PlanetRadius <=
+                        criteria.PlanetRadiusMax &&
+                        planet.PlanetRadius >=
+                        criteria.PlanetRadiusMin
+
+                where criteria.PlanetMassMin ==
+                        AstronomicalObjectCriteria.MINVALUE &&
+                        criteria.PlanetMassMax ==
+                        AstronomicalObjectCriteria.FMAXVALUE &&
+                        planet.PlanetMass == null ||
+
+                        planet.PlanetMass <=
+                        criteria.PlanetMassMax &&
+                        planet.PlanetMass >=
+                        criteria.PlanetMassMin
+
+                where criteria.PlanetTemperatureMin ==
+                        AstronomicalObjectCriteria.MINVALUE &&
+                        criteria.PlanetTemperatureMax ==
+                        AstronomicalObjectCriteria.FMAXVALUE &&
+                        planet.PlanetTemperature == null ||
+
+                        planet.PlanetTemperature <=
+                        criteria.PlanetTemperatureMax &&
+                        planet.PlanetTemperature >=
+                        criteria.PlanetTemperatureMin
+
             select star;
 
             return filteredStars;
