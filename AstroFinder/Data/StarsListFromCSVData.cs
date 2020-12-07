@@ -5,6 +5,9 @@ using AstroFinder.Data.FilterData;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Responsible for getting a List of Star objects.
+    /// </summary>
     public class StarsListFromCSVData : ListFromCSVData<Star>
     {
         /// <summary>

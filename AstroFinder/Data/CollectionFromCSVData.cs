@@ -6,7 +6,8 @@ namespace AstroFinder
     /// <summary>
     /// Defines a method to get a collection from a given string array of data.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of the collection that will be
+    /// retrieved.</typeparam>
     public abstract class CollectionFromCSVData<T> : 
                             IGetCollectionFromData<string[], T> 
                             where T : ICollection

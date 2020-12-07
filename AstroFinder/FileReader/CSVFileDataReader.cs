@@ -6,6 +6,9 @@ using AstroFinder.FileReader.Exception;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Responsable for reading data from CSV files.
+    /// </summary>
     public class CSVFileDataReader : IFileDataReader
     {
         private readonly string[] fileData;

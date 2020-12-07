@@ -3,18 +3,57 @@ using System.Globalization;
 
 namespace AstroFinder
 {
+    /// <summary>
+    /// Concrete representation of IPlanet objects.
+    /// </summary>
     public class Exoplanet : IPlanet
     {
+        /// <summary>
+        /// Planet's name property.
+        /// </summary>
         public string Name { get; }
+        /// <summary>
+        /// Star that is the parent of the planet property.
+        /// </summary>
         public IStar ParentStar { get; set; }
+        /// <summary>
+        /// Method os discovery of the planet property.
+        /// </summary>
         public string DiscoveryMethod { get; }
+        /// <summary>
+        /// Year of discovery of the planet property.
+        /// </summary>
         public ushort? DiscoveryYear { get; }
+        /// <summary>
+        /// Orbital period of the planet property.
+        /// </summary>
         public float? OrbitalPeriod { get; }
+        /// <summary>
+        /// Radius of the planet property.
+        /// </summary>
         public float? PlanetRadius { get; }
+        /// <summary>
+        /// Mass of tha planet property.
+        /// </summary>
         public float? PlanetMass { get; }
+        /// <summary>
+        /// Temperature of the planet property.
+        /// </summary>
         public float? PlanetTemperature { get; }
 
-
+        /// <summary>
+        /// Constructor, that creates a new instance of Exoplanet and 
+        /// initializes all its properties.
+        /// </summary>
+        /// <param name="name">Name of the planet.</param>
+        /// <param name="hostName">Name of the host star of the planet.</param>
+        /// <param name="discoveryMethod">Method of discovery of the
+        ///  planet.</param>
+        /// <param name="discoveryYear">Year of discovery of the planet.</param>
+        /// <param name="orbitalPeriod">Orbital period of the planet.</param>
+        /// <param name="planetRadius">Radius os the planet.</param>
+        /// <param name="planetMass">Mass of the planet.</param>
+        /// <param name="planetTemperature">Temperature of the planet.</param>
         public Exoplanet(string name, string hostName, string discoveryMethod,
             string discoveryYear, string orbitalPeriod, string planetRadius,
             string planetMass, string planetTemperature)
@@ -38,6 +77,10 @@ namespace AstroFinder
             ParentStar = new Star(hostName);
         }
 
+        /// <summary>
+        /// Prints information with this IAstronomicalObject fields.
+        /// </summary>
+        /// <returns>Returns a string with information.</returns>
         public string Information()
         {
             const string nonAvailable = "N/A";
@@ -70,7 +113,11 @@ namespace AstroFinder
                 $"{PlanetTemperature,-10}");
 
         }
-
+        
+        /// <summary>
+        /// Prints detailed information with this IAstronomicalObject fields
+        /// </summary>
+        /// <returns>Returns a string with information<</returns>
         public string DetailedInformation()
         {
             const sbyte x = -18;

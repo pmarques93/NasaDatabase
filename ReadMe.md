@@ -80,7 +80,7 @@ para procurar uma lista de `IAstronomicalObjects`, vão ser filtrados todos os
 valores através de um *query* com uma ordem previamente determinada pelo
 utilizador.
 
-### *Queries*
+### Queries
 
 As principais *queries* utilizadas são *queries* executadas em listas de
 planetas e estrelas filtradas, nomeadamente
@@ -99,8 +99,8 @@ São realizadas ainda *queries* secundárias no processo de obtenção e filtrag
 de dados do ficheiro CSV inserido pelo usuário para então se obterem as
 coleções de planetas e estrelas.
 
-Neste processo há alguns métodos que se destacam seriam o `ElementAt` e
-`Contains`, sendo o primeiro usado para localizar, especificamente, os dados
+Neste processo, há dois métodos que se destacam quer seriam: `ElementAt` e
+`Contains`. O primeiro usado para localizar, especificamente, os dados
 da primeira linha válida do ficheiro CSV, isto é, os nomes das colunas. E o
 segundo método entra em ação verificando se essa linha contem os campos de
 obrigatórios - `hostname` e `pl_name`.
