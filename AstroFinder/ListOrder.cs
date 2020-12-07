@@ -1,5 +1,8 @@
 ﻿namespace AstroFinder
 {
+    /// <summary>
+    /// Specifies the order in which the output list will be ordered.
+    /// </summary>   
     public enum ListOrder
     {
         defaultorder,
