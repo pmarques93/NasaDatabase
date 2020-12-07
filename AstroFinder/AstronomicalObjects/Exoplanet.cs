@@ -17,7 +17,7 @@ namespace AstroFinder
         /// </summary>
         public IStar ParentStar { get; set; }
         /// <summary>
-        /// Method os discovery of the planet property.
+        /// Method of discovery of the planet property.
         /// </summary>
         public string DiscoveryMethod { get; }
         /// <summary>
@@ -33,7 +33,7 @@ namespace AstroFinder
         /// </summary>
         public float? PlanetRadius { get; }
         /// <summary>
-        /// Mass of tha planet property.
+        /// Mass of the planet property.
         /// </summary>
         public float? PlanetMass { get; }
         /// <summary>
