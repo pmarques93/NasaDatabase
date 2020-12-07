@@ -13,7 +13,7 @@ namespace AstroFinder
         /// <summary>
         /// Variable responsible for reading a file
         /// </summary>
-        private CSVFileDataReader fileReader;
+        private IFileDataReader fileReader;
 
         /// <summary>
         /// Number of results to show on query
